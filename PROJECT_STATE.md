@@ -25,6 +25,7 @@
 ## Laatste verificatie
 
 - T2 (typecheck + lint + verify:design) groen; handmatige route-check 200 op alle 7 routes.
+- Brand logo's vernieuwd (struq-logo.png en struq-mark-256.png) met imagegen chroma-key workflow en geïntegreerd in navbar + footer.
 
 ## Volgende stap
 

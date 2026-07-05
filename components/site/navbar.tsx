@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Moon, Sun, X, Menu } from 'lucide-react';
@@ -58,10 +59,20 @@ export function SiteNavbar({ theme, onToggleTheme }: SiteNavbarProps) {
           >
             <TransitionLink
               href="/"
-              className="sq-display text-xl font-semibold tracking-tight"
+              className="flex items-center gap-2.5 sq-display text-xl font-semibold tracking-tight"
               aria-label="Struq home"
             >
-              struq<span style={{ color: 'var(--sq-accent)' }}>.</span>
+              <Image
+                src="/brand/struq-logo.png"
+                alt="Struq Logo"
+                width={64}
+                height={64}
+                className="object-contain"
+                style={{
+                  filter: theme === 'dark' ? 'invert(1) hue-rotate(180deg)' : 'none',
+                }}
+              />
+              <span>struq<span style={{ color: 'var(--sq-accent)' }}>.</span></span>
             </TransitionLink>
 
             <nav className="hidden items-center gap-8 lg:flex" aria-label="Hoofdmenu">
@@ -116,8 +127,18 @@ export function SiteNavbar({ theme, onToggleTheme }: SiteNavbarProps) {
             data-lenis-prevent
           >
             <div className="sq-container-wide flex items-center justify-between py-7">
-              <span className="sq-display text-xl font-semibold">
-                struq<span style={{ color: 'var(--sq-accent)' }}>.</span>
+              <span className="flex items-center gap-2.5 sq-display text-xl font-semibold">
+                <Image
+                  src="/brand/struq-logo.png"
+                  alt="Struq Logo"
+                  width={64}
+                  height={64}
+                  className="object-contain"
+                  style={{
+                    filter: theme === 'dark' ? 'invert(1) hue-rotate(180deg)' : 'none',
+                  }}
+                />
+                <span>struq<span style={{ color: 'var(--sq-accent)' }}>.</span></span>
               </span>
               <button
                 type="button"
