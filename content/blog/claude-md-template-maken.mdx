@@ -1,0 +1,133 @@
+---
+title: "Hoe maak je een CLAUDE.md Template? Complete Gids (2026)"
+description: "Een goede CLAUDE.md is het verschil tussen een agent die raadt en een agent die bouwt. Leer stap voor stap hoe je de perfecte instructiefile schrijft voor Claude Code."
+date: "2026-04-07"
+category: "Claude Code"
+tags: ["CLAUDE.md", "claude code", "agentic coding", "AI workflow", "developer tools", "vibe coding"]
+lang: "nl"
+author: "Roy Heilbron"
+---
+
+## Wat is een CLAUDE.md en waarom heb je er één nodig?
+
+Je start Claude Code op. Je geeft een opdracht. De output is prima, maar niet wat je bedoelde. Je legt het opnieuw uit. Claude past aan. Je corrigeert. Na de derde iteratie ben je meer tijd kwijt aan het bijsturen van de agent dan aan het bouwen zelf.
+
+Dit probleem heeft bijna altijd dezelfde oorzaak: je agent mist context.
+
+Een `CLAUDE.md` is een instructiebestand dat je in je projectroot plaatst. Claude Code leest het automatisch aan het begin van elke sessie. Wat erin staat geldt als permanente context voor de agent: je tech stack, je codeerstijl, je verboden patronen, je architectuurkeuzes. Alles wat een nieuwe developer zou moeten weten voordat ze aan jouw project beginnen.
+
+Het grote verschil met een losse prompt is dat je het één keer schrijft. Niet in je hoofd houden. Niet elke sessie herhalen. Gewoon in het bestand, en de agent pikt het op.
+
+> [!TIP]
+> Cursor heeft `.cursorrules`. Windsurf heeft `.windsurfrules`. De gedachte is overal hetzelfde: context in, betere output uit. CLAUDE.md is de implementatie voor Claude Code.
+
+## Waar staat een CLAUDE.md en hoe werkt het?
+
+Claude Code zoekt op twee locaties naar instructiebestanden.
+
+De eerste is de projectroot: `CLAUDE.md` in de map waar je `package.json` staat. Dit is de meest gebruikte variant. De agent leest het bij elke sessie en houdt er rekening mee voor alles wat hij in dat project doet.
+
+De tweede is de globale configuratie: `~/.claude/CLAUDE.md` in je home directory. Dit zijn instructies die voor elk project gelden. Handig voor persoonlijke voorkeuren die je altijd wil meenemen, zoals jouw favoriete testpatroon of de manier waarop je commits formatteert.
+
+In de praktijk gebruik je beide. De globale CLAUDE.md bevat wat overal klopt. De project-CLAUDE.md bevat wat specifiek is voor dit project.
+
+> [!NOTE]
+> Claude leest beide bestanden in volgorde: globaal eerst, daarna project-niveau. Als er instructies botsen, wint de project-CLAUDE.md.
+
+## De anatomie van een goede CLAUDE.md
+
+Een CLAUDE.md die werkt, heeft een vaste structuur. Dit zijn de secties die de meeste waarde leveren.
+
+**Project Overzicht.** Twee tot drie zinnen over wat het project doet. Niet de marketingpitch, maar de technische samenvatting. Welk probleem lost het op, voor wie, en wat is het domein. Claude gebruikt dit om betere beslissingen te nemen bij open vragen.
+
+**Tech Stack.** Niet alleen de namen van de tools, maar ook hoe ze samenwerken. "Next.js met App Router, Drizzle ORM, Neon Postgres, Tailwind met custom tokens, Clerk voor auth." De agent kiest dan consistent voor Drizzle in plaats van raw queries, en vraagt je niet of je Prisma wil.
+
+**Coding Stijl en Conventies.** Bestandsnaming (kebab-case of PascalCase), import volgorde, of je types of interfaces gebruikt, hoe je error handling aanpakt. Alles wat een reviewer zou opmerken als het niet klopt.
+
+**Altijd Doen / Nooit Doen.** Dit zijn je guardrails. Concrete, enkelvoudige regels. Geen `db:push` omdat dat de migratie-tracker omzeilt. Geen hardcoded hex kleuren omdat je design tokens gebruikt. Geen `console.log` in productie. Zonder deze sectie verzint de agent zijn eigen regels.
+
+**Architectuur Beslissingen.** Waarom zit de business logic in de service layer en niet in de API route? Waarom gebruik je optimistic updates voor dit type actie? Als de reden in de CLAUDE.md staat, behoudt de agent consistentie ook bij complexere taken.
+
+**Actieve Context.** Wat is er nu bezig in het project? Welke feature is in ontwikkeling? Welke technische schuld weet je van? Dit is de enige sectie die je regelmatig bijwerkt.
+
+Zo ziet een minimale maar werkende CLAUDE.md eruit:
+
+```markdown
+# CLAUDE.md — [Projectnaam]
+
+## Project Overzicht
+[Wat doet het project, voor wie, en wat is het domein — 2-3 zinnen]
+
+## Tech Stack
+- Framework: Next.js 15 (App Router)
+- Database: Neon Postgres via Drizzle ORM
+- Auth: Clerk
+- Styling: Tailwind CSS met custom design tokens in globals.css
+
+## Coding Stijl
+- Gebruik TypeScript strict mode, geen `any`
+- Bestandsnaming: kebab-case voor routes en componenten
+- Server Components by default, Client Components alleen als nodig
+- Business logic hoort in de service layer, niet in API routes
+
+## Altijd Doen
+- Draai `npm run typecheck` na elke wijziging
+- Schrijf types voor alle externe API responses
+- Gebruik `db.select()` via Drizzle, nooit raw SQL queries
+
+## Nooit Doen
+- Geen `db:push` — gebruik altijd `db:migrate`
+- Geen hardcoded kleuren — gebruik alleen tokens uit globals.css
+- Geen `console.log` in productie code
+- Geen secrets in code of comments
+
+## Architectuur Beslissingen
+[Noteer hier keuzes die niet voor de hand liggen en waarom je ze hebt gemaakt]
+
+## Actieve Context
+[Wat is er nu in ontwikkeling of wat is net veranderd]
+```
+
+## De meest gemaakte fouten in CLAUDE.md bestanden
+
+De meest voorkomende fout is een CLAUDE.md die te lang is. Als het bestand vijf schermen vol staat, verliest de agent de focus op de relevante delen. Houd het onder de 400 woorden. Wat erin staat moet kloppen, niet compleet zijn.
+
+De tweede fout is vaagheid. "Schrijf goede code" is geen instructie. "Gebruik geen `any` types en schrijf expliciete return types voor alle functies" is een instructie. Hoe concreter de regel, hoe consistenter de agent hem toepast.
+
+De derde fout is nooit bijwerken. Een CLAUDE.md die zes maanden geleden is geschreven en nooit is aangepast, bevat verouderde context. Verouderde context is soms erger dan geen context, omdat de agent dan op basis van verkeerde aannames werkt. Voeg de actieve context sectie toe en update hem wanneer de focus van het project verschuift.
+
+> [!WARNING]
+> Guardrails zijn de meest onderschatte sectie. Ze voorkomen dat de agent in een lange autonome run beslissingen neemt die je daarna uren kosten om terug te draaien. Een `db:push` die je migraties overschrijft. Een refactor die je design token systeem negeert. Schrijf de regels op die je zelf ook zou handhaven in een code review.
+
+## Je CLAUDE.md opslaan en hergebruiken
+
+Hier zit het echte productiviteitsvoordeel.
+
+De meeste developers schrijven een CLAUDE.md per project, helemaal opnieuw, en vergeten hem aan het einde van het project. De volgende keer beginnen ze opnieuw met een blanco bestand en proberen ze te herinneren welke guardrails ze vorige keer ook alweer hadden.
+
+De betere aanpak: sla je beste CLAUDE.md op als template en pas hem aan per project. Je tech stack verandert langzaam. Je codeerstijl verandert nauwelijks. Je guardrails zijn voor 80% hetzelfde in elk project. Het enige wat echt per project verschilt, is het project overzicht en de actieve context.
+
+[Download de gratis CLAUDE.md starter template](/gratis/claude-md-template) — een startpunt met alle secties al ingevuld, klaar om aan te passen voor jouw project.
+
+Als je meerdere projecten draait of regelmatig nieuwe projecten start, is het handig om je beste versies op te slaan in [je eigen prompt vault](/blog/developer-productivity-asset-library). Zo heb je een template voor Next.js projecten, één voor Python scripts, één voor mobile apps. Je kopieert de juiste variant, past de projectspecifieke secties aan, en bent in vijf minuten klaar in plaats van dertig.
+
+[Sla je CLAUDE.md op in Struq en hergebruik hem in elk project](/auth)
+
+## Stap voor stap: jouw eerste CLAUDE.md in 10 minuten
+
+Stap 1: Maak een nieuw bestand aan in de root van je actieve project. Noem het `CLAUDE.md`.
+
+Stap 2: Download de [gratis starter template](/gratis/claude-md-template) of begin met de minimale structuur hierboven.
+
+Stap 3: Vul de Project Overzicht sectie in met twee zinnen over wat je project doet.
+
+Stap 4: Schrijf je tech stack op. Niet wat je wil gaan gebruiken, maar wat er nu daadwerkelijk in staat.
+
+Stap 5: Voeg drie tot vijf guardrails toe. Start met de regels die je de laatste maand het vaakst hebt herhaald aan een AI-agent.
+
+Stap 6: Sla de voltooide versie op in Struq als herbruikbare template. Geef hem een naam die duidelijk maakt voor welk type project hij geschikt is.
+
+> [!IMPORTANT]
+> Een goede CLAUDE.md is geen eenmalig document. Het is een levend bestand dat precies zo goed is als de context die je erin stopt. Begin vandaag met een minimale versie en verbeter hem elke week met wat je leert.
+
+De volgende keer dat je een nieuw project start, open je Struq, kopieert de dichtstbijzijnde template, past de projectspecifieke secties aan, en bent klaar. Geen blanco bestand, geen herinneringen ophalen, geen guardrails vergeten.

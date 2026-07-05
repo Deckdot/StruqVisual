@@ -1,0 +1,36 @@
+{
+  "query": "prompt library architecture for vibe coders and agentic builders",
+  "findings": [
+    {
+      "title": "Why prompt libraries matter for AI-native product teams",
+      "url": "https://example.com/prompt-libraries",
+      "excerpt": "Builders who maintain organized prompt libraries report 40–60% reduction in repeated context setup per session. The key insight: prompts are executable assets, not chat history.",
+      "relevanceNote": "Directly relevant to Struq's core value proposition"
+    },
+    {
+      "title": "Taxonomy of reusable AI instructions",
+      "url": "https://example.com/ai-instruction-taxonomy",
+      "excerpt": "Three categories emerge consistently: (1) context primes — one-time setup prompts, (2) task recipes — repeatable instruction templates, (3) constraint sets — rules about what NOT to do. Most builders conflate these.",
+      "relevanceNote": "Maps to Struq's asset taxonomy (prompts, skills, context)"
+    },
+    {
+      "title": "Skill packs as composable instruction modules",
+      "url": "https://example.com/skill-packs",
+      "excerpt": "The most effective prompt libraries organize instructions into domain-specific skill packs. A 'testing skill' knows how your project writes tests. An 'API route skill' knows your auth patterns. These compose at generation time.",
+      "relevanceNote": "Validates the skill-pack approach in Struq Learn"
+    },
+    {
+      "title": "Agentic building patterns for solo developers",
+      "url": "https://example.com/agentic-patterns",
+      "excerpt": "Solo builders benefit most from instruction systems that reduce 'cold start' friction — the cost of re-explaining your project to a new AI session. Context files and skill packs are the primary tools for this.",
+      "relevanceNote": "Directly addresses the vibecoder audience"
+    }
+  ],
+  "synthesized": "Research confirms that organized prompt and skill libraries are a high-leverage practice for AI-native builders. The core insight: prompts should be treated as executable assets, not temporary chat messages. The most effective libraries use a three-tier structure: context primes (project setup), task recipes (repeatable instruction templates), and constraint sets (what NOT to do). Domain-specific skill packs that compose at generation time are the advanced form of this. For solo vibe coders, reducing cold-start friction between sessions is the primary value driver.",
+  "cautionFlags": [
+    "Source URLs are illustrative examples — replace with real research before publishing",
+    "Statistics cited are illustrative — do not publish without verification"
+  ],
+  "generatedAt": "2026-04-13T16:00:00.000Z",
+  "provider": "mock"
+}

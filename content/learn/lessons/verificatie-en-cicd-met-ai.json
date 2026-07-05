@@ -1,0 +1,245 @@
+{
+  "slug": "verificatie-en-cicd-met-ai",
+  "title": "Verificatie en CI/CD met AI",
+  "subtitle": "Bouw een vangnet dat fouten vangt vóór ze in productie komen",
+  "description": "Leer hoe je verificatietiers implementeert, CI/CD-pipelines inricht met AI-feedback loops en deploy-beslissingen neemt die productie veilig houden.",
+  "summary": "AI-assisted development zonder verificatie is technische schuld op de autopiloot. Deze les laat je zien hoe je een gelaagd verificatiesysteem bouwt dat snelheid combineert met betrouwbaarheid.",
+  "tags": ["CI/CD", "verificatie", "testing", "deployment", "productie", "kwaliteit"],
+  "category": "architecture-focused",
+  "difficulty": "advanced",
+  "level": 3,
+  "estimatedMinutes": 20,
+  "publishedAt": "2026-04-13",
+  "featured": true,
+  "lang": "nl",
+  "seo": {
+    "metaTitle": "Verificatie en CI/CD met AI | Struq Learn Level 3",
+    "metaDescription": "Implementeer verificatietiers en CI/CD-pipelines voor AI-assisted development. Expert les voor AI-native builders op Struq Learn.",
+    "keywords": ["CI/CD AI", "verificatie AI development", "typecheck lint build", "deployment safety", "AI testing workflow", "productie deployment"]
+  },
+  "cta": {
+    "headline": "Stop met herhalen. Begin met schalen.",
+    "body": "Bewaar je verificatiescripts, CI-configuraties en deployment workflows als herbruikbare assets in Struq. Neem je productie-vangnet mee naar elk project.",
+    "buttonText": "Probeer Struq gratis",
+    "buttonHref": "/auth"
+  },
+  "scenes": [
+    {
+      "id": "vci-intro",
+      "type": "lesson_intro",
+      "title": "Snelheid en betrouwbaarheid zijn geen tegenstelling",
+      "learningObjectives": [
+        "Verificatietiers implementeren die bij de complexiteit passen",
+        "Een CI/CD-pipeline inrichten met AI-assisted development in gedachten",
+        "Verantwoorde deploy-beslissingen nemen in een productie-workflow"
+      ],
+      "estimatedMinutes": 2,
+      "hook": "AI-assisted development is snel. Zo snel dat je fouten ook sneller in productie belanden. De oplossing is niet langzamer bouwen — het is slimmer verifiëren.",
+      "overview": "In deze les bouw je een gelaagd verificatiesysteem: van snelle lokale checks tot volledige end-to-end tests in CI. Je leert wanneer je welke tier gebruikt en hoe je een CI-pipeline inricht die AI-feedback loops ondersteunt.",
+      "whatYouWillLearn": [
+        "De 5 verificatietiers en wanneer je welke gebruikt",
+        "Hoe je CI/CD inricht voor AI-assisted development",
+        "Hoe je deploy-beslissingen structureert",
+        "Hoe je CI-failures gebruikt als leermoment, niet als blokkade"
+      ],
+      "whyItMatters": "Een goed verificatiesysteem is het verschil tussen AI die je helpt en AI die je onzichtbaar technische schuld laat opbouwen."
+    },
+    {
+      "id": "vci-explanation",
+      "type": "explanation",
+      "title": "De 5 verificatietiers",
+      "learningObjectives": [
+        "De verificatietiers en hun kosten/baten begrijpen"
+      ],
+      "estimatedMinutes": 3,
+      "body": "Verificatie heeft een kostenmodel. Hoe verder je in de pijplijn, hoe duurder (in tijd) de check. Een goed systeem gebruikt de goedkoopste check die nog voldoende zekerheid geeft voor de betreffende wijziging.",
+      "keyPoints": [
+        "T0 (typecheck): Seconden. Altijd. Vangt type-fouten voor ze runtime errors worden.",
+        "T1 (typecheck + lint): 30 seconden. Voor alle code wijzigingen.",
+        "T2 (T1 + design verify): 1 minuut. Voor component en styling wijzigingen.",
+        "T3 (T2 + build): 3-5 minuten. Voor route en config wijzigingen.",
+        "T4 (T3 + e2e tests): 10-20 minuten. Voor kritieke user flows."
+      ],
+      "codeExample": "# package.json scripts\n\"typecheck\": \"tsc --noEmit\",\n\"lint\": \"next lint\",\n\"verify:design\": \"node scripts/verify-design.js\",\n\"verify\": \"npm run typecheck && npm run lint && npm run verify:design && npm run build\",\n\"verify:full\": \"npm run verify && playwright test\"",
+      "callout": {
+        "type": "insight",
+        "text": "Gebruik de laagste tier die de wijziging volledig dekt. Een typecorrectie hoeft geen e2e test te draaien."
+      }
+    },
+    {
+      "id": "vci-sequencing",
+      "type": "sequencing",
+      "title": "De verificatievolgorde voor een schema wijziging",
+      "learningObjectives": [
+        "De juiste verificatievolgorde bepalen voor impactvolle wijzigingen"
+      ],
+      "estimatedMinutes": 3,
+      "instructions": "Je hebt een database schema wijziging gemaakt. Klik de stappen in de juiste volgorde om veilig naar productie te kunnen deployen.",
+      "blocks": [
+        {
+          "id": "vci-seq-migrate",
+          "label": "db:migrate:local draaien",
+          "description": "Pas de schema wijziging toe op je lokale database"
+        },
+        {
+          "id": "vci-seq-generate",
+          "label": "db:generate draaien",
+          "description": "Genereer het SQL migratiebestand vanuit je schema"
+        },
+        {
+          "id": "vci-seq-typecheck",
+          "label": "typecheck draaien",
+          "description": "Verifieer dat TypeScript tevreden is met de schema wijziging"
+        },
+        {
+          "id": "vci-seq-schema",
+          "label": "schema.ts bewerken",
+          "description": "Voeg de nieuwe kolom of tabel toe aan je Drizzle schema"
+        },
+        {
+          "id": "vci-seq-commit",
+          "label": "schema.ts + migration.sql committen",
+          "description": "Commit beide bestanden samen — nooit één zonder de ander"
+        },
+        {
+          "id": "vci-seq-build",
+          "label": "Build draaien (T3)",
+          "description": "Verifieer dat de volledige applicatie bouwt met de schema wijziging"
+        }
+      ],
+      "correctOrder": ["vci-seq-schema", "vci-seq-generate", "vci-seq-migrate", "vci-seq-typecheck", "vci-seq-build", "vci-seq-commit"],
+      "executionPreview": "schema.ts bijgewerkt → migration SQL gegenereerd → lokale DB bijgewerkt → types correct → build slaagt → beide bestanden gecommit → klaar voor deploy",
+      "insight": "Schema en migration worden altijd samen gecommit. Een schema zonder migration breekt je volgende deployment — de productie-database mist dan de kolom."
+    },
+    {
+      "id": "vci-decision-sim",
+      "type": "decision_sim",
+      "title": "Deploy beslissingen in het echt",
+      "learningObjectives": [
+        "De juiste deploy-beslissingen nemen onder realistische omstandigheden"
+      ],
+      "estimatedMinutes": 5,
+      "setup": "Je werkt aan een productie applicatie. Drie scenario's, drie beslissingen. Maak de keuze die productie het veiligst houdt.",
+      "rounds": [
+        {
+          "id": "round-1",
+          "scenarioText": "Je hebt een styling-fix gedaan (kleur van een knop) en typecheck slaagt. CI is nog bezig. De product manager wil dit nu live. Wat doe je?",
+          "choices": [
+            {
+              "id": "r1-push-now",
+              "label": "Nu pushen, CI is maar styling",
+              "consequence": "CI faalt 2 minuten later op een build fout die niets met styling te maken heeft maar wel alles blokkeert.",
+              "isOptimal": false,
+              "reasoning": "Zelfs voor styling-fixes moet CI slagen. Build fouten die na de merge blokken zijn duurder dan 5 minuten wachten."
+            },
+            {
+              "id": "r1-wait-ci",
+              "label": "Wachten tot CI slaagt",
+              "consequence": "CI slaagt. Je pusht. Productie draait foutloos. 5 minuten vertraging voorkwam een uur downtime.",
+              "isOptimal": true,
+              "reasoning": "CI is een contract. Je wacht altijd. De enige uitzondering is een kritieke productie-outage waarbij je een hotfix nodig hebt."
+            }
+          ],
+          "outcomeExplanation": "CI wachten is niet traag zijn — het is professioneel zijn. De 5 minuten die je wacht zijn vrijwel altijd minder dan de tijd die je kwijt bent aan een rollback."
+        },
+        {
+          "id": "round-2",
+          "scenarioText": "Je AI-assistent heeft een grote refactor gedaan: 47 bestanden gewijzigd, typecheck slaagt, lint slaagt, maar je hebt geen e2e tests gedraaid. Het is vrijdag 16:00. Wat doe je?",
+          "choices": [
+            {
+              "id": "r2-deploy-friday",
+              "label": "Deployen — typecheck en lint slagen",
+              "consequence": "Een kritiek formulier is stuk. Klanten kunnen niet meer aanmelden. Je rollt terug om 19:00 terwijl je weekend begon.",
+              "isOptimal": false,
+              "reasoning": "47 bestanden = hoog risico. Vrijdag 16:00 = slechtste tijd om te deployen. Typecheck + lint is niet genoeg voor grote refactors."
+            },
+            {
+              "id": "r2-wait-monday",
+              "label": "E2e tests draaien, maandag deployen",
+              "consequence": "E2e onthult 2 bugs in het formulier. Je fixt ze maandagmorgen en deployt om 10:00 zonder incident.",
+              "isOptimal": true,
+              "reasoning": "Grote wijzigingen vereisen T4 verificatie. Vrijdag deployments zijn risicovol. Maandag 10:00 is de standaard beste deploytijd."
+            }
+          ],
+          "outcomeExplanation": "De deploy-beslissing is niet alleen technisch — het is ook timing. Vrijdag deployen vergroot het risico dat je in het weekend een incident moet oplossen."
+        },
+        {
+          "id": "round-3",
+          "scenarioText": "Een kritieke bug in productie maakt het onmogelijk voor gebruikers om in te loggen. Je hebt een fix in 10 minuten geschreven. Normaal wacht je op CI. Nu?",
+          "choices": [
+            {
+              "id": "r3-wait-full-ci",
+              "label": "Wachten op volledige CI inclusief e2e",
+              "consequence": "20 minuten later slaagt CI. Je deployt. Maar 20 minuten meer downtime hadden al een impact.",
+              "isOptimal": false,
+              "reasoning": "Bij een kritieke productie-outage kun je T1 draaien (typecheck + lint) en een versneld deploy doen. E2e wachten is hier disproportioneel."
+            },
+            {
+              "id": "r3-hotfix-t1",
+              "label": "T1 draaien, direct hotfix deployen",
+              "consequence": "Typecheck + lint slagen. Je deployt in 3 minuten. Login werkt weer. Je draait daarna de volledige T4 om te bevestigen.",
+              "isOptimal": true,
+              "reasoning": "Hotfix protocol: T1 draaien, deployen, dan achteraf T4 verifiëren. De kosten van downtime zijn hoger dan het risico van een gefocuste hotfix die T1 slaagt."
+            }
+          ],
+          "outcomeExplanation": "Productie-outages hebben een ander risicoprofiel. Een gerichte hotfix die T1 slaagt is acceptabel — maar draai achteraf altijd T4 om de reparatie te bevestigen."
+        }
+      ],
+      "insight": "Verificatietiers zijn geen dogma — ze zijn risicobeheer. Grote wijzigingen en nieuwe features vereisen hogere tiers. Gerichte hotfixes mogen een versnelde route volgen met bewuste afweging."
+    },
+    {
+      "id": "vci-error",
+      "type": "error_iteration",
+      "title": "CI failures debuggen als feedback loop",
+      "learningObjectives": [
+        "CI-failures gebruiken als leermoment in plaats van blokkade"
+      ],
+      "estimatedMinutes": 4,
+      "setup": "Je hebt een nieuwe feature gepusht. CI faalt. Doorloop de errors — elke fout heeft een oorzaak en een fix.",
+      "iterations": [
+        {
+          "id": "iter-typecheck",
+          "errorMessage": "Type error: Property 'level' does not exist on type 'LessonCard'.\n  at components/learn/public/learn-lesson-card.tsx:52:21",
+          "diagnosis": "Je hebt een nieuw 'level' veld gebruikt in een component, maar het type 'LessonCard' is nog niet bijgewerkt. TypeScript weet niet wat 'level' is.",
+          "fix": "Voeg 'level?: 1 | 2 | 3' toe aan de LessonCard interface in lib/learning/types.ts",
+          "fixedResult": "TypeScript accepteert het veld. Typecheck slaagt. Vervolgens naar de volgende CI stap."
+        },
+        {
+          "id": "iter-lint",
+          "errorMessage": "ESLint: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)\n  at lib/learning/progress.ts:15:32",
+          "diagnosis": "Je hebt 'any' gebruikt in een type definitie. De lint regel verbiedt expliciete 'any' types — ze omzeilen TypeScript's veiligheidsgaranties.",
+          "fix": "Vervang 'any' door een specifiek type. In dit geval: 'Record<string, boolean>' want je slaat slug → boolean op.",
+          "fixedResult": "Lint slaagt. Geen expliciete any meer in de codebase. Dit verbetert ook de type veiligheid van de progress tracking."
+        },
+        {
+          "id": "iter-build",
+          "errorMessage": "Build error: Module not found: Can't resolve '@/lib/learning/progress'\n  at hooks/use-lesson-progress.ts:6:1",
+          "diagnosis": "De import verwijst naar een bestand dat nog niet bestaat of een verkeerd pad heeft. Next.js build kan het niet vinden.",
+          "fix": "Maak het bestand lib/learning/progress.ts aan met de juiste exports, of corrigeer het import pad als het bestand op een andere locatie staat.",
+          "fixedResult": "Build slaagt. Alle imports zijn opgelost. De applicatie bouwt volledig zonder fouten."
+        }
+      ],
+      "insight": "Elke CI-failure is een specifiek, oplosbaar probleem. Leer de drie meest voorkomende categorieën herkennen: type errors, lint violations, en missing modules. Elk heeft een andere diagnose en fix.",
+      "reassurance": "CI failures zijn geen mislukking — het is het systeem dat doet waarvoor je het gebouwd hebt. Hoe sneller je ze vindt, hoe minder ze kosten."
+    },
+    {
+      "id": "vci-complete",
+      "type": "lesson_complete",
+      "title": "Level 3 bereikt — je bouwt production-grade",
+      "learningObjectives": [],
+      "estimatedMinutes": 1,
+      "celebrationHeadline": "Verificatie en CI/CD onder controle! ⚡",
+      "recap": [
+        "Je kent de 5 verificatietiers en wanneer je welke gebruikt",
+        "Je kunt de juiste verificatievolgorde bepalen voor schema wijzigingen",
+        "Je neemt deploy-beslissingen op basis van risico, niet op basis van gemak",
+        "Je gebruikt CI-failures als feedback loop, niet als blokkade"
+      ],
+      "identityShift": "Je bent nu iemand die AI-assisted development combineert met productie-grade verificatie. Je bouwt snel én betrouwbaar.",
+      "nextSteps": [
+        { "label": "Alle Level 3 lessen", "href": "/learn/level/3" },
+        { "label": "Terug naar Struq Learn", "href": "/learn" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+---
+title: "Waarom wij Claude kozen als onze AI-agent"
+description: "Struq is gebouwd rondom Claude Code. Niet omdat het de enige optie is, maar omdat de manier waarop Claude werkt precies aansluit bij wat agentic developers nodig hebben."
+date: "2026-02-04"
+category: "Best Practices"
+tags: ["Claude Code", "Agentic Coding", "AI Tools", "Developer Tools"]
+lang: "nl"
+author: "Struq Team"
+---
+
+## De keuze die elke agentic developer moet maken
+
+Als je serieus gaat bouwen met AI-agents, is het eerste wat je moet kiezen niet je tech stack. Het is je AI-agent. En die keuze heeft meer impact dan de meeste developers van tevoren beseffen.
+
+Er zijn goede opties. GitHub Copilot werkt goed in VS Code. Cursor heeft een sterke IDE-integratie. Windsurf brengt interessante eigen concepten mee. En dan is er Claude Code, de agentic coding tool van Anthropic.
+
+Wij bouwden Struq rondom Claude Code. Hier is waarom.
+
+## Hoe Claude anders denkt
+
+De meeste AI coding assistants zijn goed in aanvullen. Je begint te typen, zij maken de zin af. Je schrijft een functienaam, zij vullen de body in. Dat is nuttig, maar het is ook reactief. De tool wacht op jou.
+
+Claude Code werkt anders. Hij is ontworpen als een agent die taken oppakt en ze afmaakt. Je geeft een opdracht op hoog niveau, hij breekt hem zelf op in stappen, voert die stappen uit, controleert zijn eigen werk, en rapporteert terug wat hij heeft gedaan. Dat is een fundamenteel andere werkmodus.
+
+> [!NOTE]
+> Het verschil merk je het meest bij complexere taken. "Refactor de authenticatielaag naar het nieuwe patroon en zorg dat alle tests slagen" is een opdracht die Claude Code kan uitvoeren zonder dat je hem elke stap hoeft voor te schrijven. Hij navigeert door je codebase, begrijpt de afhankelijkheden, maakt de wijzigingen, draait de tests, en lost de fouten op die hij tegenkomt.
+
+Dat is geen magie. Het is goed ontworpen agent-gedrag.
+
+## Context als eerste principe
+
+Wat Claude onderscheidt van andere tools is zijn omgang met context. En dat is precies waarom CLAUDE.md zo krachtig is.
+
+Claude Code leest het `CLAUDE.md` bestand in je projectroot automatisch bij elke sessie. Wat er in staat, geldt als permanente instructie. Je architectuurkeuzes. Je guardrails. Je verificatiecommando's. Je codeerstijl. Claude onthoudt dat niet tussen sessies op basis van geheugen, maar hij leest het bestand elke keer opnieuw. Het resultaat is hetzelfde: hij weet wat hij moet weten voordat hij begint.
+
+Dit principe, context in bestanden in plaats van in je hoofd of in losse prompts, sluit perfect aan bij hoe Struq werkt. Als je [je CLAUDE.md opslaat in je vault](/blog/organiseer-react-componenten), kun je hem hergebruiken in elk project. Je bouwt een bibliotheek van context die je nooit opnieuw hoeft te schrijven.
+
+## Het Skills systeem
+
+Claude Code heeft een Skills systeem dat verder gaat dan CLAUDE.md. Een Skill is een `.md` bestand dat je in `~/.claude/agents/` plaatst. Je laadt een skill wanneer je hem nodig hebt, en Claude handelt dan precies zoals die skill beschrijft.
+
+Het idee is modulaire instructies. Je hebt een skill voor databasewijzigingen die de migratie-workflow afdwingt. Een skill voor het schrijven van blogcontent die je stijlgids volgt. Een skill voor code reviews die checkt op je specifieke kwaliteitsstandaarden. Je schrijft ze één keer en je hergebruikt ze oneindig.
+
+> [!TIP]
+> Struq behandelt Claude Skills als een apart asset type. Je slaat ze op, tagt ze, en hebt ze in één klik beschikbaar voor elk nieuw project. Dat is de verbinding tussen [je prompt vault](/blog/developer-productivity-asset-library) en je dagelijkse werkwijze: de vault bevat de skills, de skills sturen de agent.
+
+[Sla je eerste Claude Skills op in Struq en bouw je agentic toolkit](/auth)
+
+## Hooks: automatisering op het laagste niveau
+
+Een van de minder bekende features van Claude Code zijn Hooks. Een Hook is een shell-commando dat automatisch wordt uitgevoerd op specifieke momenten in de agent-workflow. Vóór een tool-aanroep. Na een tool-aanroep. Bij een bepaalde actie.
+
+Wat kun je daarmee? Validatie automatiseren. Als Claude een bestand aanpast, draait er automatisch een linter. Als hij een database-operatie uitvoert, wordt de actie gelogd. Als hij een bestand verwijdert, vraagt een hook om bevestiging. Je bouwt een laag van veiligheid en consistentie in die onafhankelijk werkt van hoe je de agent instrueert.
+
+> [!IMPORTANT]
+> Struq slaat Hooks op als assets. Je schrijft ze één keer, test ze, en gebruikt ze in elk project waar ze relevant zijn. Dit is het soort herhaalbaar werk dat een vault de moeite waard maakt.
+
+## Waarom niet Cursor of Windsurf?
+
+Dit is een eerlijke vraag die we onszelf ook hebben gesteld.
+
+Cursor en Windsurf zijn goede tools. Ze hebben sterke IDE-integraties die Claude Code niet heeft. Ze zijn voor sommige workflows sneller in de dagelijkse loop. We gebruiken ze soms zelf ook voor specifieke taken.
+
+Maar ze zijn primair editor-tools met AI erin. Claude Code is primair een agent met een editor. Dat klinkt als een kleine nuance, maar het bepaalt hoe je over taken nadenkt. Met een editor-tool stuur je op code. Met een agent stuur je op resultaat.
+
+Voor Struq, een product waarbij de kernwaarde zit in het beheren en hergebruiken van complexe AI-instructies, is de agent-first aanpak de juiste keuze. Het Skills systeem, de CLAUDE.md context, de Hooks, de gestructureerde taakuitvoering. Dat zijn de bouwstenen waaromheen ons hele asset systeem is opgebouwd.
+
+Windsurf en Cursor hebben hun eigen regel-systemen. Struq ondersteunt die ook. Je kunt je `.windsurfrules` en `.cursorrules` bestanden opslaan als IDE Rule assets en ze net zo makkelijk hergebruiken. De keuze voor je eigen tool hoeft Struq niet te bepalen.
+
+## Wat dit betekent voor jou
+
+Als je nog geen vaste AI-agent hebt, is Claude Code de moeite waard om serieus te proberen. Niet voor simpele aanvullingen, maar voor de taken die je normaliter in meerdere stappen uitvoert. Geef hem een complexe taak met een duidelijke CLAUDE.md, en kijk hoe hij het aanpakt.
+
+Als je al met Claude Code werkt, is de volgende stap het opbouwen van je eigen context bibliotheek. Welke CLAUDE.md bestanden werken het beste voor welke tech stacks? Welke Skills gebruik je in elk project? Welke guardrails zijn universeel genoeg om overal toe te passen?
+
+> [!NOTE]
+> Dat is precies wat Struq voor je bewaart. Je context bibliotheek groeit met je mee — elke sessie die je afsluit, elke guardrail die je bijwerkt, elke skill die je verfijnt.

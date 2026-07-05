@@ -1,0 +1,194 @@
+{
+  "slug": "je-eerste-ai-workflow",
+  "title": "Je eerste AI-workflow opzetten",
+  "subtitle": "Van lege map naar werkend project in één sessie",
+  "description": "Leer stap voor stap hoe je je ontwikkelomgeving inricht, je eerste prompts schrijft en een basis AI-workflow opzet die je meteen kunt gebruiken.",
+  "summary": "De meeste beginners stranden niet op de AI zelf, maar op de setup. Deze les laat je zien hoe je de juiste gereedschappen installeert, env vars beheert en je eerste effectieve prompts schrijft.",
+  "tags": ["setup", "ide", "workflow", "beginners", "env-vars", "first-prompts"],
+  "category": "beginner-friendly",
+  "difficulty": "beginner",
+  "level": 1,
+  "estimatedMinutes": 15,
+  "publishedAt": "2026-04-13",
+  "featured": true,
+  "lang": "nl",
+  "seo": {
+    "metaTitle": "Je eerste AI-workflow opzetten | Struq Learn Level 1",
+    "metaDescription": "Leer hoe je IDE instelt, extensies installeert, env vars beheert en je eerste AI-workflow opzet. Gratis beginners les op Struq Learn.",
+    "keywords": ["AI workflow setup", "vibecoding beginners", "IDE setup AI", "eerste prompts schrijven", "Cursor setup", "env vars"]
+  },
+  "cta": {
+    "headline": "Stop met herhalen. Begin met schalen.",
+    "body": "Bewaar je setup-prompts en workflow-templates als herbruikbare bouwblokken in Struq. Neem je workflow mee naar elk nieuw project.",
+    "buttonText": "Probeer Struq gratis",
+    "buttonHref": "/auth"
+  },
+  "scenes": [
+    {
+      "id": "eaw-intro",
+      "type": "lesson_intro",
+      "title": "Setup is de helft van het werk",
+      "learningObjectives": [
+        "Je IDE inrichten met de juiste AI-extensies",
+        "Environment variables veilig beheren",
+        "Je eerste bruikbare AI-prompt schrijven"
+      ],
+      "estimatedMinutes": 2,
+      "hook": "De meeste beginners denken dat AI-tools magie zijn. Ze zijn dat niet. Ze zijn gereedschappen — en elk gereedschap heeft een goede setup nodig.",
+      "overview": "In deze les richt je stap voor stap je AI-ontwikkelomgeving in. Je installeert de juiste extensies, configureert je editor en schrijft je eerste prompt die echt werkt.",
+      "whatYouWillLearn": [
+        "Welke IDE-extensies je nodig hebt voor AI-assisted development",
+        "Hoe je env vars veilig opslaat en gebruikt",
+        "De anatomie van een goede eerste prompt",
+        "Hoe je de juiste volgorde aanhoudt bij project setup"
+      ],
+      "whyItMatters": "Een slechte setup kost je uren per week. Een goede setup geeft je een systeem dat je meeneemt naar elk volgend project."
+    },
+    {
+      "id": "eaw-setup-steps",
+      "type": "workflow_breakdown",
+      "title": "De juiste setup-volgorde",
+      "learningObjectives": [
+        "De kritieke stappen kennen voor een werkende AI-setup",
+        "Weten waarom volgorde uitmaakt bij project initialisatie"
+      ],
+      "estimatedMinutes": 3,
+      "overview": "Er is een reden waarom ervaren builders altijd dezelfde volgorde aanhouden bij het opzetten van een nieuw project. Elke stap bouwt voort op de vorige.",
+      "steps": [
+        {
+          "id": "step-1",
+          "order": 1,
+          "title": "Installeer je AI-editor",
+          "description": "Kies Cursor, Windsurf, of VS Code met Copilot. Cursor en Windsurf zijn de meest populaire keuzes voor vibe coders omdat ze native AI-integratie hebben.",
+          "toolOrTechnique": "Cursor / Windsurf / VS Code",
+          "pitfall": "Probeer niet meerdere AI-editors tegelijk — kies er één en leer die goed kennen."
+        },
+        {
+          "id": "step-2",
+          "order": 2,
+          "title": "Configureer je API-sleutels",
+          "description": "Maak een .env.local bestand aan in je project root. Voeg je API-sleutels toe voor de AI-services die je gebruikt (OpenAI, Anthropic, etc.).",
+          "toolOrTechnique": ".env.local + .gitignore",
+          "pitfall": "Commit nooit je .env bestand naar git. Voeg .env.local toe aan je .gitignore vóór je eerste commit."
+        },
+        {
+          "id": "step-3",
+          "order": 3,
+          "title": "Installeer de juiste extensies",
+          "description": "Voor VS Code: GitHub Copilot of Codeium. Voor Cursor en Windsurf zijn AI-features ingebouwd. Installeer ook ESLint, Prettier, en je framework-extensie.",
+          "toolOrTechnique": "Extension marketplace",
+          "pitfall": "Te veel extensies vertragen je editor. Begin minimaal."
+        },
+        {
+          "id": "step-4",
+          "order": 4,
+          "title": "Initialiseer je project",
+          "description": "Gebruik de officiële project-generator voor je framework (create-next-app, Vite, etc.) en volg dan direct met je package manager install.",
+          "toolOrTechnique": "npx create-next-app / npm create vite",
+          "pitfall": "Gebruik de AI-assistant niet voor project initialisatie — gebruik altijd de officiële tools."
+        },
+        {
+          "id": "step-5",
+          "order": 5,
+          "title": "Test je setup met een eerste prompt",
+          "description": "Open je AI-assistent en stel een eenvoudige vraag over je project. Als je een bruikbaar antwoord krijgt, werkt je setup.",
+          "toolOrTechnique": "AI chat / inline completion",
+          "pitfall": "Sla deze stap niet over — een defecte setup vind je nu beter dan na 2 uur bouwen."
+        }
+      ],
+      "commonMistakes": [
+        "API-sleutels hardcoden in je broncode",
+        "De .env vóór .gitignore aanmaken waarna je per ongeluk committed",
+        "Te veel extensies installeren voordat je weet wat je nodig hebt"
+      ],
+      "bestPractices": [
+        "Gebruik .env.local voor lokale sleutels, nooit .env",
+        "Voeg .env* toe aan .gitignore als allereerste stap",
+        "Houd je editor licht — maximaal 10 extensies te starten"
+      ]
+    },
+    {
+      "id": "eaw-sequencing",
+      "type": "sequencing",
+      "title": "Zet de stappen in de juiste volgorde",
+      "learningObjectives": [
+        "De correcte initialisatievolgorde toepassen bij een nieuw project"
+      ],
+      "estimatedMinutes": 3,
+      "instructions": "Klik de setup-stappen in de juiste volgorde. De volgorde bepaalt of je setup correct werkt.",
+      "blocks": [
+        {
+          "id": "block-gitignore",
+          "label": ".gitignore aanmaken",
+          "description": "Voeg .env* toe zodat je secrets nooit per ongeluk commit"
+        },
+        {
+          "id": "block-install",
+          "label": "Framework initialiseren",
+          "description": "Run create-next-app of create vite om je project op te starten"
+        },
+        {
+          "id": "block-env",
+          "label": ".env.local aanmaken",
+          "description": "Voeg je API-sleutels toe aan een lokaal env bestand"
+        },
+        {
+          "id": "block-deps",
+          "label": "Dependencies installeren",
+          "description": "Run npm install om alle packages te laden"
+        },
+        {
+          "id": "block-test",
+          "label": "Dev server starten",
+          "description": "Run npm run dev en verifieer dat de app werkt"
+        }
+      ],
+      "correctOrder": ["block-gitignore", "block-install", "block-env", "block-deps", "block-test"],
+      "executionPreview": ".gitignore staat klaar → framework geïnitialiseerd → env vars veilig opgeslagen → packages geladen → app draait op localhost:3000",
+      "insight": "De .gitignore staat altijd eerste. Zo kun je nooit per ongeluk een API-sleutel committen — ook niet als je haast hebt."
+    },
+    {
+      "id": "eaw-prompt-comparison",
+      "type": "concept_comparison",
+      "title": "Wat maakt een goede eerste prompt?",
+      "learningObjectives": [
+        "Het verschil herkennen tussen een vage en een bruikbare prompt"
+      ],
+      "estimatedMinutes": 3,
+      "comparisonType": "text",
+      "left": {
+        "label": "Vage prompt",
+        "content": "Maak een login pagina",
+        "annotation": "Geeft AI te weinig context om nuttig te zijn",
+        "isPreferred": false
+      },
+      "right": {
+        "label": "Werkende prompt",
+        "content": "Maak een login pagina met Next.js App Router, TypeScript en Tailwind CSS. Gebruik een form met email en wachtwoord velden. Valideer aan de client-kant met zod. Stijl consistent met de bestaande components in /components/ui.",
+        "annotation": "Stack, constraints en context gegeven — AI kan direct bruikbaar werk leveren",
+        "isPreferred": true
+      },
+      "insight": "Een goede prompt geeft altijd drie dingen: je tech stack, je constraints, en context over het bestaande project. Zonder die drie haalt AI gissingen — niet jouw bedoeling.",
+      "takeaway": "Schrijf prompts zoals je een briefing aan een nieuwe developer zou schrijven: stack, context, constraints."
+    },
+    {
+      "id": "eaw-complete",
+      "type": "lesson_complete",
+      "title": "Level 1 gestart — je setup staat",
+      "learningObjectives": [],
+      "estimatedMinutes": 1,
+      "celebrationHeadline": "Je eerste AI-workflow staat! 🚀",
+      "recap": [
+        "Je weet welke extensies en editors je nodig hebt voor AI-assisted development",
+        "Je begrijpt waarom .gitignore altijd vóór je .env aangemaakt moet worden",
+        "Je kunt een project in de juiste volgorde opzetten zonder fouten",
+        "Je schrijft prompts met stack, context en constraints — niet open vragen"
+      ],
+      "identityShift": "Je bent nu iemand die een AI-werkende setup kan opzetten en de eerste bruikbare prompts kan schrijven.",
+      "nextSteps": [
+        { "label": "Level 2: Get Reliable", "href": "/learn/level/2" },
+        { "label": "Alle Level 1 lessen", "href": "/learn/level/1" }
+      ]
+    }
+  ]
+}

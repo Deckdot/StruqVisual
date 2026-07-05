@@ -1,0 +1,250 @@
+{
+  "slug": "vibecoding-workflow-voor-builders",
+  "title": "De Vibecoding Workflow voor AI-native Builders",
+  "subtitle": "Van chaos naar herbruikbaar systeem in één sprint",
+  "description": "Leer hoe je een effectieve vibecoding-workflow opzet die consistent werkt, context behoudt over sessies, en voorkomt dat je steeds opnieuw begint.",
+  "summary": "Vibecoding is snel en krachtig, maar zonder structuur wordt het chaotisch. Deze les laat zien hoe je een herbruikbare workflow bouwt met context-bestanden, skill-packs en checkpoint-sessies.",
+  "tags": ["vibecoding", "workflow", "context-engineering", "ai-native", "productiviteit"],
+  "category": "workflow-focused",
+  "difficulty": "beginner",
+  "estimatedMinutes": 18,
+  "publishedAt": "2026-04-13",
+  "featured": true,
+  "lang": "nl",
+  "seo": {
+    "metaTitle": "Vibecoding Workflow voor AI-native Builders | Struq Learn",
+    "metaDescription": "Leer hoe je een effectieve vibecoding-workflow opzet met context-bestanden, skill-packs en checkpoint-sessies. Gratis les op Struq Learn.",
+    "keywords": ["vibecoding", "vibecoding workflow", "AI-native builders", "context engineering", "prompt workflow"]
+  },
+  "cta": {
+    "headline": "Stop met herhalen. Begin met schalen.",
+    "body": "Bewaar je prompts, skills en context als herbruikbare bouwblokken in Struq. Neem je workflow mee naar elk project.",
+    "buttonText": "Probeer Struq gratis",
+    "buttonHref": "/auth"
+  },
+  "scenes": [
+    {
+      "id": "vbw-intro",
+      "type": "lesson_intro",
+      "title": "Vibecoding zonder plan is roulette",
+      "learningObjectives": [
+        "Begrijp wat een vibecoding workflow is en waarom structuur ertoe doet",
+        "Herken de meest gemaakte fouten bij AI-assisted building",
+        "Ken de drie pijlers van een herhaalbare workflow"
+      ],
+      "estimatedMinutes": 2,
+      "hook": "Je opent een nieuwe sessie in Claude Code, typt 'bouw een dashboard', en een uur later heb je iets dat werkt — maar niemand weet hoe, inclusief jij. Volgende sessie: je begint van voren af aan.",
+      "overview": "Vibecoding is een krachtige manier om snel producten te bouwen met AI. Maar zonder workflow wordt het een loterij: soms werkt het geweldig, soms breekt alles. In deze les leer je een eenvoudige, herhaalbare workflow die je context behoudt, je AI consistent laat reageren, en je output schaalbaar maakt.",
+      "whatYouWillLearn": [
+        "Wat de drie lagen van een goede vibecoding workflow zijn",
+        "Hoe je context-bestanden opzet die over sessies werken",
+        "Welke fouten de meeste vibe coders maken (en hoe je ze vermijdt)",
+        "Hoe je een sprints workflow bouwt die je kunt herhalen"
+      ],
+      "whyItMatters": "Als solo builder of small team bepaalt je workflow je snelheid. Een goede vibecoding workflow betekent: minder context-verlies, minder herhalende prompts, en meer tijd aan echt bouwen."
+    },
+    {
+      "id": "vbw-explain",
+      "type": "explanation",
+      "title": "De drie lagen van een vibecoding workflow",
+      "learningObjectives": [
+        "Begrijp het verschil tussen context, skill en sessie",
+        "Weet welke laag welke informatie bevat"
+      ],
+      "estimatedMinutes": 5,
+      "body": "Een goed werkende vibecoding workflow heeft drie lagen:\n\n**1. Context-laag** — De permanente informatie over je project. Wat bouw je? Welke tech stack? Wat moet er NIET aangeraakt worden? Dit gaat in bestanden zoals CONTEXT.md, AGENTS.md, en CLAUDE.md aan de root van je repo.\n\n**2. Skill-laag** — Herbruikbare instructies voor specifieke taken. Een skill is een gestructureerde prompt die een AI vertelt hoe het een specifiek type taak moet uitvoeren. Skill packs zijn collecties van zulke instructies per domein.\n\n**3. Sessie-laag** — De context van je huidige werksessie. Wat ben je nu aan het doen? Wat heb je net afgerond? Wat mag er absoluut niet veranderen? Dit gaat in een PROJECT_STATE.md of session note.",
+      "keyPoints": [
+        "Context-laag: permanent, project-breed, in root-bestanden",
+        "Skill-laag: herbruikbaar, taak-specifiek, als prompt-packs",
+        "Sessie-laag: tijdelijk, task-gebonden, als session notes"
+      ],
+      "analogy": "Denk aan een chef in een restaurant. De context-laag is het menu en de keuken-setup. De skill-laag is de standaard recepten. De sessie-laag is de bestelling van deze tafel, nu.",
+      "callout": {
+        "type": "insight",
+        "text": "De meeste vibe coders springen direct naar sessie-laag zonder de context-laag op orde te hebben. Dat is waarom je AI steeds de verkeerde keuzes maakt."
+      }
+    },
+    {
+      "id": "vbw-rules",
+      "type": "rules_patterns",
+      "title": "De vijf regels van een herhaalbare vibecoding workflow",
+      "learningObjectives": [
+        "Ken de concrete do's en don'ts van vibecoding werkflow-design",
+        "Herken anti-patronen in je eigen workflow"
+      ],
+      "estimatedMinutes": 4,
+      "rules": [
+        {
+          "id": "r1",
+          "title": "Schrijf altijd een CONTEXT.md",
+          "description": "Elke repo begint met een CONTEXT.md die je project beschrijft: doel, tech stack, actuele staat, en grenzen. Zonder dit begint elke AI-sessie blanco.",
+          "example": "# Project: Struq\\nNext.js 15 + Drizzle + Postgres. Deploy via Railway. Auth.js met credentials. Zie drizzle/ voor schema.",
+          "category": "context"
+        },
+        {
+          "id": "r2",
+          "title": "Checkpoint na elke sprint",
+          "description": "Werk nooit langer dan 60-90 minuten zonder een checkpoint te schrijven. Een checkpoint is een korte update van je PROJECT_STATE.md: wat is gedaan, wat is in progress, wat is geblokkeerd.",
+          "category": "sessie"
+        },
+        {
+          "id": "r3",
+          "title": "Prompts zijn assets, geen wegwerpnotities",
+          "description": "Een goede prompt die werkt, sla je op. In Struq, in een prompts/ map, of in een skill-bestand. Je toekomstige zelf zal je dankbaar zijn.",
+          "category": "skills"
+        },
+        {
+          "id": "r4",
+          "title": "Scope je taken expliciet",
+          "description": "Vertel de AI wat het NIET mag aanraken. 'Fix de login bug, verander niets aan de dashboard layout' is beter dan 'Fix de login bug'.",
+          "category": "sessie"
+        },
+        {
+          "id": "r5",
+          "title": "Gebruik skill-packs voor herhalende taken",
+          "description": "Als je drie keer dezelfde soort prompt typt, maak er een skill van. API routes schrijven, tests genereren, componenten refactoren — dit zijn allemaal skill-kandidaten.",
+          "category": "skills"
+        }
+      ],
+      "antiPatterns": [
+        {
+          "id": "ap1",
+          "title": "Context in de chat houden",
+          "problem": "Je beschrijft je project elke sessie opnieuw in de chat. Dit kost tijd, vergaat gemakkelijk, en is niet overdraagbaar naar andere tools.",
+          "fix": "Schrijf de context één keer in CONTEXT.md en verijs je AI ernaar."
+        },
+        {
+          "id": "ap2",
+          "title": "Eén megaprompt voor alles",
+          "problem": "Je typt één lange prompt die het hele feature beschrijft. De AI maakt keuzes die je niet bedoeld had en de scope groeit oncontroleerbaar.",
+          "fix": "Splits grote taken in kleine, gerichte instructies met expliciete grenzen."
+        }
+      ],
+      "summary": "Een herhaalbare vibecoding workflow draait om drie dingen: goede context, expliciete scope, en herbruikbare skills. Als één van de drie ontbreekt, werk je altijd harder dan nodig."
+    },
+    {
+      "id": "vbw-workflow",
+      "type": "workflow_breakdown",
+      "title": "Een vibecoding sprint van begin tot eind",
+      "learningObjectives": [
+        "Weet hoe een complete vibecoding sprint eruitziet",
+        "Kun je de stappen volgen in je eigen project"
+      ],
+      "estimatedMinutes": 5,
+      "overview": "Een vibecoding sprint duurt 60–90 minuten en volgt altijd dezelfde structuur. Hier is het stappenplan van begin tot eind.",
+      "steps": [
+        {
+          "id": "s1",
+          "order": 1,
+          "title": "Lees je CONTEXT.md en PROJECT_STATE.md",
+          "description": "Begin elke sessie met het lezen van je context-bestanden. Weet waar je was, wat er speelt, en wat de grenzen zijn.",
+          "toolOrTechnique": "CONTEXT.md + PROJECT_STATE.md in repo root",
+          "pitfall": "Direct beginnen zonder context te lezen. Je AI geeft dan advies op basis van incomplete informatie."
+        },
+        {
+          "id": "s2",
+          "order": 2,
+          "title": "Definieer je sessiedoel in één zin",
+          "description": "Schrijf exact op wat je in deze sessie wilt bereiken. Eén doel, niet vijf. Dit gaat als 'Active task' in je PROJECT_STATE.md.",
+          "toolOrTechnique": "PROJECT_STATE.md",
+          "pitfall": "Meerdere doelen tegelijk. Dit leidt tot half-afgeronde features en AI-output die tussenin hangt."
+        },
+        {
+          "id": "s3",
+          "order": 3,
+          "title": "Laad relevante skill-packs in je AI-context",
+          "description": "Als je API routes gaat schrijven, laad de API-route skill. Als je tests schrijft, laad de test-skill. Geef je AI de juiste lens voor de taak.",
+          "toolOrTechnique": "Struq Vault, .skillshare/skills/, of /prompts map",
+          "pitfall": "Geen skill laden en hopen dat de AI het goed doet. Skills zijn de verschil tussen consistent en inconsistent output."
+        },
+        {
+          "id": "s4",
+          "order": 4,
+          "title": "Bouw in kleine, gerichte stappen",
+          "description": "Werk in stappen van 5–15 minuten. Na elke stap: werkt het? Commit het. Dan de volgende stap.",
+          "toolOrTechnique": "Git commits, npm run typecheck/lint",
+          "pitfall": "30 minuten bouwen zonder committen. Als het fout gaat, ben je alles kwijt en weet je niet waar het mis ging."
+        },
+        {
+          "id": "s5",
+          "order": 5,
+          "title": "Schrijf je checkpoint",
+          "description": "Aan het eind van de sprint: update PROJECT_STATE.md met wat gedaan is, wat in progress is, en wat geblokkeerd is. Voeg je beste prompts toe aan Struq.",
+          "toolOrTechnique": "PROJECT_STATE.md + Struq Vault",
+          "pitfall": "Geen checkpoint schrijven. Volgende sessie begin je van voren af aan en verlies je alle context."
+        }
+      ],
+      "commonMistakes": [
+        "Builders beginnen een nieuwe sessie zonder context te lezen en herhalen dezelfde fouten",
+        "Eén lange sessie van 3+ uur zonder checkpoints — context raakt verloren en output degradeert",
+        "Prompts weggooien na gebruik in plaats van op te slaan als herbruikbare assets"
+      ],
+      "bestPractices": [
+        "Begin elke dag met een korte review van PROJECT_STATE.md (5 minuten)",
+        "Commit elke werkende stap, ook kleine — dit is je veiligheidsnet",
+        "Sla elke prompt op die méér dan één keer werkt — dat is een skill-kandidaat"
+      ],
+      "tradeoffs": "Meer structuur = minder spontaniteit. Als je aan het experimenteren bent, is een lossere aanpak prima. Maar zodra je iets bouwt dat je morgen nog moet kunnen aanpassen, wil je structuur."
+    },
+    {
+      "id": "vbw-quiz",
+      "type": "quiz",
+      "title": "Test je kennis: Vibecoding workflow",
+      "learningObjectives": ["Valideer begrip van de drie workflow-lagen en de vijf regels"],
+      "estimatedMinutes": 3,
+      "instructions": "Beantwoord de vragen om je begrip te testen. Je krijgt uitleg bij elk antwoord.",
+      "passingScore": 70,
+      "showExplanationsImmediately": true,
+      "questions": [
+        {
+          "id": "q1",
+          "type": "single_choice",
+          "question": "Welke laag van de vibecoding workflow bevat permanente project-informatie zoals je tech stack en grenzen?",
+          "choices": [
+            { "id": "a", "text": "De sessie-laag (PROJECT_STATE.md)", "isCorrect": false },
+            { "id": "b", "text": "De context-laag (CONTEXT.md, AGENTS.md)", "isCorrect": true },
+            { "id": "c", "text": "De skill-laag (skill-packs)", "isCorrect": false },
+            { "id": "d", "text": "De chat-laag (je berichten in de AI)", "isCorrect": false }
+          ],
+          "explanation": "De context-laag bevat de permanente, project-brede informatie. Dit gaat in bestanden als CONTEXT.md en AGENTS.md in de root van je repo. De sessie-laag is voor tijdelijke, session-specifieke context. De skill-laag is voor herbruikbare instructies per taaktype.",
+          "points": 3
+        },
+        {
+          "id": "q2",
+          "type": "single_choice",
+          "question": "Waarom is het anti-patroon 'context in de chat houden' schadelijk?",
+          "choices": [
+            { "id": "a", "text": "Het maakt je prompts te lang voor het AI-model", "isCorrect": false },
+            { "id": "b", "text": "Het kost tijd, vergaat en is niet overdraagbaar naar andere tools of sessies", "isCorrect": true },
+            { "id": "c", "text": "AI-tools ondersteunen geen lange chat-historiek", "isCorrect": false },
+            { "id": "d", "text": "Het is alleen een probleem bij grote teams", "isCorrect": false }
+          ],
+          "explanation": "Context in de chat is vluchtig: het verdwijnt na de sessie, werkt niet in andere AI-tools, en vereist dat je elke keer opnieuw alles uitlegt. Een CONTEXT.md bestand is permanent, draagbaar, en werkt in elk AI-tool dat bestanden kan lezen.",
+          "points": 3
+        },
+        {
+          "id": "q3",
+          "type": "short_answer",
+          "question": "Noem één concrete situatie waarin jij een skill-pack zou aanmaken in je eigen project.",
+          "correctAnswer": "Elke herhaalende taak zoals API routes schrijven, testen genereren, componenten bouwen, of migraties uitvoeren is een goede skill-kandidaat.",
+          "explanation": "Goede skill-kandidaten zijn taken die je meer dan twee keer op dezelfde manier doet. Als je drie keer een vergelijkbare API route hebt geschreven, heb je genoeg informatie om een skill te maken die de AI vertelt hoe jij dat in jouw project doet.",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "vbw-reflection",
+      "type": "reflection",
+      "title": "Waar staat jouw workflow nu?",
+      "learningObjectives": ["Pas de geleerde concepten toe op je eigen huidige project"],
+      "estimatedMinutes": 2,
+      "prompt": "Denk aan je huidige of meest recente bouwproject. Welke van de drie workflow-lagen mist er of is het zwakst?",
+      "guidingQuestions": [
+        "Heb je een CONTEXT.md of equivalent? Zou een AI je project begrijpen als het alleen dat bestand leest?",
+        "Heb je herbruikbare prompts opgeslagen, of typt je ze elke keer opnieuw?",
+        "Schrijf je checkpoints? Weet je morgen precies waar je was als je vandaag stopt?"
+      ],
+      "takeaway": "De meest impactvolle stap die je vandaag kunt zetten: schrijf een CONTEXT.md voor je huidige project. Vijf minuten investeren nu bespaart uren context-herstel later."
+    }
+  ]
+}

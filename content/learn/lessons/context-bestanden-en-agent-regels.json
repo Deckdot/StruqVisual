@@ -1,0 +1,208 @@
+{
+  "slug": "context-bestanden-en-agent-regels",
+  "title": "Context bestanden en agent rules",
+  "subtitle": "Geef AI de juiste instructies — voor elk project, elke sessie",
+  "description": "Leer hoe context bestanden en agent rules AI-output consistent, voorspelbaar en bruikbaar maken. Minder uitleggen. Betere resultaten.",
+  "summary": "Zonder context weet AI niet wat jij weet. Context bestanden en agent rules zijn de manier om die kennis permanent en herbruikbaar te maken — zodat elke sessie begint waar de vorige eindigde.",
+  "tags": ["context-engineering", "agent-rules", "CONTEXT.md", "guardrails", "consistentie", "workflow"],
+  "category": "workflow-focused",
+  "difficulty": "intermediate",
+  "level": 2,
+  "estimatedMinutes": 18,
+  "publishedAt": "2026-04-13",
+  "featured": true,
+  "lang": "nl",
+  "seo": {
+    "metaTitle": "Context bestanden en agent rules | Struq Learn Level 2",
+    "metaDescription": "Leer hoe je context bestanden en agent rules schrijft zodat AI consistent en voorspelbaar werkt. Gevorderde les op Struq Learn.",
+    "keywords": ["context bestanden AI", "agent rules", "CONTEXT.md", "AI guardrails", "context engineering", "prompt consistency"]
+  },
+  "cta": {
+    "headline": "Stop met herhalen. Begin met schalen.",
+    "body": "Bewaar je context bestanden en agent rules als herbruikbare assets in Struq. Neem je beste setup mee naar elk nieuw project.",
+    "buttonText": "Probeer Struq gratis",
+    "buttonHref": "/auth"
+  },
+  "scenes": [
+    {
+      "id": "cbar-intro",
+      "type": "lesson_intro",
+      "title": "AI heeft context nodig — geef het die",
+      "learningObjectives": [
+        "Begrijpen wat context bestanden zijn en waarom ze werken",
+        "Agent rules schrijven die AI-output voorspelbaar maken",
+        "De juiste guardrails instellen voor jouw project"
+      ],
+      "estimatedMinutes": 2,
+      "hook": "Je hebt het vast meegemaakt: je vraagt AI iets wat vorige week perfect werkte, en nu geeft het een compleet andere aanpak. Dat is geen bug — dat is gebrek aan context.",
+      "overview": "Context bestanden en agent rules zijn de oplossing. In deze les leer je hoe je permanente instructies schrijft die AI elke sessie de juiste richting geven.",
+      "whatYouWillLearn": [
+        "Wat een context bestand is en wat erin moet",
+        "Hoe agent rules werken in Cursor, Windsurf en Claude",
+        "Hoe je guardrails instelt die fouten voorkomen",
+        "Het verschil tussen een project zonder en met structuur"
+      ],
+      "whyItMatters": "Context bestanden reduceren de tijd die je kwijt bent aan uitleggen met 60-80%. Je AI weet wie het is, wat het project is, en welke regels het moet volgen."
+    },
+    {
+      "id": "cbar-explanation",
+      "type": "explanation",
+      "title": "Wat is een context bestand?",
+      "learningObjectives": [
+        "De structuur en het doel van een context bestand begrijpen"
+      ],
+      "estimatedMinutes": 3,
+      "body": "Een context bestand is een tekstbestand in je project root (meestal CONTEXT.md of .cursorrules) dat permanente instructies bevat voor je AI-assistent. Het wordt automatisch meegestuurd bij elke prompt — zodat je niet elke keer hoeft uit te leggen wat je project is, welke stack je gebruikt, en welke regels je hanteert.",
+      "keyPoints": [
+        "Context bestanden worden automatisch geladen door je AI-editor bij elke sessie",
+        "Ze beschrijven je project, stack, naming conventions en beperkingen",
+        "Ze zijn versie-beheerd — dus ze groeien mee met je project",
+        "Een goed context bestand vervangt 80% van je herhalende uitleg"
+      ],
+      "analogy": "Denk aan een context bestand als een onboarding document voor een nieuwe developer — maar dan voor je AI. Elke keer dat de 'developer' (AI) opstart, leest het dit document en weet het meteen hoe te werken.",
+      "codeExample": "# CONTEXT.md\n\n## Project\nThis is a Next.js 15 App Router app using TypeScript, Tailwind CSS, and Drizzle ORM.\n\n## Stack\n- Framework: Next.js 15 (App Router)\n- Styling: Tailwind CSS with semantic tokens\n- Database: PostgreSQL via Drizzle\n- Auth: Auth.js v5\n\n## Rules\n- Always use semantic token classes (bg-canvas, bg-panel, text-primary-text)\n- Never hardcode colors in className strings\n- API routes must validate input with Zod\n- Never use db:push — always generate migrations",
+      "callout": {
+        "type": "tip",
+        "text": "Houd je CONTEXT.md onder de 500 regels. Korter en specifieker werkt beter dan lang en vaag."
+      }
+    },
+    {
+      "id": "cbar-comparison",
+      "type": "concept_comparison",
+      "title": "Project zonder vs met context bestand",
+      "learningObjectives": [
+        "Het concrete verschil ervaren tussen werken met en zonder context"
+      ],
+      "estimatedMinutes": 3,
+      "comparisonType": "workflow",
+      "left": {
+        "label": "Zonder context bestand",
+        "content": "Sessie 1: Je legt uit dat je Next.js gebruikt met Tailwind.\nSessie 2: AI gebruikt inline styles — je legt weer uit.\nSessie 3: AI gebruikt de verkeerde component structuur — uitleggen.\nSessie 4: AI genereert Prisma code — jij gebruikt Drizzle.\n\nEindresultaat: 20% van je tijd gaat op aan uitleggen. Inconsistente code. Frustratie.",
+        "annotation": "Elke sessie begint bij nul — AI weet niets van je project",
+        "isPreferred": false
+      },
+      "right": {
+        "label": "Met CONTEXT.md + agent rules",
+        "content": "Sessie 1: AI leest CONTEXT.md, gebruikt Tailwind tokens, correct patroon.\nSessie 2: Zelfde kwaliteit, geen uitleg nodig.\nSessie 3: AI volgt je naming conventions automatisch.\nSessie 4: AI genereert Drizzle migrations, niet Prisma.\n\nEindresultaat: Consistente output. Meer bouwen, minder managen.",
+        "annotation": "Elke sessie begint met alle context intact",
+        "isPreferred": true
+      },
+      "insight": "Context bestanden zijn geen extra werk — ze zijn geïnvesteerde tijd die elke volgende sessie terugbetaalt.",
+      "takeaway": "Maak een CONTEXT.md aan bij elk nieuw project, vóór je de eerste AI-sessie start."
+    },
+    {
+      "id": "cbar-parameter-tuning",
+      "type": "parameter_tuning",
+      "title": "Stel je guardrails in",
+      "learningObjectives": [
+        "Begrijpen hoe guardrail-instellingen de output van AI beïnvloeden"
+      ],
+      "estimatedMinutes": 4,
+      "setup": "Guardrails zijn regels in je context bestand die bepalen wat AI wel en niet mag doen. Pas de instellingen hieronder aan en zie hoe de output van AI verandert.",
+      "controls": [
+        {
+          "id": "verbosity",
+          "label": "Uitleguitvoerigheid",
+          "type": "select",
+          "defaultValue": "compact",
+          "options": ["uitgebreid", "compact", "code-only"],
+          "description": "Hoe veel uitleg geeft AI bij elke output?"
+        },
+        {
+          "id": "autonomy",
+          "label": "Autonomie niveau",
+          "type": "slider",
+          "defaultValue": 2,
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "description": "1 = vraag altijd bevestiging, 2 = beslis zelf voor kleine dingen, 3 = voer volledig zelfstandig uit"
+        },
+        {
+          "id": "verify",
+          "label": "Verificatiestap vereist",
+          "type": "toggle",
+          "defaultValue": true,
+          "description": "Moet AI altijd typecheck draaien voordat het klaar is?"
+        }
+      ],
+      "outputTemplate": "Jouw agent rules gegenereerd op basis van instellingen:\n\n## Agent Rules\n\n**Uitleg**: Geef {{verbosity}} uitleg bij elke output.\n**Autonomie**: Niveau {{autonomy}} — {{autonomy}} betekent: {{ autonomy === 1 ? 'vraag altijd bevestiging voor elke stap' : autonomy === 2 ? 'beslis zelf voor kleine wijzigingen, vraag bij grote impact' : 'voer volledig zelfstandig uit zonder bevestiging' }}.\n**Verificatie**: {{verify}} — als true, run altijd typecheck voor je klaar bent.\n\nDeze regels gaan bovenaan je CONTEXT.md of .cursorrules bestand.",
+      "insight": "Autonomie niveau 2 is de sweet spot voor de meeste projecten: AI beslist zelf over kleine dingen, maar vraagt bij impactvolle wijzigingen. Niveau 3 alleen voor geautomatiseerde pipelines."
+    },
+    {
+      "id": "cbar-rules",
+      "type": "rules_patterns",
+      "title": "De 5 regels voor effectieve context bestanden",
+      "learningObjectives": [
+        "De vijf kernprincipes toepassen bij het schrijven van context bestanden"
+      ],
+      "estimatedMinutes": 3,
+      "rules": [
+        {
+          "id": "rule-kort",
+          "title": "Kort en specifiek",
+          "description": "Houd je context bestand onder de 500 regels. Korter werkt beter omdat AI het volledig verwerkt.",
+          "example": "✓ 'Gebruik Tailwind semantic tokens: bg-canvas, bg-panel'\n✗ 'We gebruiken een design systeem dat bestaat uit...' (3 alinea's)"
+        },
+        {
+          "id": "rule-stack",
+          "title": "Stack altijd bovenaan",
+          "description": "Begin altijd met je exacte stack: framework versie, styling systeem, database, auth. Dit vermijdt de meest voorkomende fouten.",
+          "example": "Next.js 15 App Router, TypeScript strict, Tailwind, Drizzle ORM, Auth.js v5"
+        },
+        {
+          "id": "rule-verbod",
+          "title": "Verboden patronen expliciet benoemen",
+          "description": "Zeg expliciet wat AI niet mag doen. Negatieve instructies werken beter dan positieve voor het vermijden van fouten.",
+          "example": "'Never use db:push — always generate migration files'\n'Never hardcode colors in className strings'"
+        },
+        {
+          "id": "rule-actueel",
+          "title": "Actueel houden",
+          "description": "Update je context bestand wanneer je stack of regels veranderen. Een verouderd context bestand is erger dan geen context bestand.",
+          "example": "Voeg een '## Last updated' regel toe zodat je weet wanneer je het voor het laatst bijgewerkt hebt."
+        },
+        {
+          "id": "rule-versie",
+          "title": "Versie-beheer",
+          "description": "Commit je context bestand in git. Het is onderdeel van je project en moet mee versiebeheerd worden.",
+          "example": "CONTEXT.md staat in je repo root, wordt gecommit bij elke relevante wijziging"
+        }
+      ],
+      "antiPatterns": [
+        {
+          "id": "anti-lang",
+          "title": "Te lang en vaag",
+          "problem": "Een 2000-regels context bestand met lange alinea's uitleg die AI niet volledig verwerkt",
+          "fix": "Herschrijf naar bullet points en korte statements. Doel: 200-400 regels, scanbaar."
+        },
+        {
+          "id": "anti-verouderd",
+          "title": "Verouderde informatie",
+          "problem": "Context bestand zegt je gebruikt Prisma maar je bent al 3 weken op Drizzle overgestapt",
+          "fix": "Update context bestand bij elke stack wijziging. Maak er een checklist item van in je PR-process."
+        }
+      ],
+      "summary": "Een goed context bestand is kort, specifiek, actueel en versie-beheerd. Het beschrijft je stack, geeft expliciete verboden en maakt elke AI-sessie reproduceerbaar."
+    },
+    {
+      "id": "cbar-complete",
+      "type": "lesson_complete",
+      "title": "Level 2 gestart — AI werkt nu met jou mee",
+      "learningObjectives": [],
+      "estimatedMinutes": 1,
+      "celebrationHeadline": "Context bestanden onder de knie! 🎯",
+      "recap": [
+        "Je begrijpt wat context bestanden zijn en waarom ze werken",
+        "Je kunt het verschil herkennen tussen werken met en zonder context",
+        "Je weet hoe je guardrails instelt die fouten voorkomen",
+        "Je kent de 5 regels voor effectieve context bestanden"
+      ],
+      "identityShift": "Je bent nu iemand die AI stuurt met structuur — niet hoopt op goede uitkomsten.",
+      "nextSteps": [
+        { "label": "Meer Level 2 lessen", "href": "/learn/level/2" },
+        { "label": "Level 3: Build at Scale", "href": "/learn/level/3" }
+      ]
+    }
+  ]
+}

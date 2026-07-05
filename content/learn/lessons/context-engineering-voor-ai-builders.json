@@ -1,0 +1,178 @@
+{
+  "slug": "context-engineering-voor-ai-builders",
+  "title": "Context Engineering: Maak je AI Betrouwbaar",
+  "subtitle": "Structureer informatie zodat je AI consistent handelt",
+  "description": "Leer het verschil tussen context en geheugen, begrijp context-drift, en bouw een eigen context-systeem dat je AI-agent betrouwbaar maakt over sessies heen.",
+  "summary": "Context engineering is de praktijk van het structureren van informatie zodat AI-agents betrouwbaar redeneren zonder drift of herhaling. Essentieel voor elke serieuze AI-native builder.",
+  "tags": ["context-engineering", "ai-agents", "prompt-engineering", "betrouwbaarheid", "struq-skills"],
+  "category": "architecture-focused",
+  "difficulty": "intermediate",
+  "estimatedMinutes": 22,
+  "publishedAt": "2026-04-13",
+  "featured": true,
+  "lang": "nl",
+  "seo": {
+    "metaTitle": "Context Engineering voor AI Builders | Struq Learn",
+    "metaDescription": "Leer context engineering: structureer informatie zodat je AI-agent betrouwbaar handelt zonder drift of herhaling. Interactieve les op Struq Learn.",
+    "keywords": ["context engineering", "AI context", "AI-agent betrouwbaarheid", "prompt engineering", "context drift"]
+  },
+  "cta": {
+    "headline": "Stop met herhalen. Begin met schalen.",
+    "body": "Struq is je operationeel geheugen voor AI-native builders. Bewaar je context-modules als herbruikbare bouwblokken.",
+    "buttonText": "Probeer Struq gratis",
+    "buttonHref": "/auth"
+  },
+  "scenes": [
+    {
+      "id": "ce-intro",
+      "type": "lesson_intro",
+      "title": "Waarom je AI steeds dezelfde fouten maakt",
+      "learningObjectives": [
+        "Begrijp wat context engineering is en waarom het nodig is",
+        "Herken context-drift in je eigen AI-werkstroom"
+      ],
+      "estimatedMinutes": 2,
+      "hook": "Je geeft je AI exact dezelfde instructie als gisteren. Vandaag maakt het andere keuzes, verandert het bestanden die je niet wilde aanraken, en stelt het vragen die je al beantwoord hebt. Niets veranderde behalve de sessie.",
+      "overview": "Dit is context-drift. Het is niet een bug in het model — het is een architectuurprobleem in hoe jij informatie structureert. Context engineering lost dit op. Het is de meest onderschatte vaardigheid voor AI-native builders.",
+      "whatYouWillLearn": [
+        "Wat het verschil is tussen context en geheugen in AI-systemen",
+        "Wat context-drift is en hoe het ontstaat",
+        "Hoe je de vier context-lagen structureert",
+        "Welke anti-patronen context-drift veroorzaken"
+      ],
+      "whyItMatters": "Elke serieuze AI-native builder die met agents of AI-tools werkt ervaart op een punt context-drift. Weten hoe je het oplost scheidt de builders die schalen van de builders die vastzetten."
+    },
+    {
+      "id": "ce-explain",
+      "type": "explanation",
+      "title": "Context vs. geheugen: het fundamentele verschil",
+      "learningObjectives": ["Maak onderscheid tussen context en geheugen in AI-systemen"],
+      "estimatedMinutes": 4,
+      "body": "**Geheugen** is wat een AI-model intrinsiek 'weet' vanuit zijn training: programmeertalen, concepten, standaard patronen. Dit is stabiel en verandert niet per sessie.\n\n**Context** is de informatie die jij de AI geeft in de huidige sessie of het huidige venster. Het is alles wat het model ziet naast zijn training: je bestanden, je instructies, je chat-geschiedenis, je CONTEXT.md.\n\nHet cruciale punt: **AI-modellen hebben geen persistent geheugen**. Elke nieuwe sessie begint blanco. Wat voelt als 'geheugen' is altijd context die jij hebt opgegeven — bewust of onbewust.\n\nContext engineering is de kunst van het bewust ontwerpen van die context, zodat je AI altijd de juiste informatie heeft om goed te redeneren.",
+      "keyPoints": [
+        "Geheugen = trainingskennis (stabiel, niet beïnvloedbaar)",
+        "Context = sessie-informatie (dynamisch, volledig jouw verantwoordelijkheid)",
+        "Geen persistent geheugen = elke sessie is een schone lei",
+        "Context engineering = bewust ontwerpen van wat de AI ziet"
+      ],
+      "analogy": "Een chirurg die een operatie begint weet hoe opereren werkt (geheugen/training). Maar hij heeft het patiëntdossier nodig om te weten wie op de tafel ligt en wat de geplande procedure is (context). Zonder dossier zou hij het misschien goed doen — maar je wilt het niet erop aankomen.",
+      "callout": {
+        "type": "warning",
+        "text": "De meeste AI-problemen die worden toegeschreven aan 'het model begrijpt me niet' zijn eigenlijk context-problemen. Het model begrijpt je prima — het heeft gewoon niet de juiste informatie."
+      }
+    },
+    {
+      "id": "ce-arch",
+      "type": "architecture_review",
+      "title": "De vier context-lagen van een betrouwbaar AI-systeem",
+      "learningObjectives": [
+        "Begrijp hoe de vier context-lagen samenwerken",
+        "Weet welke informatie in welke laag hoort"
+      ],
+      "estimatedMinutes": 5,
+      "scenario": "Een solo builder werkt aan een SaaS-product en wil dat zijn AI-tool (Claude Code, Cursor, of Windsurf) consistent goede code schrijft over meerdere sessies heen. Hij heeft een groeiende codebase, meerdere modules, en veranderende prioriteiten.",
+      "components": [
+        {
+          "id": "c1",
+          "name": "Systeem-laag",
+          "role": "Permanente project-identiteit: wat bouw je, voor wie, met welke tech, en wat zijn de harde grenzen",
+          "goodFor": ["Tech stack definitie", "Deployment context", "Harde constraints (wat NIET te doen)", "Architectuur-beslissingen"],
+          "watchOut": "Verouderde informatie hier is de meest schadelijke vorm van context-drift"
+        },
+        {
+          "id": "c2",
+          "name": "Sessie-laag",
+          "role": "Actuele sprint-context: wat is er al gedaan, wat is nu in progress, wat is geblokkeerd",
+          "goodFor": ["PROJECT_STATE.md updates", "Actieve taak-definitie", "Scope-grenzen voor deze sessie"],
+          "watchOut": "Vergeten te updaten is het meest voorkomende probleem"
+        },
+        {
+          "id": "c3",
+          "name": "Taak-laag",
+          "role": "Specifieke instructies voor de huidige prompt: wat moet er precies gebeuren, wat mag er niet veranderen",
+          "goodFor": ["Expliciete scope in prompts", "Output-format instructies", "Edge cases benoemen"],
+          "watchOut": "Te vaag of te breed — één prompt, één doel"
+        },
+        {
+          "id": "c4",
+          "name": "Skill-laag",
+          "role": "Herbruikbare instructie-modules voor terugkerende taken",
+          "goodFor": ["Standaard aanpak voor API routes", "Test-conventies", "Component-patronen", "Review-checklists"],
+          "watchOut": "Verouderde skills die niet meer overeenkomen met de werkelijke codebase"
+        }
+      ],
+      "goodPatterns": [
+        "CONTEXT.md in repo root: één bestand dat alle systeem-laag informatie bevat",
+        "PROJECT_STATE.md voor sessie-laag: na elke sprint bijwerken",
+        "Skill-bestanden per domein: API-routes skill, test-skill, component-skill",
+        "Expliciete scope in prompts: 'verander alleen app/api/assets, niets anders'"
+      ],
+      "badPatterns": [
+        "Alles in de chat bewaren: verdwijnt na sessie, niet overdraagbaar",
+        "Eén megabestand met alle context: AI-modellen laten de helft vallen",
+        "Nooit updaten: stale context is erger dan geen context",
+        "Context in prompts copy-pasten: herhaling = handmatige fout-bron"
+      ],
+      "verdict": "De vier-lagen architectuur is niet complex — het zijn vier bestanden en een discipline. Systeem-laag in CONTEXT.md, sessie-laag in PROJECT_STATE.md, taak-laag in elke prompt, skill-laag in je skill-packs. Dit lost 80% van context-drift op.",
+      "upgradeIdeas": [
+        "Voeg AGENTS.md toe voor agent-specifieke instructies (welk AI-tool, welk gedrag)",
+        "Gebruik CLAUDE.md of .cursor/rules voor tool-specifieke overrides",
+        "Bewaar skill-packs in Struq zodat je ze mee kunt nemen over projecten"
+      ]
+    },
+    {
+      "id": "ce-quiz",
+      "type": "quiz",
+      "title": "Context Engineering: begripscheck",
+      "learningObjectives": ["Test begrip van context-lagen en anti-patronen"],
+      "estimatedMinutes": 4,
+      "instructions": "Twee vragen om je begrip te testen.",
+      "passingScore": 60,
+      "showExplanationsImmediately": true,
+      "questions": [
+        {
+          "id": "ceq1",
+          "type": "multiple_choice",
+          "question": "Welke van de volgende informatie hoort in de SYSTEEM-laag van je context-architectuur? (kies alle juiste antwoorden)",
+          "choices": [
+            { "id": "a", "text": "Je tech stack en deployment platform", "isCorrect": true },
+            { "id": "b", "text": "Welke feature je vandaag bouwt", "isCorrect": false },
+            { "id": "c", "text": "Harde architectuur-beslissingen die niet mogen veranderen", "isCorrect": true },
+            { "id": "d", "text": "De scope van de huidige prompt", "isCorrect": false },
+            { "id": "e", "text": "Deployment-constraints (bijv. geen Node APIs in edge functions)", "isCorrect": true }
+          ],
+          "explanation": "De systeem-laag bevat permanente project-informatie: tech stack, deployment, architectuur-beslissingen, en constraints. 'Welke feature je vandaag bouwt' hoort in de sessie-laag. 'Scope van de prompt' is taak-laag.",
+          "points": 4
+        },
+        {
+          "id": "ceq2",
+          "type": "single_choice",
+          "question": "Je AI verandert een component die je niet wilde aanraken, ook al stond dit niet in je prompt. Wat is de meest waarschijnlijke oorzaak?",
+          "choices": [
+            { "id": "a", "text": "Het model heeft een bug of werkt willekeurig", "isCorrect": false },
+            { "id": "b", "text": "Je sessie-context mist duidelijke scope-grenzen", "isCorrect": true },
+            { "id": "c", "text": "Je tech stack is te complex voor het model", "isCorrect": false },
+            { "id": "d", "text": "Je hebt een te korte prompt gebruikt", "isCorrect": false }
+          ],
+          "explanation": "Dit is een klassiek context-drift symptoom. Wanneer de AI geen expliciete scope-grenzen heeft, vult het in wat het denkt dat nuttig is — en dat klopt niet altijd. Voeg toe: 'Verander alleen [specifiek bestand/map], raak niets anders aan.' Dit lost het op.",
+          "points": 3
+        }
+      ]
+    },
+    {
+      "id": "ce-reflection",
+      "type": "reflection",
+      "title": "Je eigen context-architectuur",
+      "learningObjectives": ["Pas context-engineering toe op je huidige project"],
+      "estimatedMinutes": 2,
+      "prompt": "Audit je eigen huidige project: welke van de vier context-lagen mist of is incompleet?",
+      "guidingQuestions": [
+        "Heeft je project een CONTEXT.md die een AI direct kan begrijpen?",
+        "Heb je een PROJECT_STATE.md die de huidige sprint reflecteert?",
+        "Zijn er taken die je herhaaldelijk doet maar geen skill voor hebt?",
+        "Hoe specifiek zijn je scope-instructies in je prompts?"
+      ],
+      "takeaway": "Begin met de systeem-laag: schrijf of verbeter je CONTEXT.md. Dit is de basis van alles. Een AI die weet wat je bouwt en wat de grenzen zijn, maakt automatisch betere keuzes."
+    }
+  ]
+}
