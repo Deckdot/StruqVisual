@@ -2,8 +2,8 @@
 
 import { useRef, useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import {
   gsap,
   useGSAP,
@@ -12,6 +12,7 @@ import {
   MorphSVGPlugin,
   EASE_OUT,
 } from '@/components/site/motion';
+import { markHandoff, HANDOFF_WASH } from '@/lib/handoff';
 
 const AuthParticles = dynamic(() => import('./auth-particles'), { ssr: false });
 
@@ -70,130 +71,103 @@ export function AuthClient() {
       if (isAnimating) return;
       setIsAnimating(true);
 
-      // === DRAMATIC SUCCESS ANIMATION ===
-      // Three acts: (1) particle vortex builds, (2) everything converges,
-      // (3) white supernova wipe → navigate to dashboard.
+      // === SUCCESS → DASHBOARD HANDOFF ===
+      // One continuous gesture in three overlapping beats. It ends holding a
+      // full-screen warm wash that becomes the dashboard's curtain, so the two
+      // pages share one surface and the crossover has no visible seam.
+      //
+      //   1. CHARGE   (0.0–1.3) particles converge & brighten (intensity→0.55),
+      //               CTA glows, silhouettes + ring drift toward center as one.
+      //   2. COLLAPSE (1.1–2.1) intensity→1.0 (white-gold rush inward); the whole
+      //               UI (card, headline, silhouettes, ring, footer) lifts and
+      //               fades toward the center of gravity together — not in acts.
+      //   3. BLOOM    (1.9–2.5) warm wash floods from center and STAYS opaque —
+      //               it is the curtain. Flag + push fire as it completes.
       const ctx = gsap.context(() => {
+        let navigated = false;
+        const goToDashboard = () => {
+          if (navigated) return;
+          navigated = true;
+          markHandoff(); // dashboard curtain reads this and reveals from the wash
+          router.push('/dashboard');
+        };
+
         const tl = gsap.timeline({
           defaults: { ease: 'power3.inOut' },
-          onComplete: () => router.push('/dashboard'),
+          onComplete: goToDashboard,
         });
 
-        // Act 1 — Particle vortex builds gradually (0 → 0.5 over 2.4s)
-        // The Three.js canvas reads this ref every frame.
-        tl.to(particleIntensityRef, {
-          current: 0.5,
-          duration: 2.4,
-          ease: 'power1.in',
-        }, 0);
-
-        // CTA button glows warmly as the vortex builds
-        tl.to('[data-auth-cta]', {
-          boxShadow: '0 0 60px 12px rgba(255, 240, 220, 0.5)',
-          scale: 1.03,
-          duration: 1.6,
-          ease: 'power2.out',
-        }, 0);
-
-        // Card border lights up slowly
-        tl.to('[data-auth-card]', {
-          borderColor: 'rgba(255, 240, 220, 0.4)',
-          duration: 1.4,
-        }, 0.4);
-
-        // Silhouettes drift inward and rotate slowly
-        tl.to('[data-auth-shape]', {
-          rotation: '+=90',
-          scale: '*=1.15',
-          duration: 2.0,
-          stagger: 0.1,
-          ease: 'power1.in',
-        }, 0.5);
-
-        // Orbit ring spins gently
-        tl.to('[data-auth-ring]', {
-          rotation: '+=90',
-          duration: 2.0,
-          ease: 'power1.in',
-        }, 0.4);
-
-        // Footer fades first (least important)
-        tl.to('[data-auth-footer]', { opacity: 0, duration: 0.8 }, 1.6);
-
-        // Act 2 — Convergence (everything draws toward center)
-        // Particle vortex completes (0.5 → 1.0)
-        tl.to(particleIntensityRef, {
-          current: 1.0,
-          duration: 1.2,
-          ease: 'power2.in',
-        }, 2.4);
-
-        // Silhouettes sweep to center
-        tl.to('[data-auth-shape]', {
-          x: 0,
-          y: 0,
-          scale: 0,
-          opacity: 0,
-          rotation: '+=180',
-          duration: 1.2,
-          stagger: 0.06,
-          ease: 'power3.in',
-        }, 2.2);
-
-        // Orbit ring contracts
-        tl.to('[data-auth-ring]', {
-          scale: 0,
-          opacity: 0,
-          rotation: '+=180',
-          duration: 1.0,
-          ease: 'power3.in',
-        }, 2.4);
-
-        // Card lifts and dissolves gracefully
-        tl.to('[data-auth-card]', {
-          y: -30,
-          scale: 0.94,
-          opacity: 0,
-          duration: 1.0,
-          ease: 'power2.in',
-        }, 2.5);
-
-        // Headline dissolves
-        tl.to('[data-auth-headline]', {
-          opacity: 0,
-          y: -24,
-          scale: 1.03,
-          duration: 0.8,
-          ease: 'power2.in',
-        }, 2.3);
-        tl.to('[data-auth-subtitle]', { opacity: 0, y: -16, duration: 0.7 }, 2.3);
-
-        // Shockwave ring expands from center
-        tl.fromTo(
-          '[data-auth-shockwave]',
-          { scale: 0, opacity: 0.6 },
+        // Beat 1 — CHARGE: particles converge & brighten, CTA glows.
+        tl.to(particleIntensityRef, { current: 0.55, duration: 1.3, ease: 'power2.in' }, 0);
+        tl.to(
+          '[data-auth-cta]',
           {
-            scale: 5,
-            opacity: 0,
-            duration: 1.2,
+            boxShadow: '0 0 60px 12px rgba(255, 232, 204, 0.55)',
+            scale: 1.03,
+            duration: 1.0,
             ease: 'power2.out',
           },
-          3.0
+          0
+        );
+        tl.to('[data-auth-card]', { borderColor: 'rgba(255, 232, 204, 0.45)', duration: 1.0 }, 0.1);
+        // Silhouettes + ring drift inward together (one field contracting).
+        tl.to(
+          ['[data-auth-shape]', '[data-auth-ring]'],
+          { scale: '*=0.82', duration: 1.2, ease: 'power2.in' },
+          0.2
         );
 
-        // Act 3 — Supernova wipe: warm white flood
+        // Beat 2 — COLLAPSE: full white-gold rush; the UI lifts toward center as one.
+        tl.to(particleIntensityRef, { current: 1.0, duration: 1.0, ease: 'power2.in' }, 1.1);
+        // Everything on screen leaves toward the center of gravity, together.
+        tl.to(
+          [
+            '[data-auth-shape]',
+            '[data-auth-ring]',
+            '[data-auth-card]',
+            '[data-auth-headline]',
+            '[data-auth-subtitle]',
+            '[data-auth-footer]',
+          ],
+          {
+            y: -24,
+            scale: 0.96,
+            opacity: 0,
+            duration: 0.9,
+            ease: 'power2.in',
+          },
+          1.2
+        );
+
+        // Beat 3 — BLOOM: warm wash floods from center and holds as the curtain.
+        tl.fromTo(
+          '[data-auth-shockwave]',
+          { scale: 0, opacity: 0.5 },
+          { scale: 5, opacity: 0, duration: 1.0, ease: 'power2.out' },
+          1.7
+        );
         tl.fromTo(
           '[data-auth-flash]',
           { opacity: 0 },
-          { opacity: 1, duration: 0.7, ease: 'power2.in' },
-          3.4
+          { opacity: 1, duration: 0.6, ease: 'power2.in' },
+          1.9
         );
-
-        // Hold the bright screen for a beat — let it breathe
-        tl.to({}, { duration: 0.5 });
+        // Hold the wash fully opaque for a beat — it stays up through the swap,
+        // so the dashboard mounts unseen behind it. (No fade-out here by design.)
+        tl.to({}, { duration: 0.3 });
       }, root);
 
-      return () => ctx.revert();
+      // Safety net: if navigation is somehow delayed, don't strand the user on
+      // the wash — push after the timeline's own completion window.
+      const failSafe = window.setTimeout(() => {
+        markHandoff();
+        router.push('/dashboard');
+      }, 3200);
+
+      return () => {
+        window.clearTimeout(failSafe);
+        ctx.revert();
+      };
     },
     [isAnimating, router]
   );
@@ -416,12 +390,14 @@ export function AuthClient() {
         }}
       />
 
-      {/* Flash overlay — warm white supernova wipe (not red) */}
+      {/* Warm bloom → dashboard curtain. Blooms from a bright center into the
+          shared handoff wash at the edges, then holds fully opaque so the
+          dashboard mounts unseen behind it and reveals from this same color. */}
       <div
         data-auth-flash
         className="pointer-events-none fixed inset-0 z-50"
         style={{
-          background: 'radial-gradient(circle at center, #fff5e6 0%, #ffe8cc 40%, #ffd9a8 100%)',
+          background: `radial-gradient(circle at center, #fff5e6 0%, ${HANDOFF_WASH} 55%, ${HANDOFF_WASH} 100%)`,
           opacity: 0,
         }}
       />

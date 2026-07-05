@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
+import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight, Check, Copy, X } from 'lucide-react';
 import { SiteShell } from '@/components/site/site-shell';

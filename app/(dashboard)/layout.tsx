@@ -3,6 +3,7 @@ import { MaturityProvider } from '@/components/maturity-provider';
 import { Sidebar } from '@/components/dashboard/sidebar';
 import { BottomNav } from '@/components/dashboard/bottom-nav';
 import { AppFrame } from '@/components/dashboard/app-frame';
+import { DashboardEntrance } from '@/components/dashboard/dashboard-entrance';
 
 export const metadata: Metadata = {
   title: 'Dashboard | Struq',
@@ -22,6 +23,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <AppFrame>{children}</AppFrame>
         <BottomNav />
       </div>
+      {/* Covers the shell until it's painted; reveals from the auth handoff wash. */}
+      <DashboardEntrance />
     </MaturityProvider>
   );
 }

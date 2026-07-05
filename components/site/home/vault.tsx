@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import { SplitHeading } from '@/components/site/split-heading';
 import { Reveal } from '@/components/site/reveal';
 

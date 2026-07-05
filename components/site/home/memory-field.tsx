@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
+import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import { gsap, useGSAP, ScrollTrigger, SplitText, prefersReducedMotion } from '@/components/site/motion';
 
 const MemoryCanvas = dynamic(() => import('./memory-canvas'), { ssr: false });

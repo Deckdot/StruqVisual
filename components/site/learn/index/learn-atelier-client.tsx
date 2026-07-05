@@ -13,7 +13,7 @@
  *  5. Closing CTA   - the first step is free and small
  */
 
-import Link from 'next/link';
+import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import { SiteShell } from '@/components/site/site-shell';
 import { SplitHeading } from '@/components/site/split-heading';
 import { Reveal } from '@/components/site/reveal';

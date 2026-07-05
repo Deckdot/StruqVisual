@@ -14,7 +14,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import Link from 'next/link';
+import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import type { Block, LessonManifest } from '@/lib/learn/schema';
 import { ARCHETYPE_META, LANE_META } from '@/lib/learn/schema';

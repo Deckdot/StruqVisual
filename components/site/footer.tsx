@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { Reveal } from '@/components/site/reveal';
 import { Magnetic } from '@/components/site/magnetic';
 import { TransitionLink } from '@/components/providers/PageTransition';

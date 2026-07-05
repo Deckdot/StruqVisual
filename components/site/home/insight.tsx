@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import Link from 'next/link';
+import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import { gsap, useGSAP } from '@/components/site/motion';
 import { SplitHeading } from '@/components/site/split-heading';
 import { Reveal } from '@/components/site/reveal';

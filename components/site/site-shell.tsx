@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { ScrollProvider } from '@/components/site/motion';
 import { SiteNavbar } from '@/components/site/navbar';
 import { SiteFooter } from '@/components/site/footer';
+import { LoaderCounter } from '@/components/site/loaders/loader-counter';
 
 export type SiteTheme = 'light' | 'dark';
 
@@ -39,6 +40,8 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="sq min-h-dvh flex flex-col" data-theme={theme === 'dark' ? 'dark' : undefined}>
+      {/* First-load intro — session-gated, plays once, reveals the finished page */}
+      <LoaderCounter id="intro" />
       <ScrollProvider>
         <a
           href="#sq-main"

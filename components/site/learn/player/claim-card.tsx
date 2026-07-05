@@ -8,7 +8,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { LessonManifest } from '@/lib/learn/schema';
 import { stashPendingClaim, takePendingClaim, useLearnProgress } from '@/lib/learn/progress';
