@@ -14,9 +14,9 @@
 
 ## Git & PR-strategie
 
-- `main` is protected. Werken in **slices**: branch per slice (`feat/<milestone>-<slice>`, `fix/…`, `docs/…`), kleine PR's.
-- Gate-volgorde per PR: **tier groen → cold code review (reviewer zonder opgebouwde context) → menselijke verificatie → merge.**
-- PR-body altijd via `.github/PULL_REQUEST_TEMPLATE.md`, inclusief doc-drift checklist.
+- Werken in **slices**: branch per slice (`feat/<milestone>-<slice>`, `fix/…`, `docs/…`), kleine PR's.
+- Gate per slice: **tier groen → merge/push.** Cold code review en menselijke verificatie zijn optioneel, op initiatief van Roy (bijv. `/code-review` op een grote slice) — geen verplichte gate.
+- PR-body (wanneer er een PR is) via `.github/PULL_REQUEST_TEMPLATE.md`, inclusief doc-drift checklist.
 - Schema-PR zonder gegenereerd migratiebestand = merge blokkeren (zie `database` skill).
 - Mergen naar main is de deploy-trigger (Railway; migraties draaien automatisch bij containerstart).
 
