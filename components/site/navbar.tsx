@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Moon, Sun, X, Menu } from 'lucide-react';
 import type { SiteTheme } from '@/components/site/site-shell';
 import { TransitionLink } from '@/components/providers/PageTransition';
+import { AnimatedMark } from '@/components/site/brand/animated-mark';
 
 const NAV_LINKS = [
   { href: '/galerij', label: 'Galerij' },
@@ -62,16 +62,7 @@ export function SiteNavbar({ theme, onToggleTheme }: SiteNavbarProps) {
               className="flex items-center gap-2.5 sq-display text-xl font-semibold tracking-tight"
               aria-label="Struq home"
             >
-              <Image
-                src="/brand/struq-logo.png"
-                alt="Struq Logo"
-                width={64}
-                height={64}
-                className="object-contain"
-                style={{
-                  filter: theme === 'dark' ? 'invert(1) hue-rotate(180deg)' : 'none',
-                }}
-              />
+              <AnimatedMark size="navbar" alt="Struq" />
               <span>struq<span style={{ color: 'var(--sq-accent)' }}>.</span></span>
             </TransitionLink>
 
@@ -128,16 +119,7 @@ export function SiteNavbar({ theme, onToggleTheme }: SiteNavbarProps) {
           >
             <div className="sq-container-wide flex items-center justify-between py-7">
               <span className="flex items-center gap-2.5 sq-display text-xl font-semibold">
-                <Image
-                  src="/brand/struq-logo.png"
-                  alt="Struq Logo"
-                  width={64}
-                  height={64}
-                  className="object-contain"
-                  style={{
-                    filter: theme === 'dark' ? 'invert(1) hue-rotate(180deg)' : 'none',
-                  }}
-                />
+                <AnimatedMark size="navbar" alt="Struq" />
                 <span>struq<span style={{ color: 'var(--sq-accent)' }}>.</span></span>
               </span>
               <button

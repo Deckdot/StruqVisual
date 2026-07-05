@@ -1,4 +1,4 @@
-import { GraduationCap, LayoutGrid, Package, Vault, type LucideIcon } from 'lucide-react';
+import { GraduationCap, LayoutGrid, Package, Shapes, Vault, type LucideIcon } from 'lucide-react';
 import type { Surface } from '@/components/maturity-provider';
 
 /**
@@ -18,6 +18,7 @@ export type NavItem = {
 export const NAV_ITEMS: NavItem[] = [
   { href: '/dashboard', label: 'Home', subtitle: 'Jouw startpunt: kies, bewaar, bouw', icon: LayoutGrid },
   { href: '/vault', label: 'Bibliotheek', subtitle: 'Paletten, typografie, secties, design systems en media', icon: Vault },
+  { href: '/canon', label: 'Canon', subtitle: 'De curated smaakcanon: recepten, kleur, typografie, iconen en meer', icon: Shapes },
   { href: '/learn', label: 'Learn', subtitle: 'Korte lessen over smaak en bouwen met AI', icon: GraduationCap },
   { href: '/kits', label: 'Kits', subtitle: 'Bundels die je AI in één keer richting geven', icon: Package, surface: 'kits' },
 ];

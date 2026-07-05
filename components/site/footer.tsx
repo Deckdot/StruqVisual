@@ -1,9 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import { Reveal } from '@/components/site/reveal';
 import { Magnetic } from '@/components/site/magnetic';
 import { TransitionLink } from '@/components/providers/PageTransition';
+import { FooterBrand } from '@/components/site/footer-brand';
 
 const FOOTER_COLUMNS = [
   {
@@ -65,22 +65,7 @@ export function SiteFooter() {
         style={{ borderColor: 'color-mix(in srgb, var(--sq-inverse-ink) 12%, transparent)' }}
       >
         <div className="sq-container grid gap-12 py-16 md:grid-cols-[2fr_1fr_1fr_1fr]">
-          <div>
-            <p className="flex items-center gap-2.5 sq-display text-2xl font-semibold">
-              <Image
-                src="/brand/struq-logo.png"
-                alt="Struq Logo"
-                width={72}
-                height={72}
-                className="object-contain"
-                style={{ filter: 'invert(1) hue-rotate(180deg)' }}
-              />
-              <span>struq<span style={{ color: 'var(--sq-accent)' }}>.</span></span>
-            </p>
-            <p className="mt-4 max-w-xs text-[0.9375rem] leading-relaxed" style={{ color: 'var(--sq-inverse-soft)' }}>
-              De visuele bibliotheek voor AI-builders. Bouw front-ends waar je trots op bent, en leer onderweg hoe het werkt.
-            </p>
-          </div>
+          <FooterBrand />
           {FOOTER_COLUMNS.map((column) => (
             <nav key={column.title} aria-label={column.title}>
               <p className="sq-eyebrow" style={{ color: 'var(--sq-inverse-soft)' }}>
