@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { ArrowRight, GraduationCap, Sparkles, Vault } from 'lucide-react';
 import { AssetCard } from '@/components/vault/asset-card';
+import { DashboardReveal } from '@/components/dashboard/dashboard-reveal';
 import { useMaturity } from '@/components/maturity-provider';
 import { useSavedAssets } from '@/hooks/use-saved-assets';
 import { DEMO_ASSETS } from '@/lib/vault/demo-assets';
@@ -59,11 +60,13 @@ export function DashboardHome() {
   ];
 
   return (
-    <div>
-      <p className="text-sm text-meta-text">Welkom terug</p>
-      <h2 className="mt-1.5 text-xl font-medium tracking-wide text-primary-text">
-        Waar bouw je vandaag aan?
-      </h2>
+    <DashboardReveal>
+      <div data-reveal>
+        <p className="text-sm text-meta-text">Welkom terug</p>
+        <h2 className="mt-1.5 text-xl font-medium tracking-wide text-primary-text">
+          Waar bouw je vandaag aan?
+        </h2>
+      </div>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         {destinations.map((dest) => {
@@ -72,6 +75,7 @@ export function DashboardHome() {
             <Link
               key={dest.href}
               href={dest.href}
+              data-reveal
               className={cn(
                 'group rounded-2xl border p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent',
                 dest.primary
@@ -102,7 +106,7 @@ export function DashboardHome() {
         })}
       </div>
 
-      <div className="mt-12 flex items-end justify-between">
+      <div data-reveal className="mt-12 flex items-end justify-between">
         <div>
           <h3 className="text-lg font-medium tracking-wide text-primary-text">Uitgelicht deze week</h3>
           <p className="mt-1 text-sm text-secondary-text/80">Vier assets die samen één richting vormen.</p>
@@ -117,12 +121,14 @@ export function DashboardHome() {
 
       <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {featured.map((asset) => (
-          <AssetCard key={asset.id} asset={asset} paletteLookup={paletteLookup} />
+          <div data-reveal key={asset.id}>
+            <AssetCard asset={asset} paletteLookup={paletteLookup} />
+          </div>
         ))}
       </div>
 
       {level >= 2 && (
-        <div className="mt-12 flex flex-col items-start justify-between gap-4 rounded-2xl border border-border bg-panel p-6 sm:flex-row sm:items-center">
+        <div data-reveal className="mt-12 flex flex-col items-start justify-between gap-4 rounded-2xl border border-border bg-panel p-6 sm:flex-row sm:items-center">
           <div>
             <p className="font-medium text-primary-text">Je vault, rechtstreeks in je AI-tool</p>
             <p className="mt-1 text-sm text-secondary-text/90">
@@ -134,6 +140,6 @@ export function DashboardHome() {
           </span>
         </div>
       )}
-    </div>
+    </DashboardReveal>
   );
 }

@@ -10,7 +10,8 @@
 // Zone-aware, because auth and the dashboard own their own choreography:
 //   • marketing paths → expressive entrance (y+fade, 0.8s) + ScrollTrigger.refresh
 //   • /auth           → NO entrance (the AuthClient runs its own cinematic intro)
-//   • dashboard/vault → fast, functional app entrance (fade, 0.25s)
+//   • dashboard/vault → NO entrance here (the curtain + staggered DashboardReveal
+//                       own the app entrance; a wrapper fade would fight them)
 //
 // The two non-obvious, load-bearing details from the page-flow spec:
 //   • clearProps:"all" — a leftover transform makes this wrapper a containing
@@ -32,26 +33,16 @@ export default function Template({ children }: { children: React.ReactNode }) {
     () => {
       // Auth owns a full cinematic intro + exit — never double-animate it.
       if (pathname.startsWith('/auth')) return;
+      // Dashboard/vault own their entrance (curtain + staggered DashboardReveal).
+      if (APP_PREFIXES.some((p) => pathname.startsWith(p))) return;
 
       const el = ref.current;
       if (!el) return;
 
       const reduce = prefersReducedMotion();
-      const isApp = APP_PREFIXES.some((p) => pathname.startsWith(p));
 
       if (reduce) {
         gsap.from(el, { opacity: 0, duration: 0.3, clearProps: 'all' });
-        return;
-      }
-
-      if (isApp) {
-        // App register: fast, functional, no travel drama.
-        gsap.from(el, {
-          opacity: 0,
-          duration: 0.25,
-          ease: 'power1.out',
-          clearProps: 'all',
-        });
         return;
       }
 

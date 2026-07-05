@@ -18,7 +18,12 @@
 
 import { useRef, useState } from 'react';
 import { gsap, useGSAP, prefersReducedMotion } from '@/components/site/motion';
-import { consumeHandoff, HANDOFF_WASH } from '@/lib/handoff';
+import {
+  consumeHandoff,
+  HANDOFF_WASH,
+  DASHBOARD_REVEAL_EVENT,
+  type DashboardRevealDetail,
+} from '@/lib/handoff';
 
 // The app canvas floor color (matches `--color-canvas`, light) for the
 // direct-visit curtain. Concrete value: this overlay sits above themed wrappers.
@@ -46,36 +51,48 @@ export function DashboardEntrance() {
       // of frames before we reveal — this is what prevents a raw/empty frame.
       const settle = cameFromLogin ? 0.18 : 0.08;
 
+      // Signal the content stagger to begin. Fired as the curtain starts lifting
+      // so cards rise in its wake, not after it has fully cleared.
+      const fireReveal = () => {
+        window.dispatchEvent(
+          new CustomEvent<DashboardRevealDetail>(DASHBOARD_REVEAL_EVENT, {
+            detail: { fromLogin: cameFromLogin },
+          })
+        );
+      };
+
       if (reduce) {
         gsap.to(layer, {
           autoAlpha: 0,
           delay: settle,
           duration: 0.25,
+          onStart: fireReveal,
           onComplete: () => setDone(true),
         });
         return;
       }
 
-      const tl = gsap.timeline({
-        delay: settle,
-        onComplete: () => setDone(true),
-      });
-
       if (cameFromLogin) {
-        // Seamless takeover: hold the warm wash one more beat (the eye reads it
-        // as one continuous surface from auth), then wipe up to reveal.
-        tl.to(layer, { autoAlpha: 1, duration: 0.15 }); // ensure fully covering
-        tl.to(layer, {
+        // Seamless takeover: hold the warm wash a beat (the eye reads it as one
+        // continuous surface from auth), then wipe up to reveal — firing the
+        // content stagger as the wipe begins.
+        gsap.to(layer, {
           yPercent: -100,
           duration: 0.7,
+          delay: settle,
           ease: 'power4.inOut',
+          onStart: fireReveal,
+          onComplete: () => setDone(true),
         });
       } else {
         // Direct visit / refresh: quick, quiet reveal — no drama on a tool.
-        tl.to(layer, {
+        gsap.to(layer, {
           yPercent: -100,
           duration: 0.5,
+          delay: settle,
           ease: 'power3.inOut',
+          onStart: fireReveal,
+          onComplete: () => setDone(true),
         });
       }
     },

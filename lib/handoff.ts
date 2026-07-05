@@ -10,6 +10,15 @@
 export const HANDOFF_KEY = 'handoff:dashboard';
 
 /**
+ * Fired by DashboardEntrance the instant the curtain starts lifting, so the
+ * content-stagger (DashboardReveal) rises in the curtain's wake. Decouples the
+ * two components while keeping their timing frame-accurate.
+ */
+export const DASHBOARD_REVEAL_EVENT = 'dashboard:reveal';
+
+export type DashboardRevealDetail = { fromLogin: boolean };
+
+/**
  * The warm wash color shared by the auth bloom and the dashboard curtain.
  * Picked from the auth supernova gradient's mid-stop so the two are identical.
  */
