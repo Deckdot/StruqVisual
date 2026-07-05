@@ -4,24 +4,28 @@
 
 ## Actieve milestone
 
-**M0 — Repo + Agent OS** (zie `NORTHSTAR.md`)
+**M1 afgerond → volgende: M2 (datamodel + canon-import)**. Zie `NORTHSTAR.md`.
 
 ## Stand
 
-- Repo geïnitialiseerd (branch `main`), agent OS staat: 10 canonieke skills + root docs + PR-template.
-- `DESIGN.md` is bewust een stub — definitieve versie wordt in M1 geëxtraheerd uit de geïntegreerde homepage.
-- Nog open in M0: GitHub remote + branch protection.
+- M0 klaar: agent OS (10 skills, docs, PR-template, skillshare sync). GitHub remote bewust overgeslagen.
+- M1 klaar: homepage + galerij + visueel + methode + learn gekopieerd uit Struq en draaiend; FourForms omgebouwd naar 5 visuele vormen; SEO/copy visual-first; DESIGN.md definitief.
+- M3-voorschot: dashboard-frontend staat — shell (sidebar/topbar/bottom-nav), `/dashboard` home (3 keuzes + uitgelicht), `/vault` browser (zoek, type-chips, empty states), 5 type-renderers, maturity provider (progressive disclosure), saved/copy via localStorage. Alles op demo-data in `lib/vault/demo-assets.ts` die het M2-schema spiegelt.
+- Branch: `feat/m1-homepage`. Verificatie: T2 groen (79 bestanden design gate); routes /, /galerij, /visueel, /methode, /learn, /dashboard, /vault → 200.
 
 ## Beslissingen (kort)
 
-- Clean successor van het oude Struq-repo; geen datamigratie. Bronrepo's: `../Struq` (code-donor), `../DesignOS` (canon-donor).
+- Clean successor; geen datamigratie. Donors: `../Struq` (code), `../DesignOS` (canon).
 - Enum bevroren op 5 visuele types; prompts zijn metadata. Silhouettes = presets in design_system.
-- Nederlands-only. Railway deploy. Freemium free|pro.
+- Nederlands-only, Railway, freemium free|pro.
+- Cold review niet verplicht; tier groen → direct mergen (Roy's besluit).
+- Galerij draait tijdelijk op gequarantainede demo-data (`lib/gallery/example-kits.ts`) tot M4 (DB-koppeling).
+- Admin studio + AI-generatie-engine bewust niet gekopieerd (later milestone).
 
 ## Laatste verificatie
 
-- Geen (docs-only; er is nog geen codebase — T0 n.v.t.)
+- T2 (typecheck + lint + verify:design) groen; handmatige route-check 200 op alle 7 routes.
 
 ## Volgende stap
 
-M1 slice 1: Next.js scaffold + configs + animatie-infra uit Struq kopiëren.
+M2: `lib/db/schema.ts` (5 types, assets+asset_media+kits+auth), Docker Postgres, `scripts/import-canon.ts` (24 paletten, typografie, 9 secties, silhouettes, 898 media) → dashboard demo-data vervangen door DB.
