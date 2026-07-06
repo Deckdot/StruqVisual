@@ -41,6 +41,10 @@ export function LabPromptCardArtifact({ replayKey = 0, compact }: ArtifactProps)
       mm.add('(prefers-reduced-motion: reduce)', () => {
         gsap.set(['[data-art-line]', '[data-art-stamp]'], { autoAlpha: 1 });
       });
+
+      // Tear down the global matchMedia conditions on unmount so a later
+      // ScrollTrigger.refresh() (curtain nav) can't re-run them against a stale DOM.
+      return () => mm.revert();
     },
     { scope: root, dependencies: [replayKey] }
   );

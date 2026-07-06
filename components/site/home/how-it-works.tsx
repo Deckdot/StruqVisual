@@ -58,6 +58,10 @@ export function HowItWorks() {
       mm.add('(prefers-reduced-motion: reduce)', () => {
         gsap.set('[data-flow-path]', { drawSVG: '0% 100%' });
       });
+
+      // Tear down the global matchMedia conditions on unmount so a later
+      // ScrollTrigger.refresh() (curtain nav) can't re-run them against a stale DOM.
+      return () => mm.revert();
     },
     { scope: root }
   );

@@ -138,6 +138,10 @@ export function Problem() {
         gsap.set('[data-d-mask] > *', { yPercent: 0 });
         gsap.set('[data-d-pop]', { scale: 1, autoAlpha: 1 });
       });
+
+      // Tear down the global matchMedia conditions on unmount so a later
+      // ScrollTrigger.refresh() (curtain nav) can't re-run them against a stale DOM.
+      return () => mm.revert();
     },
     { scope: root }
   );

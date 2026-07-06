@@ -71,6 +71,11 @@ export function HeroBlueprintArtifact({
         gsap.set(['[data-art-fade]', '[data-art-card]'], { autoAlpha: 1 });
         gsap.set('[data-art-squiggle] path', { drawSVG: '0% 100%' });
       });
+
+      // Tear down the global matchMedia conditions on unmount so a later
+      // ScrollTrigger.refresh() (curtain nav) can't re-run them against a stale DOM —
+      // the "[data-art-card] not found" source.
+      return () => mm.revert();
     },
     // Re-run the entrance whenever the replay key or motion params change.
     { scope: root, dependencies: [replayKey, motion?.duration, motion?.stagger, motion?.distance, motion?.ease] }

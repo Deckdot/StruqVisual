@@ -315,7 +315,7 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
           const scenes = new Map(cards.map((card) => [card, buildArrivalScene(card)]));
           const arrivalCalls: gsap.core.Tween[] = [];
 
-          ScrollTrigger.batch(cards, {
+          const batchTriggers = ScrollTrigger.batch(cards, {
             start: 'top 94%',
             once: true,
             onEnter: contextSafe((batch: Element[]) => {
@@ -331,12 +331,15 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
           // The wall's height changed (filter/mount); settle triggers below it.
           ScrollTrigger.refresh();
 
-          // Pending delayed calls + paused scene timelines outlive the GSAP
-          // context revert; kill them explicitly so nothing fires post-unmount
-          // and gets re-parented onto whatever page mounts next.
+          // Pending delayed calls, paused scene timelines, and the batch's own
+          // ScrollTriggers all outlive the GSAP context revert; kill them
+          // explicitly so nothing fires post-unmount (or after a curtain nav) and
+          // gets re-parented onto whatever page mounts next. batch() triggers are
+          // NOT owned by the matchMedia context, so they must be killed by hand.
           return () => {
             arrivalCalls.forEach((call) => call.kill());
             scenes.forEach((scene) => scene?.kill());
+            batchTriggers.forEach((trigger) => trigger.kill());
           };
         }
       );
@@ -357,6 +360,11 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
         });
         return () => cleanups.forEach((cleanup) => cleanup());
       });
+
+      // Tear down the global matchMedia conditions on unmount/filter-swap so a
+      // later ScrollTrigger.refresh() (curtain nav) can't re-run them against a
+      // stale DOM. revertOnUpdate already re-runs this body per filter change.
+      return () => mm.revert();
     },
     { dependencies: [visibleItems], revertOnUpdate: true, scope: gridRef }
   );

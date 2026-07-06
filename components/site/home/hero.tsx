@@ -69,6 +69,10 @@ export function Hero() {
         gsap.set(['[data-hero-fade]', '[data-hero-card]'], { autoAlpha: 1 });
         gsap.set('[data-hero-squiggle] path', { drawSVG: '0% 100%' });
       });
+
+      // Tear down the global matchMedia conditions on unmount so a later
+      // ScrollTrigger.refresh() (curtain nav) can't re-run them against a stale DOM.
+      return () => mm.revert();
     },
     { scope: root }
   );

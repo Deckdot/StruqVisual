@@ -78,6 +78,10 @@ export function Reveal({
           );
         }
       );
+
+      // Tear down the global matchMedia conditions on unmount so a later
+      // ScrollTrigger.refresh() (curtain nav) can't re-run them against a stale DOM.
+      return () => mm.revert();
     },
     { scope: ref }
   );

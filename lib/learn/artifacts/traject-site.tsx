@@ -44,6 +44,10 @@ export function TrajectSiteArtifact({ replayKey = 0, compact }: ArtifactProps) {
           scale: 1,
         });
       });
+
+      // Tear down the global matchMedia conditions on unmount so a later
+      // ScrollTrigger.refresh() (curtain nav) can't re-run them against a stale DOM.
+      return () => mm.revert();
     },
     { scope: root, dependencies: [replayKey] }
   );
