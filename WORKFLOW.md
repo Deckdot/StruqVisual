@@ -12,9 +12,19 @@
 
 **Regel: de laagste tier die de wijziging volledig dekt.** Nooit `build` of E2E "voor de zekerheid". De `quality` skill beslist bij twijfel.
 
+**E2E draaien (T4):** de Playwright-config heeft **geen `webServer`** — de app draait niet vanzelf. Start hem zelf en wijs de runner naar IPv4:
+
+```
+npm start                                    # of: npm run dev (aparte terminal)
+PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npx playwright test
+```
+
+Gebruik `127.0.0.1`, niet `localhost` — dat resolvet naar IPv6 `::1` en de dev-server bindt op IPv4, dus `localhost` geeft `ECONNREFUSED`. DB moet ook draaien: `npm run docker:up && npm run db:migrate:local && npm run db:seed` (demo-user is `pro`, nodig voor de gating-tests).
+
 ## Git & PR-strategie
 
 - Werken in **slices**: branch per slice (`feat/<milestone>-<slice>`, `fix/…`, `docs/…`), kleine PR's.
+- **GitHub is bedraad**: remote `origin` = `github.com/Deckdot/StruqVisual`, en de `gh` CLI is geauthenticeerd (account `Deckdot`). PR's aanmaken/mergen kan direct met `gh pr create` / `gh pr merge --squash --delete-branch` — niet elke keer opnieuw uitzoeken of de setup werkt. Eerdere slices landden als squash-merge (#1, #2, #3).
 - Gate per slice: **tier groen → merge/push.** Cold code review en menselijke verificatie zijn optioneel, op initiatief van Roy (bijv. `/code-review` op een grote slice) — geen verplichte gate.
 - PR-body (wanneer er een PR is) via `.github/PULL_REQUEST_TEMPLATE.md`, inclusief doc-drift checklist.
 - Schema-PR zonder gegenereerd migratiebestand = merge blokkeren (zie `database` skill).
