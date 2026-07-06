@@ -109,6 +109,9 @@ export const accounts = pgTable(
     scope: text('scope'),
     idToken: text('id_token'),
     sessionState: text('session_state'),
+    // Argon2 hash for the 'credentials' provider row (email/password). Null for
+    // OAuth accounts — only the credentials row uses it.
+    passwordHash: text('password_hash'),
   },
   (t) => [primaryKey({ columns: [t.provider, t.providerAccountId] })]
 );

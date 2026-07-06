@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState, type ReactNode } from 'react';
+import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from '@/components/theme-provider';
 import { MotionProvider } from '@/lib/motion/motion-context';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -24,14 +25,16 @@ export function Providers({ children }: { children: ReactNode }) {
   );
 
   return (
-    <MotionProvider>
-      <ThemeProvider defaultTheme="light" storageKey="struq-theme">
-        <QueryClientProvider client={queryClient}>
-          <TooltipProvider delayDuration={700} skipDelayDuration={250}>
-            <PageTransitionProvider>{children}</PageTransitionProvider>
-          </TooltipProvider>
-        </QueryClientProvider>
-      </ThemeProvider>
-    </MotionProvider>
+    <SessionProvider>
+      <MotionProvider>
+        <ThemeProvider defaultTheme="light" storageKey="struq-theme">
+          <QueryClientProvider client={queryClient}>
+            <TooltipProvider delayDuration={700} skipDelayDuration={250}>
+              <PageTransitionProvider>{children}</PageTransitionProvider>
+            </TooltipProvider>
+          </QueryClientProvider>
+        </ThemeProvider>
+      </MotionProvider>
+    </SessionProvider>
   );
 }

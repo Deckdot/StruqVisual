@@ -52,7 +52,7 @@ struq.nl is de Nederlandse visual-first bibliotheek + vault voor AI-native build
 - [ ] Learn platform overgenomen (`app/learn/`, `content/learn/`, admin studio)
 
 ### M5 — Auth, Stripe, MCP
-- [ ] Auth.js v5 (Google/GitHub OAuth + e-mail)
+- [x] Auth.js v5 (Google/GitHub OAuth + e-mail/wachtwoord). JWT-sessie met `tier`; favorites/icon-candidates DB-pad geactiveerd; sign-out in de shell.
 - [ ] Stripe freemium (free|pro), webhooks als bron van waarheid
 - [ ] MCP server (OAuth PKCE) met visual-first tool surface
 

@@ -1,7 +1,7 @@
 import '@/lib/db/env';
-import { eq, count } from 'drizzle-orm';
+import { and, eq, count } from 'drizzle-orm';
 import { db } from '@/lib/db/client';
-import { assets, assetMedia, users } from '@/lib/db/schema';
+import { assets, assetMedia, users, accounts } from '@/lib/db/schema';
 
 /**
  * Post-seed assertion. Exits non-zero if the DB does not hold exactly what the
@@ -43,12 +43,21 @@ async function main() {
   else console.log(`  ✓ asset_media    ${mediaRows}`);
 
   const demo = await db
-    .select({ tier: users.tier })
+    .select({ id: users.id, tier: users.tier })
     .from(users)
     .where(eq(users.email, DEMO_EMAIL));
   if (demo.length === 0) failures.push(`demo user ${DEMO_EMAIL} missing`);
   else if (demo[0].tier !== 'pro') failures.push(`demo user tier: expected pro, got ${demo[0].tier}`);
   else console.log(`  ✓ demo user      ${DEMO_EMAIL} (pro)`);
+
+  if (demo.length > 0) {
+    const cred = await db
+      .select({ hash: accounts.passwordHash })
+      .from(accounts)
+      .where(and(eq(accounts.userId, demo[0].id), eq(accounts.provider, 'credentials')));
+    if (cred.length === 0 || !cred[0].hash) failures.push('demo credentials account missing a password hash');
+    else console.log(`  ✓ demo login     credentials account present`);
+  }
 
   if (failures.length > 0) {
     console.error('\n✗ seed assertions FAILED:');

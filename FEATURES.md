@@ -37,8 +37,8 @@
 |---|---|
 | Datamodel + Drizzle/Postgres: schema (5 asset-types bevroren), custom per-file-migrator, seed + assert | live (M2) |
 | Repository-laag: getypeerde queries → `VaultAsset`; dashboard/vault/canon renderen uit DB | live (M2) |
-| Favorites + icon-candidates: DB-pad (route handlers) met localStorage-fallback (auth-cookie M5) | live (M2, dormant tot M5) |
-| Auth.js v5: Google/GitHub OAuth + e-mail (tabellen staan) | planned (M5) |
+| Favorites + icon-candidates: DB-pad (route handlers) met localStorage-fallback | live (M2 seam, M5 geactiveerd) |
+| Auth.js v5: Google/GitHub OAuth + e-mail/wachtwoord (JWT-sessie met `tier`, argon2, sign-out) | live (M5) |
 | Stripe freemium (free/pro) | planned (M5) |
 | MCP server (OAuth PKCE): assets zoeken/lezen, kits, saves vanuit je AI-tool — pro | planned (M5) |
 | Railway deploy, migraties automatisch bij start | planned (M6) |

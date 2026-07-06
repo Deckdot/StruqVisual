@@ -3,6 +3,7 @@
 import { useRef, useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import {
   gsap,
@@ -59,16 +60,21 @@ export function AuthClient() {
   const particleIntensityRef = useRef(0);
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [isAnimating, setIsAnimating] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const toggleMode = useCallback(() => {
-    if (isAnimating) return;
+    if (isAnimating || submitting) return;
+    setError(null);
     setMode((m) => (m === 'login' ? 'signup' : 'login'));
-  }, [isAnimating]);
+  }, [isAnimating, submitting]);
 
-  const handleSubmit = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      if (isAnimating) return;
+  // The cinematic success gesture (~2.1s) ending on the warm wash that becomes
+  // the dashboard curtain. Runs ONLY after a resolved successful sign-in.
+  const runSuccessHandoff = useCallback(() => {
       setIsAnimating(true);
 
       // === SUCCESS → DASHBOARD HANDOFF ===
@@ -166,17 +172,67 @@ export function AuthClient() {
       }, root);
 
       // Safety net: never strand the user on the wash if navigation is delayed.
-      const failSafe = window.setTimeout(() => {
+      window.setTimeout(() => {
         markHandoff();
         router.push('/dashboard');
       }, 2800);
 
-      return () => {
-        window.clearTimeout(failSafe);
-        ctx.revert();
-      };
+      // The context is intentionally not reverted here: the timeline must run to
+      // completion (it ends holding the wash) and the component unmounts on nav.
+      void ctx;
+  }, [router]);
+
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (isAnimating || submitting) return;
+      setError(null);
+      setSubmitting(true);
+
+      try {
+        if (mode === 'signup') {
+          const res = await fetch('/api/auth/signup', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ name, email, password }),
+          });
+          if (!res.ok) {
+            const data = (await res.json().catch(() => null)) as { error?: string } | null;
+            setError(data?.error ?? 'Aanmaken mislukt. Probeer het opnieuw.');
+            setSubmitting(false);
+            return;
+          }
+        }
+
+        // Establish the session (login, or right after a successful signup).
+        const result = await signIn('credentials', { email, password, redirect: false });
+        if (!result || result.error) {
+          setError(
+            mode === 'login'
+              ? 'E-mailadres of wachtwoord klopt niet.'
+              : 'Inloggen na aanmaken mislukt. Probeer opnieuw in te loggen.'
+          );
+          setSubmitting(false);
+          return;
+        }
+
+        // Success → play the cinematic handoff. It navigates to /dashboard.
+        runSuccessHandoff();
+      } catch {
+        setError('Er ging iets mis. Controleer je verbinding en probeer opnieuw.');
+        setSubmitting(false);
+      }
     },
-    [isAnimating, router]
+    [isAnimating, submitting, mode, name, email, password, runSuccessHandoff]
+  );
+
+  const handleOAuth = useCallback(
+    (provider: 'google' | 'github') => {
+      if (isAnimating || submitting) return;
+      // Full-page OAuth redirect; on return the user lands on /dashboard.
+      void signIn(provider, { callbackUrl: '/dashboard' });
+    },
+    [isAnimating, submitting]
   );
 
   /* -----------------------------------------------------------------------
@@ -559,8 +615,11 @@ export function AuthClient() {
                 <input
                   id="auth-name"
                   type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   placeholder="Je volledige naam"
                   autoComplete="name"
+                  required
                   className="h-12 w-full rounded-xl border px-4 text-[0.95rem] outline-none transition-all duration-200 focus:ring-2"
                   style={{
                     background: 'var(--sq-inverse)',
@@ -585,8 +644,11 @@ export function AuthClient() {
               <input
                 id="auth-email"
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="naam@voorbeeld.nl"
                 autoComplete="email"
+                required
                 className="h-12 w-full rounded-xl border px-4 text-[0.95rem] outline-none transition-all duration-200 focus:ring-2"
                 style={{
                   background: 'var(--sq-inverse)',
@@ -609,8 +671,12 @@ export function AuthClient() {
               <input
                 id="auth-password"
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Minimaal 8 tekens"
                 autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+                required
+                minLength={8}
                 className="h-12 w-full rounded-xl border px-4 text-[0.95rem] outline-none transition-all duration-200 focus:ring-2"
                 style={{
                   background: 'var(--sq-inverse)',
@@ -634,15 +700,33 @@ export function AuthClient() {
               </div>
             )}
 
+            {/* Error line */}
+            {error && (
+              <p
+                data-auth-form-el
+                role="alert"
+                className="text-sm leading-relaxed"
+                style={{ color: 'var(--sq-accent)' }}
+              >
+                {error}
+              </p>
+            )}
+
             {/* CTA */}
             <button
               data-auth-form-el
               data-auth-cta
               type="submit"
-              disabled={isAnimating}
+              disabled={isAnimating || submitting}
               className="sq-btn sq-btn-accent mt-1 h-12 w-full !rounded-xl !text-[0.95rem] transition-transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60"
             >
-              {mode === 'login' ? 'Inloggen' : 'Account aanmaken'}
+              {submitting
+                ? mode === 'login'
+                  ? 'Bezig met inloggen…'
+                  : 'Account aanmaken…'
+                : mode === 'login'
+                  ? 'Inloggen'
+                  : 'Account aanmaken'}
             </button>
 
             {/* Divider */}
@@ -654,11 +738,13 @@ export function AuthClient() {
               <div className="h-px flex-1" style={{ background: 'var(--sq-line-strong)' }} />
             </div>
 
-            {/* Social login placeholders */}
+            {/* Social login */}
             <div data-auth-form-el className="flex gap-3">
               <button
                 type="button"
-                className="flex h-12 flex-1 items-center justify-center gap-2.5 rounded-xl border text-sm font-medium transition-all duration-200 hover:brightness-110"
+                onClick={() => handleOAuth('google')}
+                disabled={isAnimating || submitting}
+                className="flex h-12 flex-1 items-center justify-center gap-2.5 rounded-xl border text-sm font-medium transition-all duration-200 hover:brightness-110 disabled:opacity-60"
                 style={{
                   background: 'var(--sq-inverse)',
                   borderColor: 'var(--sq-line-strong)',
@@ -689,7 +775,9 @@ export function AuthClient() {
 
               <button
                 type="button"
-                className="flex h-12 flex-1 items-center justify-center gap-2.5 rounded-xl border text-sm font-medium transition-all duration-200 hover:brightness-110"
+                onClick={() => handleOAuth('github')}
+                disabled={isAnimating || submitting}
+                className="flex h-12 flex-1 items-center justify-center gap-2.5 rounded-xl border text-sm font-medium transition-all duration-200 hover:brightness-110 disabled:opacity-60"
                 style={{
                   background: 'var(--sq-inverse)',
                   borderColor: 'var(--sq-line-strong)',

@@ -1,19 +1,21 @@
-import { cookies } from 'next/headers';
+import { auth } from '@/lib/auth';
+import type { AssetTier } from '@/lib/vault/types';
 
 /**
- * Minimal session seam for M2. Full Auth.js lands in M5; until then a signed-in
- * user is identified by a `struq_uid` cookie holding the users.id UUID. Nothing
- * sets this cookie yet, so `getSessionUserId()` returns null in this slice and
- * the client hooks fall back to localStorage — the DB-backed favorites path is
- * wired and dormant, ready for M5 to flip on by issuing the cookie at login.
+ * Server-side session helpers. Backed by Auth.js (NextAuth v5, JWT strategy) —
+ * `auth()` reads the session cookie. The M2 route handlers (favorites,
+ * icon-candidates) call `getSessionUserId()` and 401 when null; now that a real
+ * login issues a session, those DB paths activate with no change to their bodies.
  */
 
-const UID_COOKIE = 'struq_uid';
-
 export async function getSessionUserId(): Promise<string | null> {
-  const store = await cookies();
-  const uid = store.get(UID_COOKIE)?.value;
-  return uid && uid.length > 0 ? uid : null;
+  const session = await auth();
+  return session?.user?.id ?? null;
 }
 
-export { UID_COOKIE };
+/** id + tier for server-side tier gating (free vs pro). */
+export async function getSessionUser(): Promise<{ id: string; tier: AssetTier } | null> {
+  const session = await auth();
+  if (!session?.user?.id) return null;
+  return { id: session.user.id, tier: session.user.tier ?? 'free' };
+}
