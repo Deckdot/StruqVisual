@@ -5,11 +5,12 @@
     "database": "0edec65215c3d4454110bb256a3397f20ac95a50e848709ef95fc16c17d37c71",
     "frontend": "e51a203adbd97f29e0bf714cdfbfb396b3b421079017f54c73e93b049bb13f6f",
     "github": "85973b675ce76bc461e6b18734ce44b54469607a9c1238b4a41b9e8febbbbab1",
-    "master-orchestrator": "fc6c83bc150c8958e7c54dc27279bcf5baec78b52efe3a674764c2c3dd3405da",
+    "master-orchestrator": "9ec322fbb8109680f7468c6bcd1354836fe8dd6a51cfa79783dc04ee0bc40ecf",
     "mcp": "13d9785c3be53fbd3777b3fe2828523518034695a698305be0ae02c67bdf69ad",
     "onboarding": "e1938b3ec415ba0da75ca2d498e732ca9c91f237972dd3aee868eb5d027ca493",
     "psychology": "c48bb2821fef80e4fb4f9ca95d48bc1958449d018a2e8419f5bb08a045c543a7",
-    "quality": "b5335b44edabdde1977ada585efcdc246b3c30ffd6ed9b6594172ae95b6aec8f"
+    "quality": "b5335b44edabdde1977ada585efcdc246b3c30ffd6ed9b6594172ae95b6aec8f",
+    "railway": "68a85fbdb09a8ffa5342f7d0a3ce5e2f8b54cd965cbfd0dedcb9c58ba8035f97"
   },
   "mtimes": {
     "backend": 1783232933169466100,
@@ -17,11 +18,12 @@
     "database": 1783232953812360300,
     "frontend": 1783232913024520000,
     "github": 1783241326446741800,
-    "master-orchestrator": 1783233307922545600,
+    "master-orchestrator": 1783313860404210400,
     "mcp": 1783232982906164300,
     "onboarding": 1783233011262574700,
     "psychology": 1783233098193776000,
-    "quality": 1783232993633679500
+    "quality": 1783232993633679500,
+    "railway": 1783313868823281100
   },
-  "updated_at": "2026-07-06T03:24:17.4329+02:00"
+  "updated_at": "2026-07-06T06:57:54.6356119+02:00"
 }

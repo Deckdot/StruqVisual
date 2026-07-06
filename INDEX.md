@@ -21,6 +21,7 @@
 - `.skillshare/skills/` — **canonieke** skills; alleen hier bewerken, daarna `skillshare sync`
   - `master-orchestrator/` — verplichte startup: scope-classificatie, lane-routing, handoff-regels
   - `frontend/` · `backend/` · `database/` · `mcp/` · `github/` · `quality/` — domeinregels
+  - `railway/` — deploy-SOP: Railway CLI-linking, log/crash-debugging, env-vars, bekende faalsignaturen
   - `brandvoice/` — Nederlandse copy-canon + Struq-stem
   - `psychology/` — UX/persuasie-gate voor elke interactie
   - `onboarding/` — activatie, first-run, tours

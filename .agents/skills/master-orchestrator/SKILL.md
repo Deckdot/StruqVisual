@@ -30,6 +30,7 @@ Load **only** the matching skill.
 | migration, Drizzle, schema.ts, DB column, index, foreign key, seed, import pipeline | `database` |
 | MCP, OAuth, token, PKCE, .well-known, mcp.json, client setup | `mcp` |
 | git, branch, PR, commit, merge, review | `github` |
+| railway, deploy, deployment, crash, build failed, ENOTFOUND, migration failed, logs, env var, container, redeploy, live site down | `railway` |
 | copy, marketing text, verkooptekst, headline, CTA, tagline, microcopy | `brandvoice` |
 | onboarding, signup flow, first-run, welcome, tour, activation | `onboarding` |
 | friction, disclosure, unlock, conversion, pricing psychology, nudge, "why would a user…" | `psychology` |
@@ -55,6 +56,7 @@ If in doubt, any task naming both a component and an API route/schema is cross-d
 - `mcp` — MCP server, OAuth PKCE, protected-resource metadata, client setup
 - `quality` — verification tier selection, e2e scope, regression strategy
 - `github` — git/PR safety, slice workflow, review gates
+- `railway` — deploy operating SOP: CLI linking, log/crash debugging, env vars, known failure signatures
 - `brandvoice` — Dutch product voice for all user-visible text
 - `onboarding` — first-run experience, activation, progressive disclosure entry points
 - `psychology` — interaction/persuasion review gate for every UX-facing change
@@ -65,7 +67,11 @@ If in doubt, any task naming both a component and an API route/schema is cross-d
 
 - **Always load the `github` skill before any git/GitHub command** (commit, push, branch, PR, merge).
 - **Before opening a PR: run the tier the change requires (see WORKFLOW.md) — T4 for user-flow changes, no exceptions.**
-- `.skillshare/skills/` is canonical — never edit skill mirrors (`.claude/skills/`, `.agents/skills/`, `.agent/skills/`); run `skillshare sync` after any skill change.
+- **Skill edits → sync is mandatory and automatic.** `.skillshare/skills/` is canonical — never edit the mirrors (`.claude/skills/`, `.agents/skills/`, `.agent/skills/`); they are generated. The `skillshare` CLI is **always installed and available** on this machine. Immediately after editing/adding/removing ANY skill under `.skillshare/skills/`, run the sync yourself in the same turn — do not wait to be asked, do not leave the mirrors stale:
+  - `skillshare sync` — regenerate all mirrors from canonical (run this after every skill change)
+  - `skillshare status` — check whether mirrors are in sync (use if unsure)
+  - `skillshare audit` — validate skills (config blocks at `CRITICAL`)
+  Targets/config live in `.skillshare/config.yaml`. A skill change is not "done" until `skillshare sync` has run.
 - Doc ownership: `FEATURES.md` owns capability inventory · `PRODUCT.md` owns what we sell · `CUSTOMER.md` owns who we sell to · `DESIGN.md` owns tokens + motion registers · `NORTHSTAR.md` owns roadmap + checkboxes · `WORKFLOW.md` owns verification + git + doc guardrails · `INDEX.md` owns the file map · domain skills own implementation rules.
 - **Hard constraints (never violate):** the `asset_type` enum is exactly `palette | typography | design_system | section | media`; prompts are metadata fields, never an asset type; previews are static media only (image/GIF/short muted video/URL) — never live-rendered dependencies; marketing register (Lenis/GSAP cinematic) and app register (120–220ms, no parallax, no monospace) never mix.
 - All user-facing text is Dutch. Code and identifiers are English; repo docs are Dutch or English, never mixed within a file's body.

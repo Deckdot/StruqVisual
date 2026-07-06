@@ -36,6 +36,13 @@
 - Eerder (M3-gating): T4 groen, e2e 16/16 (gating/auth/vault); details in git-historie.
 - Uitgesteld (M5, latere slices): Stripe-webhooks (de echte tier-bron; `/pro` markeert "binnenkort"), MCP-server, wachtwoord-reset/e-mailverificatie, media-object-storage upload. Seams staan.
 
+## Deployment (Railway — LIVE)
+
+- Project `StruqV` → env `production` → services `StruqVisual` (app) + `Postgres` (PG18 SSL). Deploy-trigger: push naar GitHub `Deckdot/StruqVisual` main. Live op `https://struqvisual-production.up.railway.app` (custom domain `struq.nl` nog niet gekoppeld).
+- Opgeloste deploy-bugs: (1) build-crash `DATABASE_URL is not set` → lazy DB-client (Proxy) in `lib/db/client.ts`; (2) runtime-500 `Unsupported database type` in Auth.js-adapter → adapter krijgt `getDb()` i.p.v. de proxy (`lib/auth.ts`); (3) migrator `ENOTFOUND host` → `DATABASE_URL_MIGRATION` was placeholder, nu `${{Postgres.DATABASE_URL}}`. `AUTH_URL`/`NEXT_PUBLIC_APP_URL` naar live-URL gezet. `JWTSessionError` = onschuldige oude-cookie-log.
+- **Openstaand:** Railway-DB is leeg — canon-import + seed nog NIET tegen prod gedraaid (search geeft `[]`). Env hergebruikt uit oude Struq: OAuth (Google/GitHub) + OpenCode Go; Stripe bewust nog niet gezet. OAuth-callback-URLs moeten nog in Google/GitHub-console op de live-URL.
+- Nieuwe `railway`-skill (SOP voor CLI-debugging) toegevoegd + in orchestrator-routing; skillshare-sync-regel aangescherpt (auto-sync na skill-edit).
+
 ## Volgende stap
 
-M5 vervolg: Stripe freemium (checkout + webhooks als bron van waarheid, `tier` sync; `/pro` afrekening live). Of M4 (publieke galerij SSR + SEO uit de assets-DB).
+Canon-import + seed tegen de Railway-DB draaien (search vullen). Dan M5 vervolg: Stripe freemium, of M4 (publieke galerij SSR uit de assets-DB).
