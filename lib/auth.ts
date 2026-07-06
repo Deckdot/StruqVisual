@@ -6,7 +6,7 @@ import Credentials from 'next-auth/providers/credentials';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import { and, eq } from 'drizzle-orm';
 import { verify as argon2Verify } from '@node-rs/argon2';
-import { db } from '@/lib/db/client';
+import { db, getDb } from '@/lib/db/client';
 import { users, accounts, sessions, verificationTokens } from '@/lib/db/schema';
 import type { AssetTier } from '@/lib/vault/types';
 
@@ -167,7 +167,9 @@ if (hasDatabase) {
   // Cast: our schema uses camelCase column keys with snake_case DB names, which
   // the adapter's default structural type (expecting snake_case keys) rejects
   // even though the runtime column mapping is correct.
-  authConfig.adapter = DrizzleAdapter(db, {
+  // The adapter introspects the client to detect the SQL dialect, which the
+  // lazy `db` Proxy defeats — pass the resolved Drizzle instance instead.
+  authConfig.adapter = DrizzleAdapter(getDb(), {
     usersTable: users,
     accountsTable: accounts as any,
     sessionsTable: sessions,
