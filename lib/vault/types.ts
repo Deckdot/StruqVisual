@@ -51,11 +51,21 @@ export type VaultAsset = {
   slug: string;
   name: string;
   description: string;
-  /** The copyable AI payload — metadata on the visual asset, never the entity. */
+  /**
+   * The copyable AI payload — metadata on the visual asset, never the entity.
+   * Server-gated: blanked to '' for a Pro asset the viewer isn't entitled to
+   * (see `locked`). The visual preview still ships; only the payload is withheld.
+   */
   prompt: string;
   data: AssetData;
   tier: AssetTier;
   tags: string[];
+  /**
+   * True when this is a Pro asset and the current viewer is on the free tier.
+   * The repository (the single gate) strips `prompt` and sets this; the UI reads
+   * it to tease the preview and route copy through the entitlement check.
+   */
+  locked: boolean;
 };
 
 export const TYPE_META: Record<AssetType, { label: string; labelPlural: string }> = {
