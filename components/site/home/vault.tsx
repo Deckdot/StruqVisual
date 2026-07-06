@@ -25,15 +25,6 @@ const VAULT_POINTS = [
   },
 ];
 
-const MOCK_ASSETS = [
-  { label: 'Hero · Stil en groots', tone: 'var(--sq-accent-wash)', chip: 'var(--sq-accent)' },
-  { label: 'Palet · Warm papier', tone: 'var(--sq-inverse-raised)', chip: 'var(--sq-accent)' },
-  { label: 'Reveal · Zachte entree', tone: 'var(--sq-inverse-raised)', chip: 'var(--sq-accent)' },
-  { label: 'CLAUDE.md · Basis', tone: 'var(--sq-inverse-raised)', chip: 'var(--sq-accent)' },
-  { label: 'Buttons · Magnetisch', tone: 'var(--sq-inverse-raised)', chip: 'var(--sq-accent)' },
-  { label: 'Type · Comfortaa-schaal', tone: 'var(--sq-accent-wash)', chip: 'var(--sq-accent)' },
-];
-
 export function Vault() {
   return (
     <section
@@ -80,62 +71,21 @@ export function Vault() {
           </Reveal>
         </div>
 
-        {/* Vault UI sketch — inverse panel so the product feels like a cockpit */}
+        {/* Vault product film — replaces the static UI sketch with the real thing */}
         <Reveal y={64}>
           <div
-            className="sq-panel-inverse relative overflow-hidden p-4 md:p-6"
+            className="sq-panel-inverse relative overflow-hidden p-2 md:p-3"
             style={{ boxShadow: 'var(--sq-shadow-float)' }}
           >
-            <div className="flex gap-4">
-              {/* Sidebar */}
-              <div className="hidden w-36 shrink-0 flex-col gap-2 sm:flex">
-                <p className="sq-display px-3 py-2 text-sm font-semibold" style={{ color: 'var(--sq-inverse-ink)' }}>
-                  struq<span style={{ color: 'var(--sq-accent)' }}>.</span>
-                </p>
-                {['Vault', 'Kits', 'Projecten', 'Favorieten'].map((item, index) => (
-                  <span
-                    key={item}
-                    className="rounded-lg px-3 py-2 text-sm"
-                    style={{
-                      background: index === 0 ? 'color-mix(in srgb, var(--sq-accent) 18%, transparent)' : 'transparent',
-                      color: index === 0 ? 'var(--sq-accent)' : 'var(--sq-inverse-soft)',
-                      fontWeight: index === 0 ? 700 : 500,
-                    }}
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-
-              {/* Asset grid */}
-              <div className="grid flex-1 grid-cols-2 gap-3 md:grid-cols-3">
-                {MOCK_ASSETS.map((asset) => (
-                  <div
-                    key={asset.label}
-                    className="rounded-xl p-4"
-                    style={{ background: 'color-mix(in srgb, var(--sq-inverse-ink) 6%, transparent)' }}
-                  >
-                    <span className="block h-2 w-8 rounded-full" style={{ background: asset.chip }} />
-                    <p className="mt-4 text-[0.8125rem] font-semibold leading-snug" style={{ color: 'var(--sq-inverse-ink)' }}>
-                      {asset.label}
-                    </p>
-                    <p className="mt-1 text-xs" style={{ color: 'var(--sq-inverse-soft)' }}>
-                      Klaar om te plakken
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Floating kit card overlapping the panel edge */}
-            <div
-              className="sq-panel absolute -bottom-5 -right-4 w-56 rotate-[-2deg] p-5 md:-right-6"
-              style={{ boxShadow: 'var(--sq-shadow-float)' }}
-            >
-              <p className="sq-eyebrow !text-[0.6875rem]">Kit</p>
-              <p className="mt-2 font-bold">Landingspagina compleet</p>
-              <p className="sq-faint mt-1">8 assets · 1 klik</p>
-            </div>
+            <video
+              className="aspect-video w-full rounded-2xl object-cover"
+              src="/video/struq-film.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+            />
           </div>
         </Reveal>
       </div>

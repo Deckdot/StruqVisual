@@ -215,6 +215,12 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const [covering, setCovering] = useState(false);
 
   // Reveal (cover out) whenever the path actually changes while covered.
+  //
+  // Depend on `pathname` ONLY. `covering` is intentionally excluded: including it
+  // fires this effect the instant `setCovering(true)` runs (during the cover-in),
+  // revealing before the new route has committed — the curtain wipes back open
+  // over the OLD page and the whole transition looks broken. Keying strictly on
+  // the committed pathname is what hides the route swap behind the cover.
   useEffect(() => {
     if (!covering) return;
     const p = panel.current;
@@ -226,7 +232,8 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
     return () => {
       t.kill();
     };
-  }, [pathname, covering]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   const navigate = useCallback(
     (href: string, opts?: NavOpts) => {

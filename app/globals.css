@@ -1332,6 +1332,10 @@ html {
   text-decoration: none;
 }
 
+.sq-link-nav {
+  font-weight: 500;
+}
+
 .sq-link::after {
   content: '';
   position: absolute;

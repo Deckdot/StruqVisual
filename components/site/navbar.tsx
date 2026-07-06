@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { href: '/visueel', label: 'Wat je maakt' },
   { href: '/methode', label: 'De methode' },
   { href: '/learn', label: 'Learn' },
+  { href: '/gids', label: 'Gidsen' },
   { href: '/#prijzen', label: 'Prijzen' },
 ];
 
@@ -71,7 +72,7 @@ export function SiteNavbar({ theme, onToggleTheme }: SiteNavbarProps) {
                 <TransitionLink
                   key={link.href}
                   href={link.href}
-                  className="sq-link text-[0.9375rem]"
+                  className="sq-link sq-link-nav text-[0.9375rem]"
                   aria-current={pathname === link.href ? 'page' : undefined}
                 >
                   {link.label}

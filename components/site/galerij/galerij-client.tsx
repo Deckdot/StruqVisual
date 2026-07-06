@@ -313,6 +313,7 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
 
           gsap.set(cards, { autoAlpha: 0, y: 48 });
           const scenes = new Map(cards.map((card) => [card, buildArrivalScene(card)]));
+          const arrivalCalls: gsap.core.Tween[] = [];
 
           ScrollTrigger.batch(cards, {
             start: 'top 94%',
@@ -320,13 +321,23 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
             onEnter: contextSafe((batch: Element[]) => {
               gsap.to(batch, { autoAlpha: 1, y: 0, duration: 0.8, ease: EASE_OUT, stagger: 0.08, overwrite: true });
               batch.forEach((el, index) => {
-                gsap.delayedCall(0.08 * index + 0.15, () => scenes.get(el as HTMLElement)?.play());
+                arrivalCalls.push(
+                  gsap.delayedCall(0.08 * index + 0.15, () => scenes.get(el as HTMLElement)?.play())
+                );
               });
             }),
           });
 
           // The wall's height changed (filter/mount); settle triggers below it.
           ScrollTrigger.refresh();
+
+          // Pending delayed calls + paused scene timelines outlive the GSAP
+          // context revert; kill them explicitly so nothing fires post-unmount
+          // and gets re-parented onto whatever page mounts next.
+          return () => {
+            arrivalCalls.forEach((call) => call.kill());
+            scenes.forEach((scene) => scene?.kill());
+          };
         }
       );
 
