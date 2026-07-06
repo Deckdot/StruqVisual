@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, X } from 'lucide-react';
-import { DEMO_ASSETS } from '@/lib/vault/demo-assets';
-import { TYPE_META } from '@/lib/vault/types';
+import { TYPE_META, type AssetType } from '@/lib/vault/types';
+
+type SearchResult = { id: string; name: string; type: AssetType };
 
 /**
  * Global search in the app header (DesignOS pattern): a quiet pill that
@@ -17,6 +18,7 @@ export function GlobalSearch() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
+  const [results, setResults] = useState<SearchResult[]>([]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -41,15 +43,27 @@ export function GlobalSearch() {
     return () => window.removeEventListener('mousedown', onClick);
   }, []);
 
-  const results = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return [];
-    return DEMO_ASSETS.filter(
-      (a) =>
-        a.name.toLowerCase().includes(q) ||
-        a.description.toLowerCase().includes(q) ||
-        a.tags.some((tag) => tag.toLowerCase().includes(q))
-    ).slice(0, 6);
+  // Debounced fetch against the repository-backed route handler; the client
+  // can't query the DB directly (server-only SQL lives in lib/db/repository.ts).
+  useEffect(() => {
+    const q = query.trim();
+    if (!q) {
+      setResults([]);
+      return;
+    }
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => {
+      fetch(`/api/assets/search?q=${encodeURIComponent(q)}`, { signal: controller.signal })
+        .then((res) => (res.ok ? res.json() : { results: [] }))
+        .then((data: { results: SearchResult[] }) => setResults(data.results ?? []))
+        .catch(() => {
+          /* aborted or offline — leave prior results */
+        });
+    }, 150);
+    return () => {
+      controller.abort();
+      window.clearTimeout(timer);
+    };
   }, [query]);
 
   const goToLibrary = (q: string) => {

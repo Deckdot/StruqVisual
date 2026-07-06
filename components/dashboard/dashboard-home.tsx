@@ -6,31 +6,26 @@ import { AssetCard } from '@/components/vault/asset-card';
 import { DashboardReveal } from '@/components/dashboard/dashboard-reveal';
 import { useMaturity } from '@/components/maturity-provider';
 import { useSavedAssets } from '@/hooks/use-saved-assets';
-import { DEMO_ASSETS } from '@/lib/vault/demo-assets';
-import type { PaletteData } from '@/lib/vault/types';
+import type { PaletteData, VaultAsset } from '@/lib/vault/types';
 import { cn } from '@/lib/utils';
 
 /**
  * Quiet, gallery-like home (Hick's Law: exactly three destinations).
  * The featured strip makes the library the hero (Von Restorff) and puts the
- * first save within one scroll of landing (≤30s principle).
+ * first save within one scroll of landing (≤30s principle). Featured assets
+ * arrive from the DB via the server page.
  */
 
-const paletteLookup = (ref: string): PaletteData | undefined =>
-  DEMO_ASSETS.find((a) => a.type === 'palette' && a.slug === ref)?.data as PaletteData | undefined;
-
-const FEATURED_IDS = [
-  'palette-graphite-ivory',
-  'typography-editorial-sans-precision',
-  'system-editorial-restrained',
-  'section-hero-cinematic',
-];
-
-export function DashboardHome() {
+export function DashboardHome({
+  featured,
+  palettes,
+}: {
+  featured: VaultAsset[];
+  palettes: Record<string, PaletteData>;
+}) {
+  const paletteLookup = (ref: string): PaletteData | undefined => palettes[ref];
   const { savedIds } = useSavedAssets();
   const { level } = useMaturity();
-
-  const featured = DEMO_ASSETS.filter((a) => FEATURED_IDS.includes(a.id));
 
   const destinations = [
     {

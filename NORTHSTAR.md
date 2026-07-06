@@ -33,11 +33,12 @@ struq.nl is de Nederlandse visual-first bibliotheek + vault voor AI-native build
 - [ ] Verification-scripts in package.json (T0–T4)
 
 ### M2 — Datamodel + canon-import
-- [ ] `lib/db/schema.ts`: 5 asset types, assets (met `prompt` + `data` jsonb + `tier`), asset_media, kits, favorites, auth-tabellen, subscriptions, mcp_tokens
-- [ ] Docker Postgres + migraties + custom per-file-transactie migrator
-- [ ] `scripts/import-canon.ts` (idempotent): 24 paletten, typografie-systemen, 9 sectie-kinds, silhouettes → design_system presets, 898 media
-- [ ] Media-bestanden import + groottebeslissing (repo vs object storage)
-- [ ] Seed-assert script (aantallen per type)
+- [x] `lib/db/schema.ts`: 5 asset types, assets (met `prompt` + `data` jsonb + `tier`), asset_media, kits, favorites, auth-tabellen (users/accounts/sessions/verification_tokens), imported_icon_candidates. Subscriptions + mcp_tokens blijven M5.
+- [x] Docker Postgres + migraties + custom per-file-transactie migrator (`scripts/db-migrate.ts`)
+- [x] `scripts/import-canon.ts` (idempotent): 29 paletten, 2 typografie-pairings, 9 sectie-kinds, 5 silhouettes → design_system presets, 898 media (metadata + canon_path)
+- [ ] Media-bestanden import + groottebeslissing (repo vs object storage) — uitgesteld; alleen metadata + `canon_path` deze slice, seam voor object-storage upload staat
+- [x] Seed-assert script (aantallen per type)
+- [x] Repository-laag + dashboard/vault/canon renderen uit Postgres (demo-data verwijderd); localStorage→DB-pad voor favorites + icon-candidates (auth-flow M5)
 
 ### M3 — Vault/dashboard UX
 - [ ] Dashboard shell `app/(dashboard)/`: rustige galerij-home, 3–4 keuzes
