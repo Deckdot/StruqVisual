@@ -9,9 +9,8 @@ description: >
 
 ## Slice Workflow
 
-- `main` is protected; never commit to it directly.
-- Work in **slices**: one branch per slice, named `feat/<milestone>-<slice>` (or `fix/…`, `docs/…`). Small, mergeable PRs.
-- Every PR follows the gate order: **tier verification green → cold code review → human verify → merge.** The cold review is done by a reviewer session/agent without build-up context. Never self-merge around a gate.
+- Work in **slices**: one branch per slice, named `feat/<milestone>-<slice>` (or `fix/…`, `docs/…`). Small, mergeable units.
+- Gate per slice: **tier verification green → merge/push directly.** Cold code review and human verification are optional and Roy-initiated (e.g. `/code-review` on a big slice) — not a mandatory gate.
 
 ## PR Rules
 
