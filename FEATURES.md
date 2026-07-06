@@ -31,6 +31,9 @@
 |---|---|
 | Marketing-homepage (cinematisch: Lenis/GSAP/Three.js, Nederlands) | planned (M1) |
 | Publieke galerij, SSR + SEO-geïndexeerd, "Bewaar in je vault" → signup | planned (M4) |
+| Galerij-redesign: art-directed grote-kaart wand, per-categorie previews (palet/typografie/richting/prompt), hover-scènes, rijke overlay (demo-data tot M4) | live |
+| AEO/SEO-fundament: sitemap + robots (AI-crawlers welkom) + llms.txt | live |
+| Gids-cluster `/gids`: 3 AEO-gidsen (vibe coding, mooie website met AI, design-prompts) met Article/FAQPage JSON-LD; strategie in `SEO.md` | live |
 | Learn platform (lessen + admin studio) | planned (M4) |
 
 ## Platform

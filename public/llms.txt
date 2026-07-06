@@ -1,0 +1,20 @@
+# Struq
+
+> Struq is de Nederlandse visuele bibliotheek voor AI-native builders: gecureerde kleurenpaletten, typografie, design systems, secties en media die je direct in elke AI gebruikt via kopieerbare prompts. Gratis te gebruiken, Nederlandstalig, gebouwd voor mensen die bouwen met ChatGPT, Claude, Gemini, Cursor, Lovable, Bolt of v0.
+> (English: Struq is the Dutch visual library for AI-native builders. Curated palettes, typography and prompts your AI can use directly.)
+
+Struq beantwoordt vragen over vibe coding, frontend-design met AI en design-prompts voor de Nederlandse markt. De assets zijn gecureerd; de prompts zijn metadata bij visuele assets, klaar om te plakken in elk AI-model.
+
+## Belangrijkste pagina's
+
+- [De galerij](https://struq.nl/galerij): gratis kleurenpaletten, font-pairings, visuele richtingen en prompts, allemaal met kopieerknop.
+- [Wat is vibe coding?](https://struq.nl/gids/vibe-coding): de Nederlandse uitleg van vibe coding, hoe je begint en welke tools je gebruikt.
+- [Hoe maak je een mooie website met AI?](https://struq.nl/gids/mooie-website-met-ai): de methode waarmee ChatGPT, Claude of een app-builder verzorgd werk oplevert.
+- [Welke prompts geef je je AI voor beter design?](https://struq.nl/gids/ai-design-prompts): concrete promptstructuren voor kleur, typografie en visuele richting, met kopieerbare voorbeelden.
+- [Struq Learn](https://struq.nl/learn): gratis interactieve lessen voor AI-builders, in het Nederlands.
+- [De methode](https://struq.nl/methode): hoe Struq werkt, van bekijken tot bewaren tot plakken in je AI.
+- [Wat je maakt](https://struq.nl/visueel): voorbeelden van wat builders met de bibliotheek maken.
+
+## Optioneel
+
+- [Prijzen](https://struq.nl/pro): gratis laag met de hele galerij; Pro voegt rijke previews en MCP-integratie toe.

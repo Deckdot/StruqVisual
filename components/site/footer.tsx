@@ -9,15 +9,16 @@ const FOOTER_COLUMNS = [
   {
     title: 'Ontdek',
     links: [
+      { href: '/galerij', label: 'De galerij' },
       { href: '/visueel', label: 'Wat je maakt' },
       { href: '/methode', label: 'De methode' },
       { href: '/#prijzen', label: 'Prijzen' },
-      { href: '/learn', label: 'Learn' },
     ],
   },
   {
     title: 'Lezen',
     links: [
+      { href: '/gids', label: 'Gidsen' },
       { href: '/learn', label: 'Gratis lessen' },
       { href: '/privacy-policy', label: 'Privacy' },
     ],

@@ -13,6 +13,7 @@
 - `CUSTOMER.md` — de perfecte klant + anti-personas
 - `FEATURES.md` — capability-inventaris met status per feature
 - `DESIGN.md` — design-taal + motion-registers (stub tot M1)
+- `SEO.md` — AEO/SEO-strategie: schrijfregels, vragenkaart, pillar-cluster, gids-backlog
 - `WORKFLOW.md` — verification tiers, git/PR-strategie, doc-drift regels
 
 ## Skills
@@ -51,6 +52,15 @@
 - `app/api/auth/signup/route.ts` — e-mail/wachtwoord-registratie (argon2)
 - `components/site/auth/auth-client.tsx` — bedrade cinematische login (behoudt de handoff)
 - `SessionProvider` in `app/providers.tsx`; sign-out in `components/dashboard/sidebar.tsx`
+
+## SEO/AEO (gids-cluster)
+
+- `app/sitemap.ts` · `app/robots.ts` — sitemap + robots (AI-crawlers expliciet welkom)
+- `public/llms.txt` — LLM-kaart van de site (llmstxt-formaat)
+- `lib/gids/guides.ts` — getypeerde gids-content (`GUIDES`), AEO-regels in SEO.md
+- `app/gids/` — hub + `[slug]`-route met Article/FAQPage/Breadcrumb JSON-LD
+- `components/site/gids/` — `guide-article.tsx` (renderer) + `gids-index.tsx` (hub)
+- `lib/seo/` — metadata-factory, schema-generators, SITE_URL-config
 
 ## Overig
 
