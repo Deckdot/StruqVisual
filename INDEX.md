@@ -39,15 +39,18 @@
 - `lib/db/client.ts` — postgres.js pool + Drizzle-client (HMR-singleton)
 - `lib/db/env.ts` — env-bootstrap voor standalone db-scripts (.env.local)
 - `lib/db/repository.ts` — getypeerde query-laag, rijen → `VaultAsset` (enige plek met asset-SQL)
+- `lib/media/railway-bucket.ts` — Railway Bucket client + presigned read-URLs + upload helpers
 - `lib/db/seed.ts` — idempotente upsert van demo (`demo@struq.nl`, pro) + admin (`admin@struq.nl`, pro+isAdmin) credentials-accounts; env-overridable via `E2E_*` en `ADMIN_*`
 - `lib/auth/session.ts` — server-side sessie-helpers (`getSessionUserId`/`getSessionUser`) op de Auth.js-sessie; `getSessionUser` exposeert `id`+`tier`+`isAdmin`
 - `drizzle/` — gegenereerde migraties + `meta/_journal.json` (nooit met de hand bewerken)
 - `scripts/db-migrate.ts` — custom per-file-transactie migrator (enum ADD VALUE-veilig)
 - `scripts/import-canon.ts` — idempotente canon-import uit `../DesignOS` (upsert op provenance)
+- `scripts/upload-media-to-bucket.ts` — eenmalige/idempotente Railway Bucket-upload uit `../DesignOS/apps/designos/public` via `asset_media.canon_path`
 - `scripts/seed-assert.ts` — asserteert exacte counts per type + admin/demo accounts (pro + isAdmin + credentials)
 - `scripts/verify-admin.ts` — rooktest dat `ADMIN_PASSWORD` verifieert tegen de stored argon2-hash (draait op elke DB via env)
-- `app/api/assets/search/` · `app/api/assets/[id]/prompt/` (entitlement-gated kopieer-payload) · `app/api/favorites/` · `app/api/icon-candidates/` — route handlers op de repository
+- `app/api/assets/` (gepagineerde vault-feed) · `app/api/assets/search/` · `app/api/assets/[id]/prompt/` (entitlement-gated kopieer-payload) · `app/api/favorites/` · `app/api/icon-candidates/` · `app/api/media/[assetId]/` (redirect naar presigned Railway Bucket media) — route handlers op de repository/storage seam
 - `app/(dashboard)/pro/` — contextuele Pro-upgrade-uitleg (bereikt vanaf een locked asset, niet uit de nav)
+- `components/providers/saved-assets-provider.tsx` — gedeelde saved-state voor de hele dashboard-shell (anoniem localStorage, ingelogd DB, migratie exact één keer)
 
 ## Auth (M5, slice 1)
 

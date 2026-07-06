@@ -2,8 +2,15 @@
 // handlers. All asset SQL lives here; never import it into a client component.
 import { and, eq, inArray, or, ilike, sql } from 'drizzle-orm';
 import { db } from '@/lib/db/client';
-import { assets, favorites } from '@/lib/db/schema';
-import type { AssetTier, AssetType, VaultAsset } from '@/lib/vault/types';
+import { assetMedia, assets, favorites } from '@/lib/db/schema';
+import type {
+  AssetTier,
+  MediaData,
+  AssetType,
+  VaultAsset,
+  VaultAssetsPage,
+  VaultBrowseFilter,
+} from '@/lib/vault/types';
 
 /**
  * The only place SQL for assets lives. Every function returns rows already
@@ -19,6 +26,7 @@ import type { AssetTier, AssetType, VaultAsset } from '@/lib/vault/types';
  */
 
 type AssetRow = typeof assets.$inferSelect;
+type AssetMediaRow = typeof assetMedia.$inferSelect;
 
 /** A Pro asset is withheld from a free viewer; anything else is fully readable. */
 function isLockedFor(row: Pick<AssetRow, 'tier'>, viewerTier: AssetTier): boolean {
@@ -43,11 +51,48 @@ function toVaultAsset(row: AssetRow, viewerTier: AssetTier): VaultAsset {
   };
 }
 
+async function getMediaByAssetId(assetIds: string[]): Promise<Map<string, AssetMediaRow>> {
+  if (assetIds.length === 0) return new Map();
+  const rows = await db
+    .select()
+    .from(assetMedia)
+    .where(inArray(assetMedia.assetId, assetIds));
+  return new Map(rows.map((row) => [row.assetId, row]));
+}
+
+async function toVaultAssets(rows: AssetRow[], viewerTier: AssetTier): Promise<VaultAsset[]> {
+  const mediaByAssetId = await getMediaByAssetId(
+    rows.filter((row) => row.type === 'media').map((row) => row.id)
+  );
+
+  return rows.map((row) => {
+    const asset = toVaultAsset(row, viewerTier);
+    if (row.type !== 'media') return asset;
+
+    const media = mediaByAssetId.get(row.id);
+    const data = asset.data as MediaData;
+
+    return {
+      ...asset,
+      data: {
+        ...data,
+        aspectRatio: media?.aspectRatio ?? data.aspectRatio,
+        placeholder: media?.placeholder ?? data.placeholder,
+        width: media?.width ?? data.width,
+        height: media?.height ?? data.height,
+        alt: row.name,
+        src: `/api/media/${row.id}`,
+      },
+    };
+  });
+}
+
 // Stable ordering for the gallery: visual types first, then media, name A→Z.
 const TYPE_ORDER: AssetType[] = ['palette', 'typography', 'design_system', 'section', 'media'];
 // Order: visual type rank → free before pro (surfaces the canonical set first,
 // matching the demo's lead items) → name A→Z.
-const orderExpr = sql`array_position(ARRAY['palette','typography','design_system','section','media']::text[], ${assets.type}::text), (${assets.tier} = 'pro'), ${assets.name}`;
+const orderExpr = sql`array_position(ARRAY['palette','typography','design_system','section','media']::text[], ${assets.type}::text), (${assets.tier} = 'pro'), ${assets.name}, ${assets.id}`;
+export const VAULT_PAGE_SIZE = 36;
 
 /**
  * The vault browse surface: optional type filter, optional text search over
@@ -94,7 +139,85 @@ export async function listAssets(opts: {
     .orderBy(orderExpr)
     .limit(opts.limit ?? 500);
 
-  return rows.map((r) => toVaultAsset(r, viewerTier));
+  return toVaultAssets(rows, viewerTier);
+}
+
+function buildAssetConditions(opts: {
+  type?: AssetType;
+  query?: string;
+  savedIds?: string[];
+  includeMedia?: boolean;
+}) {
+  const conditions = [];
+
+  if (opts.type) conditions.push(eq(assets.type, opts.type));
+  else if (!opts.includeMedia) conditions.push(sql`${assets.type} <> 'media'`);
+
+  if (opts.savedIds) {
+    if (opts.savedIds.length === 0) return { conditions, empty: true };
+    conditions.push(inArray(assets.id, opts.savedIds));
+  }
+
+  const q = opts.query?.trim();
+  if (q) {
+    const like = `%${q}%`;
+    conditions.push(
+      or(
+        ilike(assets.name, like),
+        ilike(assets.description, like),
+        sql`EXISTS (SELECT 1 FROM unnest(${assets.tags}) tag WHERE tag ILIKE ${like})`
+      )!
+    );
+  }
+
+  return { conditions, empty: false };
+}
+
+export async function listVaultAssetsPage(opts: {
+  filter: VaultBrowseFilter;
+  query?: string;
+  page?: number;
+  limit?: number;
+  savedIds?: string[];
+  viewerTier?: AssetTier;
+}): Promise<VaultAssetsPage> {
+  const viewerTier = opts.viewerTier ?? 'free';
+  const page = Math.max(1, opts.page ?? 1);
+  const limit = Math.max(1, Math.min(opts.limit ?? VAULT_PAGE_SIZE, VAULT_PAGE_SIZE));
+  const assetType = opts.filter === 'all' || opts.filter === 'saved' ? undefined : opts.filter;
+  const savedIds = opts.filter === 'saved' ? opts.savedIds ?? [] : undefined;
+  const { conditions, empty } = buildAssetConditions({
+    type: assetType,
+    query: opts.query,
+    savedIds,
+    includeMedia: true,
+  });
+
+  if (empty) {
+    return { items: [], total: 0, hasMore: false, page, limit };
+  }
+
+  const where = conditions.length ? and(...conditions) : undefined;
+  const [{ count }] = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(assets)
+    .where(where);
+
+  const rows = await db
+    .select()
+    .from(assets)
+    .where(where)
+    .orderBy(orderExpr)
+    .limit(limit)
+    .offset((page - 1) * limit);
+
+  return {
+    items: await toVaultAssets(rows, viewerTier),
+    total: count,
+    hasMore: page * limit < count,
+    page,
+    limit,
+  };
 }
 
 /** Featured strip / any explicit id set, order preserved to match `ids`. */
@@ -104,7 +227,8 @@ export async function getAssetsByIds(
 ): Promise<VaultAsset[]> {
   if (ids.length === 0) return [];
   const rows = await db.select().from(assets).where(inArray(assets.id, ids));
-  const byId = new Map(rows.map((r) => [r.id, toVaultAsset(r, viewerTier)]));
+  const hydrated = await toVaultAssets(rows, viewerTier);
+  const byId = new Map(hydrated.map((row) => [row.id, row]));
   return ids.map((id) => byId.get(id)).filter((a): a is VaultAsset => Boolean(a));
 }
 
@@ -116,10 +240,12 @@ export async function getAssetsByProvenance(
   if (provenances.length === 0) return [];
   const rows = await db.select().from(assets).where(inArray(assets.provenance, provenances));
   const byProv = new Map(rows.map((r) => [r.provenance, r] as const));
-  return provenances
-    .map((p) => byProv.get(p))
-    .filter((r): r is AssetRow => Boolean(r))
-    .map((r) => toVaultAsset(r, viewerTier));
+  return toVaultAssets(
+    provenances
+      .map((p) => byProv.get(p))
+      .filter((r): r is AssetRow => Boolean(r)),
+    viewerTier
+  );
 }
 
 /** Global header search (substring, capped). Includes media. */
@@ -151,6 +277,17 @@ export async function getAssetPromptForViewer(
   if (!row) return null;
   if (isLockedFor(row, viewerTier)) return null;
   return row.prompt;
+}
+
+export async function getMediaObjectPath(assetId: string): Promise<string | null> {
+  const rows = await db
+    .select({ type: assets.type, canonPath: assetMedia.canonPath })
+    .from(assets)
+    .innerJoin(assetMedia, eq(assetMedia.assetId, assets.id))
+    .where(eq(assets.id, assetId));
+  const row = rows[0];
+  if (!row || row.type !== 'media') return null;
+  return row.canonPath;
 }
 
 // ── Favorites (DB path for saved assets; localStorage stays the fallback) ─────

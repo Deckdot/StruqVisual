@@ -1,3 +1,7 @@
+'use client';
+/* eslint-disable @next/next/no-img-element -- canon media is already optimized and delivered via app redirect to Railway Bucket */
+
+import { useState } from 'react';
 import type {
   DesignSystemData,
   MediaData,
@@ -120,8 +124,22 @@ function DesignSystemVisual({ data, palette }: { data: DesignSystemData; palette
 }
 
 function MediaVisual({ data }: { data: MediaData }) {
+  const [failed, setFailed] = useState(false);
+
   return (
     <div className="relative h-full w-full" style={{ background: data.placeholder }}>
+      {data.src && !failed && (
+        <img
+          src={data.src}
+          alt={data.alt ?? `${data.category} beeld`}
+          width={data.width}
+          height={data.height}
+          loading="lazy"
+          decoding="async"
+          onError={() => setFailed(true)}
+          className="h-full w-full object-cover"
+        />
+      )}
       <span className="absolute bottom-3 left-4 rounded-full bg-black/35 px-2.5 py-0.5 text-[11px] font-medium text-white backdrop-blur-sm">
         {data.category} · {data.aspectRatio}
       </span>

@@ -1,9 +1,9 @@
 'use client';
 
-import { ASSET_TYPES, TYPE_META, type AssetType } from '@/lib/vault/types';
+import { ASSET_TYPES, TYPE_META, type VaultBrowseFilter } from '@/lib/vault/types';
 import { cn } from '@/lib/utils';
 
-export type TypeFilterValue = AssetType | 'all' | 'saved';
+export type TypeFilterValue = VaultBrowseFilter;
 
 /**
  * Visual group chips — the primary (and for new users, only) way to slice
