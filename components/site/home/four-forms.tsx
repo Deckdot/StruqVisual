@@ -6,12 +6,12 @@ import { SplitHeading } from '@/components/site/split-heading';
 import { Reveal } from '@/components/site/reveal';
 
 /**
- * Section 4b — One library, five forms (MorphSVG theater).
+ * Section 4b — One library, three forms (MorphSVG theater).
  * Goal: make the visual asset taxonomy physical. One ink silhouette morphs
- * from druppel (palet) naar letter (typografie) naar kaart (sectie) naar
- * zeshoek (design system) naar lens (media) while the pinned scroll drives
- * the morph, the word swap and a slowly drawing orbit ring. Mobile gets the
- * same choreography as an ambient loop instead of a pin.
+ * from druppel (palet) naar letter (typografie) naar zeshoek (design system)
+ * while the pinned scroll drives the morph, the word swap and a slowly
+ * drawing orbit ring. Mobile gets the same choreography as an ambient loop
+ * instead of a pin.
  */
 
 const PHASES = [
@@ -24,30 +24,18 @@ const PHASES = [
     desc: 'Lettercombinaties met spanning. Display, body en accent die samen kloppen.',
   },
   {
-    word: 'Sectie.',
-    desc: 'Bewezen bouwstenen met ritme. Hero, proof en cta die een pagina laten kloppen.',
-  },
-  {
     word: 'Design system.',
     desc: 'Tokens, regels en ritme in één systeem. Je AI volgt het in elk scherm.',
   },
-  {
-    word: 'Media.',
-    desc: 'Beeld dat de sfeer zet. Geoptimaliseerd en direct bruikbaar.',
-  },
 ];
 
-// Five silhouettes in the same 400x400 space, all single closed paths so
+// Three silhouettes in the same 400x400 space, all single closed paths so
 // MorphSVG can interpolate them cleanly.
 const SHAPE_DROP =
   'M200 52 C 200 52 92 176 92 252 C 92 316 140 356 200 356 C 260 356 308 316 308 252 C 308 176 200 52 200 52 Z';
 const SHAPE_LETTER =
   'M200 48 L338 352 L266 352 L200 200 L134 352 L62 352 Z';
-const SHAPE_CARD =
-  'M84 92 L316 92 Q332 92 332 108 L332 292 Q332 308 316 308 L84 308 Q68 308 68 292 L68 108 Q68 92 84 92 Z';
 const SHAPE_SYSTEM = 'M200 52 L324 118 L324 268 L200 334 L76 268 L76 118 Z';
-const SHAPE_LENS =
-  'M200 60 C 277 60 340 123 340 200 C 340 277 277 340 200 340 C 123 340 60 277 60 200 C 60 123 123 60 200 60 Z';
 
 export function FourForms() {
   const root = useRef<HTMLElement>(null);
@@ -63,11 +51,9 @@ export function FourForms() {
       const fills = [
         readToken('--sq-ink', '#221d15'),
         readToken('--sq-accent', '#e4572e'),
-        readToken('--sq-ink', '#221d15'),
         readToken('--sq-accent-deep', '#b23c17'),
-        readToken('--sq-ink', '#221d15'),
       ];
-      const shapes = [SHAPE_DROP, SHAPE_LETTER, SHAPE_CARD, SHAPE_SYSTEM, SHAPE_LENS];
+      const shapes = [SHAPE_DROP, SHAPE_LETTER, SHAPE_SYSTEM];
 
       const buildTimeline = (loop: boolean) => {
         const words = gsap.utils.toArray<HTMLElement>('[data-ff-word]');
@@ -211,12 +197,12 @@ export function FourForms() {
             <p className="sq-eyebrow">De bouwstenen</p>
           </Reveal>
           <SplitHeading className="sq-h2 mt-6">
-            Eén bibliotheek. Vijf vormen.
+            Eén bibliotheek. Elke vorm smaak.
           </SplitHeading>
           <Reveal delay={0.12}>
             <p className="sq-lead mt-7 max-w-md">
-              Alles waar je AI smaak van maakt past in vijf vormen. Scroll en zie hoe
-              de ene in de andere overgaat.
+              Palet, typografie, design system, en meer. Scroll en zie hoe de ene
+              vorm in de andere overgaat.
             </p>
           </Reveal>
 
@@ -241,7 +227,7 @@ export function FourForms() {
                   ))}
                 </span>
               </span>
-              <span className="sq-faint">/ 05</span>
+              <span className="sq-faint">/ 03</span>
             </div>
             <div className="flex gap-2.5" aria-hidden="true">
               {PHASES.map((phase) => (
@@ -294,24 +280,8 @@ export function FourForms() {
                   strokeLinecap="round"
                 />
               </g>
-              {/* Sectie: top-bar en twee contentregels */}
-              <g data-ff-detail="2">
-                <line x1="96" x2="304" y1="132" y2="132" stroke="var(--sq-sunken)" strokeWidth="9" strokeLinecap="round" />
-                {[196, 240].map((y, index) => (
-                  <line
-                    key={y}
-                    x1="110"
-                    x2={index === 1 ? 214 : 290}
-                    y1={y}
-                    y2={y}
-                    stroke="var(--sq-sunken)"
-                    strokeWidth="9"
-                    strokeLinecap="round"
-                  />
-                ))}
-              </g>
               {/* Design system: de kubusribben van de zeshoek */}
-              <g data-ff-detail="3">
+              <g data-ff-detail="2">
                 <path
                   d="M76 118 L200 184 L324 118 M200 184 L200 334"
                   stroke="var(--sq-sunken)"
@@ -319,11 +289,6 @@ export function FourForms() {
                   strokeLinecap="round"
                   fill="none"
                 />
-              </g>
-              {/* Media: lensopening met een lichtpunt */}
-              <g data-ff-detail="4">
-                <circle cx="200" cy="200" r="42" fill="none" stroke="var(--sq-sunken)" strokeWidth="8" />
-                <circle cx="262" cy="138" r="12" fill="var(--sq-sunken)" />
               </g>
             </g>
           </svg>

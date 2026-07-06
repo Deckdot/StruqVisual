@@ -30,13 +30,16 @@ export function Problem() {
         const designedSplit = SplitText.create(wordDesigned, { type: 'chars', mask: 'chars' });
 
         // Initial states, set explicitly so scrubbing backwards always lands
-        // on a coherent frame.
-        gsap.set(['[data-pr-eyebrow]', '[data-pr-stage]', '[data-pr-note]'], { autoAlpha: 0 });
-        gsap.set('[data-pr-line]', { yPercent: 110 });
+        // on a coherent frame. Eyebrow, heading and the grey mockup are all
+        // present from the very first frame, so nothing reads as a blank
+        // intro while scrolling in; only the verdict onward is scroll-driven.
+        gsap.set('[data-pr-note]', { autoAlpha: 0 });
+        gsap.set(['[data-pr-eyebrow]', '[data-pr-stage]'], { autoAlpha: 1, y: 0 });
+        gsap.set('[data-pr-line]', { yPercent: 0 });
         gsap.set('[data-pr-head]', { autoAlpha: 1 });
-        gsap.set(grayChars, { autoAlpha: 0 });
+        gsap.set(grayChars, { autoAlpha: 1 });
         gsap.set(designedSplit.chars, { yPercent: 120 });
-        gsap.set('[data-gray-item]', { autoAlpha: 0 });
+        gsap.set('[data-gray-item]', { autoAlpha: 1 });
         gsap.set('[data-gray-layer]', { autoAlpha: 1 });
         gsap.set('[data-scribble] path', { drawSVG: '0% 0%' });
         gsap.set('[data-d-mask] > *', { yPercent: 115 });
@@ -44,21 +47,6 @@ export function Problem() {
         gsap.set('[data-designed-layer]', { autoAlpha: 0 });
 
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-        // — Act 0: the hook lands.
-        tl.addLabel('intro')
-          .to('[data-pr-eyebrow]', { autoAlpha: 1, duration: 0.5 }, 'intro')
-          .to('[data-pr-line]', { yPercent: 0, duration: 0.9, stagger: 0.14 }, 'intro')
-          // "grijs." arrives exactly as flat as the thing it names.
-          .to(grayChars, { autoAlpha: 1, duration: 0.45, stagger: 0.05, ease: 'none' }, 'intro+=0.55')
-          .to('[data-pr-stage]', { autoAlpha: 1, y: 0, duration: 0.9 }, 'intro+=0.35');
-
-        // — Act 1: the grey average assembles, joylessly on purpose.
-        tl.addLabel('assemble', '-=0.25').to(
-          '[data-gray-item]',
-          { autoAlpha: 1, duration: 0.45, stagger: 0.16, ease: 'none' },
-          'assemble'
-        );
 
         // — Act 2: the verdict. A marker strike, then gravity.
         tl.addLabel('verdict', '+=0.45')

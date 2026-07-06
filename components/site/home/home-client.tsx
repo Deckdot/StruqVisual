@@ -8,7 +8,6 @@ import { Insight } from '@/components/site/home/insight';
 import { FourForms } from '@/components/site/home/four-forms';
 import { Showcase } from '@/components/site/home/showcase';
 import { HowItWorks } from '@/components/site/home/how-it-works';
-import { Blueprint } from '@/components/site/home/blueprint';
 import { Vault } from '@/components/site/home/vault';
 import { MemoryField } from '@/components/site/home/memory-field';
 import { Pricing } from '@/components/site/home/pricing';
@@ -25,12 +24,12 @@ import { Faq } from '@/components/site/home/faq';
  *                     prompt, skill, context en kit (MorphSVG-pin)
  *  6. Showcase      — verlangen: de gepinde horizontale galerij
  *  7. HowItWorks    — gemak: drie stappen, geen jargon
- *  8. Blueprint     — mechanisme: smaak.md typt zichzelf, het artboard
- *                     bouwt zich per regel om (gepinde split-screen)
- *  9. Vault         — tastbaarheid: het serieuze gereedschap erachter
- * 10. MemoryField   — crescendo: Three.js-chaos trekt samen tot geheugen
- * 11. Pricing       — risico weg: gratis is een echt plan
- * 12. Faq           — bezwaren weg, footer sluit af met de laatste CTA
+ *  8. Vault         — tastbaarheid: het serieuze gereedschap erachter
+ *  9. MemoryField   — crescendo: Three.js-chaos trekt samen tot geheugen
+ * 10. Pricing       — risico weg: gratis is een echt plan
+ * 11. Faq           — bezwaren weg, footer sluit af met de laatste CTA
+ *
+ * Blueprint (smaak.md build-along) is temporarily hidden — see blueprint.tsx.
  */
 export default function HomeClient() {
   return (
@@ -42,7 +41,6 @@ export default function HomeClient() {
       <FourForms />
       <Showcase />
       <HowItWorks />
-      <Blueprint />
       <Vault />
       <MemoryField />
       <Pricing />

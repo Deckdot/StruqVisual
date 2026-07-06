@@ -149,7 +149,13 @@ export function MemoryField() {
   );
 
   return (
-    <section ref={root} style={{ paddingBlock: 'clamp(3rem, 6vh, 5rem)' }}>
+    <section
+      ref={root}
+      style={{
+        paddingTop: 'clamp(5.5rem, 10vh, 7.5rem)',
+        paddingBottom: 'clamp(3rem, 6vh, 5rem)',
+      }}
+    >
       <div className="sq-container-wide">
         <div
           className="relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem]"
