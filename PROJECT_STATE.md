@@ -32,6 +32,7 @@
 ## Laatste verificatie
 
 - T1 (Railway build-fix): `lib/db/client.ts` bouwt de Drizzle-client nu LAZY via een Proxy — module-import raakt env/socket niet meer, zodat `next build` page-data-collection DB-routes kan evalueren zonder `DATABASE_URL` (fixte "DATABASE_URL is not set" + "Unsupported database type" crashes op de Railway builder). Adapter blijft `hasDatabase`-gated. `.env.local.example` opgeschoond naar de echte var-set (OAuth + OpenCode Go; Stripe als deferred-comment). Prod-env samengesteld (nieuwe `AUTH_SECRET`, hergebruikte Google/GitHub OAuth + OpenCode, DATABASE_URL via Railway Postgres-referentie). Build met leeg .env groen; typecheck + lint groen.
+- T3 (brand-icons/favicon update): SVG en PNG brand assets bijgewerkt naar het actuele aperture logo. Next.js metadata aligned, build en alle checks groen.
 - T2 (galerij-redesign + SEO/gids-slice): typecheck + lint + verify:design groen (116 files). Dev spot-checks: sitemap 13 url's, robots/llms.txt 200, `/gids` + 3 gidsen + `/galerij` 200, JSON-LD (Article+FAQPage) en direct-antwoord SSR-extraheerbaar.
 - Eerder (M3-gating): T4 groen, e2e 16/16 (gating/auth/vault); details in git-historie.
 - Uitgesteld (M5, latere slices): Stripe-webhooks (de echte tier-bron; `/pro` markeert "binnenkort"), MCP-server, wachtwoord-reset/e-mailverificatie, media-object-storage upload. Seams staan.

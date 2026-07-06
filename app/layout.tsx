@@ -27,9 +27,6 @@ export const metadata: Metadata = {
   title: 'Struq',
   description:
     'Struq is de visuele bibliotheek voor AI-native builders. Paletten, typografie, design systems, secties en media die je direct in elke AI gebruikt. Gratis starten.',
-  icons: {
-    apple: '/brand/struq-mark-256.png',
-  },
 };
 
 export const viewport: Viewport = {
