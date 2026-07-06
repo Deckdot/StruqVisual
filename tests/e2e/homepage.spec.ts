@@ -8,8 +8,8 @@ test.describe('Homepage', () => {
     await expect(page).toHaveTitle(/Struq/);
 
     // Hero content is visible above the fold
-    await expect(page.locator('main, [data-site-shell], body')).toBeVisible();
-    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('main').first()).toBeVisible();
+    await expect(page.locator('h1').first()).toBeVisible();
 
     // No client-side crash: scroll to the bottom to mount lazy sections
     await page.mouse.wheel(0, 20000);
