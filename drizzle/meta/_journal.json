@@ -8,6 +8,13 @@
       "when": 1783296731835,
       "tag": "0000_wakeful_hawkeye",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1783298445598,
+      "tag": "0001_complete_tyrannus",
+      "breakpoints": true
     }
   ]
 }

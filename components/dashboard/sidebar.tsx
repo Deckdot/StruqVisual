@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Moon, Sun } from 'lucide-react';
+import { LogOut, Moon, Sun } from 'lucide-react';
+import { signOut, useSession } from 'next-auth/react';
 import { NAV_ITEMS } from '@/components/dashboard/nav-items';
 import { useMaturity } from '@/components/maturity-provider';
 import { useTheme } from '@/components/theme-provider';
@@ -16,7 +17,11 @@ export function Sidebar() {
   const pathname = usePathname();
   const { canSee } = useMaturity();
   const { theme, setTheme } = useTheme();
+  const { data: session } = useSession();
   const isDark = theme === 'dark';
+
+  const user = session?.user;
+  const initial = (user?.name ?? user?.email ?? 'G').trim().charAt(0).toUpperCase() || 'G';
 
   const items = NAV_ITEMS.filter((item) => !item.surface || canSee(item.surface));
 
@@ -72,15 +77,35 @@ export function Sidebar() {
           {isDark ? <Sun className="h-5 w-5" strokeWidth={1.75} /> : <Moon className="h-5 w-5" strokeWidth={1.75} />}
         </button>
 
-        <div className="relative" title="Gast">
-          <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-panel text-sm font-medium text-secondary-text">
+        {user ? (
+          <button
+            type="button"
+            onClick={() => signOut({ callbackUrl: '/' })}
+            title={`Uitloggen (${user.email ?? user.name ?? ''})`}
+            aria-label="Uitloggen"
+            className="group relative flex h-10 w-10 items-center justify-center rounded-full border border-border bg-panel text-sm font-medium text-secondary-text transition-colors duration-200 hover:border-accent hover:text-primary-text focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
+          >
+            <span className="transition-opacity duration-150 group-hover:opacity-0">{initial}</span>
+            <LogOut
+              className="absolute h-4 w-4 opacity-0 transition-opacity duration-150 group-hover:opacity-100"
+              strokeWidth={1.75}
+              aria-hidden="true"
+            />
+          </button>
+        ) : (
+          <Link
+            href="/auth"
+            title="Inloggen"
+            aria-label="Inloggen"
+            className="relative flex h-10 w-10 items-center justify-center rounded-full border border-border bg-panel text-sm font-medium text-secondary-text transition-colors duration-200 hover:border-accent hover:text-primary-text focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
+          >
             G
-          </span>
-          <span
-            className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-background bg-accent"
-            aria-hidden="true"
-          />
-        </div>
+            <span
+              className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-background bg-accent"
+              aria-hidden="true"
+            />
+          </Link>
+        )}
       </div>
     </aside>
   );
