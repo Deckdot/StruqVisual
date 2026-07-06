@@ -85,7 +85,7 @@ export function FooterBrand() {
     <div ref={rootRef} className="flex max-w-sm flex-col gap-6">
       {/* Brand lockup */}
       <div className="flex items-center gap-3 sq-display text-2xl font-semibold">
-        <AnimatedMark size="footer" alt="Struq" startOnInView />
+        <AnimatedMark size="footer" alt="Struq" startOnInView color="var(--sq-inverse-ink)" />
         <AnimatedWordmark
           text="struq"
           fillColor="var(--sq-inverse-ink)"

@@ -49,7 +49,7 @@ export function Problem() {
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
         // — Act 2: the verdict. A marker strike, then gravity.
-        tl.addLabel('verdict', '+=0.45')
+        tl.addLabel('verdict')
           // Free the falling chars from the heading's line mask.
           .set('[data-pr-mask]', { overflow: 'visible' }, 'verdict')
           .to('[data-scribble] path', {
@@ -60,44 +60,44 @@ export function Problem() {
           }, 'verdict')
           .to('[data-pr-stage]', { rotation: -1.4, duration: 0.6, ease: 'power2.inOut' }, 'verdict');
 
-        tl.addLabel('collapse', '+=0.15')
+        tl.addLabel('collapse', '+=0.1')
           .to('[data-gray-item]', {
             y: () => gsap.utils.random(380, 560),
             rotation: () => gsap.utils.random(-28, 28),
             autoAlpha: 0,
-            duration: 1.05,
+            duration: 0.9,
             ease: 'power2.in',
-            stagger: { each: 0.06, from: 'random' },
+            stagger: { each: 0.05, from: 'random' },
           }, 'collapse')
           .to(grayChars, {
             y: () => gsap.utils.random(60, 110),
             rotation: () => gsap.utils.random(-40, 40),
             autoAlpha: 0,
-            duration: 0.8,
+            duration: 0.7,
             ease: 'power2.in',
-            stagger: { each: 0.04, from: 'random' },
+            stagger: { each: 0.03, from: 'random' },
           }, 'collapse+=0.1')
-          .to('[data-scribble] path', { autoAlpha: 0, duration: 0.4, ease: 'none' }, 'collapse+=0.5')
-          .to('[data-pr-stage]', { rotation: 0, duration: 0.8, ease: 'power2.inOut' }, 'collapse+=0.3')
-          .set('[data-gray-layer]', { autoAlpha: 0 }, 'collapse+=1.1');
+          .to('[data-scribble] path', { autoAlpha: 0, duration: 0.35, ease: 'none' }, 'collapse+=0.35')
+          .to('[data-pr-stage]', { rotation: 0, duration: 0.7, ease: 'power2.inOut' }, 'collapse+=0.2')
+          .set('[data-gray-layer]', { autoAlpha: 0 }, 'collapse+=0.85');
 
         // — Act 3: same content, other context.
-        tl.addLabel('rebuild', 'collapse+=0.85')
+        tl.addLabel('rebuild', 'collapse+=0.6')
           .set('[data-designed-layer]', { autoAlpha: 1 }, 'rebuild')
-          .to('[data-d-mask] > *', { yPercent: 0, duration: 0.95, stagger: 0.12 }, 'rebuild')
-          .to(designedSplit.chars, { yPercent: 0, duration: 0.85, stagger: 0.05 }, 'rebuild+=0.15')
+          .to('[data-d-mask] > *', { yPercent: 0, duration: 0.8, stagger: 0.1 }, 'rebuild')
+          .to(designedSplit.chars, { yPercent: 0, duration: 0.7, stagger: 0.04 }, 'rebuild+=0.12')
           .to('[data-d-pop]', {
             scale: 1,
             autoAlpha: 1,
-            duration: 0.7,
-            stagger: 0.12,
+            duration: 0.6,
+            stagger: 0.1,
             ease: 'back.out(2)',
-          }, 'rebuild+=0.45');
+          }, 'rebuild+=0.35');
 
         // — Rest: let the point sink in before the pin releases.
-        tl.addLabel('rest', '+=0.25')
-          .to('[data-pr-note]', { autoAlpha: 1, y: 0, duration: 0.6 }, 'rest')
-          .to({}, { duration: 0.7 });
+        tl.addLabel('rest', '+=0.15')
+          .to('[data-pr-note]', { autoAlpha: 1, y: 0, duration: 0.5 }, 'rest')
+          .to({}, { duration: 0.35 });
 
         return tl;
       };

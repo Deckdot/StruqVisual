@@ -24,6 +24,8 @@ type AnimatedMarkProps = {
   initialDelayMs?: number;
   startOnInView?: boolean;
   className?: string;
+  /** Mark ink color — override on dark/inverse backgrounds so it stays visible. */
+  color?: string;
 };
 
 const sizeClasses: Record<MarkSize, string> = {
@@ -88,6 +90,7 @@ export function AnimatedMark({
   initialDelayMs = 0,
   startOnInView = false,
   className = '',
+  color = 'var(--sq-ink)',
 }: AnimatedMarkProps) {
   const rootRef = useRef<HTMLSpanElement | null>(null);
   const stageRef = useRef<HTMLSpanElement | null>(null);
@@ -265,7 +268,7 @@ export function AnimatedMark({
       role="img"
       aria-label={alt}
       className={`relative inline-flex shrink-0 items-center justify-center ${sizeClasses[size]}${className ? ` ${className}` : ''}`}
-      style={{ color: 'var(--sq-ink)' }}
+      style={{ color }}
     >
       <span ref={stageRef} className="relative inline-flex h-full w-full items-center justify-center">
         <MarkLayers />

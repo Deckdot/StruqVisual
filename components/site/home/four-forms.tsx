@@ -153,7 +153,7 @@ export function FourForms() {
           animation: tl,
           trigger: section,
           start: 'top top',
-          end: '+=520%',
+          end: '+=260%',
           pin: true,
           scrub: 1.6,
           invalidateOnRefresh: true,
