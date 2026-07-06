@@ -6,17 +6,19 @@
 
 | Feature | Tier | Status |
 |---|---|---|
-| Bladeren door 5 asset-types (palette, typography, design_system, section, media) | free | planned (M3) |
-| Type-specifieke previews (swatches, specimens, media, sectie-thumbnails) | free (basis) / pro (rijk) | planned (M3) |
-| Asset bewaren (favoriet) in eigen vault | free | planned (M3) |
+| Bladeren door 5 asset-types (palette, typography, design_system, section, media) | free | live (M3) |
+| Type-specifieke previews (swatches, specimens, media, sectie-thumbnails) | free (basis) / pro (rijk) | live (M3) |
+| Asset bewaren (favoriet) in eigen vault | free | live (M3) |
 | Kopieer-prompt: één klik, plakbaar in elke AI | free | planned (M3) |
 | Kits: assets bundelen tot collecties | free (basis) / pro | planned (M3) |
-| Zoeken + filteren (visueel-eerst, geavanceerd achter disclosure) | free | planned (M3) |
-| Progressive disclosure: oppervlaktes ontgrendelen met gebruik | — | planned (M3) |
+| Zoeken + filteren (visueel-eerst, geavanceerd achter disclosure) | free | live (M3) |
+| Vault-paginatie: SSR eerste pagina + server-backed `Meer laden` | free | live |
+| Progressive disclosure: oppervlaktes ontgrendelen met gebruik | — | live (M3) |
 | Premium assets met rijke previews | pro | planned (M3) |
 | Free/Pro gating (server-enforced): Pro-prompt gestript in de repository-laag, kopieer via entitlement-route (403 vrij, 200 pro), preview blijft teasen | free/pro | live (M3) |
 | Contextuele upgrade: locked kaart → `/pro`-uitleg (geen nag-banner, eerlijke tease) | — | live (M3) |
 | Conversion-funnel: marketing-CTA's → `/vault` (anoniem bladeren/bewaren blijft frictieloos), contextuele signup-nudge na eerste bewaar-actie (escaleert eenmalig bij 3), `next`-param in `/auth` handhaaft de bestemming, localStorage-favorieten migreren automatisch naar de DB bij signup/login | free | live |
+| Shared saved-state in de dashboard-shell: één bron voor badges, kaarten, saved-view en anon→DB migratie; geen per-kaart `/api/favorites` probe meer | free | live |
 
 ## Content
 
@@ -24,7 +26,7 @@
 |---|---|
 | Canon-import: 29 paletten (incl. OKLCH/frontier), 2 typografie-pairings, 9 sectie-kinds, 5 silhouette-presets → design_system, 898 media (metadata + `canon_path`) | live (M2) |
 | Idempotente re-import bij canon-updates (upsert op provenance) | live (M2) |
-| Media-binaries → object storage (nu alleen metadata) | planned (later) |
+| Media-binaries → Railway Bucket upload-script + `/api/media/[assetId]` redirect + echte media-renderer | building (env-gated) |
 
 ## Publiek / marketing
 
@@ -44,6 +46,7 @@
 | Datamodel + Drizzle/Postgres: schema (5 asset-types bevroren), custom per-file-migrator, seed + assert | live (M2) |
 | Railway-DB gevuld (canon 943 assets + admin/demo accounts); `verify-admin.ts` + `seed-assert.ts` zijn de prod-state contract-tests | live |
 | Repository-laag: getypeerde queries → `VaultAsset`; dashboard/vault/canon renderen uit DB | live (M2) |
+| Paginated vault API (`GET /api/assets`) + media redirect route (`GET /api/media/[assetId]`) | live |
 | Favorites + icon-candidates: DB-pad (route handlers) met localStorage-fallback | live (M2 seam, M5 geactiveerd) |
 | Auth.js v5: Google/GitHub OAuth + e-mail/wachtwoord (JWT-sessie met `tier`, argon2, sign-out) | live (M5) |
 | Admin-account (pro + `is_admin`) geseed; kolom + JWT + sessie bedraad, klaar voor toekomstige admin-gating | live (M5 slice 2) |

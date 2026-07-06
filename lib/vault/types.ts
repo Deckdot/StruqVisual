@@ -6,6 +6,7 @@
 
 export const ASSET_TYPES = ['palette', 'typography', 'design_system', 'section', 'media'] as const;
 export type AssetType = (typeof ASSET_TYPES)[number];
+export type VaultBrowseFilter = AssetType | 'all' | 'saved';
 
 export type AssetTier = 'free' | 'pro';
 
@@ -41,6 +42,10 @@ export type MediaData = {
   category: string;
   /** CSS background used as placeholder until the canon media import (M2). */
   placeholder: string;
+  src?: string;
+  width?: number;
+  height?: number;
+  alt?: string;
 };
 
 export type AssetData = PaletteData | TypographyData | SectionData | DesignSystemData | MediaData;
@@ -66,6 +71,14 @@ export type VaultAsset = {
    * it to tease the preview and route copy through the entitlement check.
    */
   locked: boolean;
+};
+
+export type VaultAssetsPage = {
+  items: VaultAsset[];
+  total: number;
+  hasMore: boolean;
+  page: number;
+  limit: number;
 };
 
 export const TYPE_META: Record<AssetType, { label: string; labelPlural: string }> = {

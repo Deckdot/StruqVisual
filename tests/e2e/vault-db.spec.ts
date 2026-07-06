@@ -23,16 +23,26 @@ test.describe('DB-backed dashboard', () => {
 
   test('/vault renders the library from the DB and filters by type', async ({ page }) => {
     const errors: string[] = [];
+    const favoriteRequests: string[] = [];
     page.on('pageerror', (err) => errors.push(err.message));
+    page.on('request', (request) => {
+      if (request.url().includes('/api/favorites')) favoriteRequests.push(request.url());
+    });
 
     await page.goto('/vault');
     // 29 canon palettes are imported; the first free palette shows.
     await expect(page.getByText('Graphite Ivory').first()).toBeVisible();
 
-    // At least a dozen asset cards render (45 non-media assets exist).
+    // Page 1 SSRs a paginated library slice instead of shipping the whole set.
     const cards = page.locator('article');
     await expect(cards.first()).toBeVisible();
-    expect(await cards.count()).toBeGreaterThan(10);
+    await expect(cards).toHaveCount(36);
+
+    // Anonymous browsing stays entirely local; the favorites DB path is not probed.
+    expect(favoriteRequests).toEqual([]);
+
+    await page.getByRole('button', { name: /meer laden/i }).click();
+    await expect.poll(async () => cards.count()).toBeGreaterThan(36);
 
     await page.waitForTimeout(300);
     expect(errors, errors.join('\n')).toEqual([]);

@@ -16,11 +16,14 @@
     "db:migrate:local": "tsx scripts/db-migrate.ts",
     "db:seed": "tsx scripts/import-canon.ts && tsx lib/db/seed.ts",
     "db:seed:assert": "tsx scripts/seed-assert.ts",
+    "media:upload:bucket": "tsx scripts/upload-media-to-bucket.ts",
     "docker:up": "docker compose up -d db",
     "docker:reset": "docker compose down -v && docker compose up -d db"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.11.2",
+    "@aws-sdk/client-s3": "^3.1080.0",
+    "@aws-sdk/s3-request-presigner": "^3.1080.0",
     "@gsap/react": "^2.1.2",
     "@iconify/react": "^5.2.1",
     "@node-rs/argon2": "^2.0.2",
