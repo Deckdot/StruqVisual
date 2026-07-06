@@ -163,6 +163,26 @@ export async function getFavorites(userId: string): Promise<string[]> {
   return rows.map((r) => r.assetId);
 }
 
+/**
+ * Idempotent batch-merge for the anonymous→authenticated migration: inserts
+ * any of `assetIds` not already favorited, silently skipping ids that don't
+ * exist in `assets` (FK) or are already saved (composite PK). Returns the
+ * full merged favorites list for this user.
+ */
+export async function mergeFavorites(userId: string, assetIds: string[]): Promise<string[]> {
+  if (assetIds.length > 0) {
+    const existing = await db.select({ id: assets.id }).from(assets).where(inArray(assets.id, assetIds));
+    const validIds = existing.map((r) => r.id);
+    if (validIds.length > 0) {
+      await db
+        .insert(favorites)
+        .values(validIds.map((assetId) => ({ userId, assetId })))
+        .onConflictDoNothing();
+    }
+  }
+  return getFavorites(userId);
+}
+
 /** Toggle a favorite; returns true if it is now saved, false if removed. */
 export async function toggleFavorite(userId: string, assetId: string): Promise<boolean> {
   const existing = await db

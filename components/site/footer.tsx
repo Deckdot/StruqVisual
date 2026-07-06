@@ -27,7 +27,7 @@ const FOOTER_COLUMNS = [
     title: 'Account',
     links: [
       { href: '/auth', label: 'Inloggen' },
-      { href: '/auth', label: 'Gratis beginnen' },
+      { href: '/vault', label: 'Bekijk de bibliotheek' },
     ],
   },
 ];
@@ -48,11 +48,11 @@ export function SiteFooter() {
             Maak iets waar mensen even stil van worden.
           </h2>
           <div className="mt-12 flex flex-wrap items-center gap-6">
-            <TransitionLink href="/auth" className="sq-btn sq-btn-accent !px-10 !py-5 !text-base">
-              <SlotText>Start gratis</SlotText>
+            <TransitionLink href="/vault" className="sq-btn sq-btn-accent !px-10 !py-5 !text-base">
+              <SlotText>Bekijk de bibliotheek</SlotText>
             </TransitionLink>
             <p className="sq-faint" style={{ color: 'var(--sq-inverse-soft)' }}>
-              Geen creditcard. Geen designdiploma.
+              Geen account nodig. Geen designdiploma.
             </p>
           </div>
         </Reveal>

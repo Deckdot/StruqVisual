@@ -2,7 +2,7 @@
 
 import { useRef, useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import {
@@ -17,6 +17,12 @@ import { markHandoff, HANDOFF_WASH } from '@/lib/handoff';
 import { SlotText } from '@/components/site/slot-text';
 
 const AuthParticles = dynamic(() => import('./auth-particles'), { ssr: false });
+
+/** Only ever hand the router an internal path — never an absolute/external URL. */
+function safeNextPath(raw: string | null): string {
+  if (!raw || !raw.startsWith('/') || raw.startsWith('//')) return '/dashboard';
+  return raw;
+}
 
 /* =========================================================================
    SVG SILHOUETTES — same five taxonomy forms as four-forms.tsx
@@ -58,6 +64,8 @@ const ORBIT_POSITIONS = [
 export function AuthClient() {
   const root = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const nextPath = safeNextPath(searchParams.get('next'));
   const particleIntensityRef = useRef(0);
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [isAnimating, setIsAnimating] = useState(false);
@@ -103,7 +111,7 @@ export function AuthClient() {
           if (navigated) return;
           navigated = true;
           markHandoff(); // dashboard curtain reads this and reveals from the wash
-          router.push('/dashboard');
+          router.push(nextPath);
         };
 
         const tl = gsap.timeline({ onComplete: goToDashboard });
@@ -175,13 +183,13 @@ export function AuthClient() {
       // Safety net: never strand the user on the wash if navigation is delayed.
       window.setTimeout(() => {
         markHandoff();
-        router.push('/dashboard');
+        router.push(nextPath);
       }, 2800);
 
       // The context is intentionally not reverted here: the timeline must run to
       // completion (it ends holding the wash) and the component unmounts on nav.
       void ctx;
-  }, [router]);
+  }, [router, nextPath]);
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -230,10 +238,10 @@ export function AuthClient() {
   const handleOAuth = useCallback(
     (provider: 'google' | 'github') => {
       if (isAnimating || submitting) return;
-      // Full-page OAuth redirect; on return the user lands on /dashboard.
-      void signIn(provider, { callbackUrl: '/dashboard' });
+      // Full-page OAuth redirect; on return the user lands on nextPath (default /dashboard).
+      void signIn(provider, { callbackUrl: nextPath });
     },
-    [isAnimating, submitting]
+    [isAnimating, submitting, nextPath]
   );
 
   /* -----------------------------------------------------------------------

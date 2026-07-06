@@ -15,6 +15,8 @@
 - `DESIGN.md` — design-taal + motion-registers (stub tot M1)
 - `SEO.md` — AEO/SEO-strategie: schrijfregels, vragenkaart, pillar-cluster, gids-backlog
 - `WORKFLOW.md` — verification tiers, git/PR-strategie, doc-drift regels
+- `CONVERSION_ONBOARDING_CONTEXT.md` — gedetailleerd overzicht van onboarding, conversie, maturity en gating voor psychologie-agents
+
 
 ## Skills
 

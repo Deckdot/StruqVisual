@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { AuthClient } from '@/components/site/auth/auth-client';
 
@@ -9,5 +10,9 @@ export const metadata: Metadata = {
 };
 
 export default function AuthPage() {
-  return <AuthClient />;
+  return (
+    <Suspense>
+      <AuthClient />
+    </Suspense>
+  );
 }

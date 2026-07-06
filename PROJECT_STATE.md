@@ -4,7 +4,7 @@
 
 ## Actieve milestone
 
-**M2 + M5-auth (1+2) + M3-gating afgerond, Railway-DB gevuld → volgende: M5-Stripe (echte tier-bron) of M4 (publieke galerij SSR uit de DB)**. Zie `NORTHSTAR.md`.
+**M2 + M5-auth (1+2) + M3-gating + conversion-funnel-fundament afgerond, Railway-DB gevuld → volgende: M5-Stripe (echte tier-bron) of M4 (publieke galerij SSR uit de DB)**. Zie `NORTHSTAR.md`.
 
 ## Stand
 
@@ -20,6 +20,7 @@
 - Branch: `feat/m3-pro-gating` (afsplitsing van main). Verificatie: T4 — build/lint/typecheck/verify:design groen; 16/16 e2e groen (5 gating + 6 auth + 5 M2 vault, geen regressie). NB: bestaande `homepage.spec.ts` faalt op een strict-mode selector-bug (M1-testschuld, raakt deze slice niet). E2e-runner heeft geen `webServer`-config: start zelf `npm start` en draai met `PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000` (localhost → IPv6 `::1` weigert de verbinding).
 - Galerij-redesign (frontend-only, op main): art-directed 12-kolomswand met per-categorie previews (`components/site/galerij/previews.tsx`: palet-compositie, type-specimen, richting-manifest, prompt-composer/checklist), GSAP arrival- + hover-scènes (batch, matchMedia/reduced-motion-gated), GSAP-filtertransities, twee-paneels overlay (contract intact: kopieer/bewaar/Esc/dialog). Route-scoped Fraunces+Inter voor specimens. Data-laag (`lib/gallery/*`) ongemoeid.
 - AEO/SEO-fundament: `SEO.md` (strategie, AEO-schrijfregels, vragenkaart, gids-backlog), `app/sitemap.ts` + `app/robots.ts` (AI-crawlers expliciet welkom), `public/llms.txt`, `/gids`-cluster: `lib/gids/guides.ts` (3 gidsen: vibe-coding, mooie-website-met-ai, ai-design-prompts) + renderer + hub, per gids Article/FAQPage/Breadcrumb JSON-LD. Footer: galerij- en gidsen-links toegevoegd.
+- Conversion-funnel-fundament: alle marketing-CTA's (hero, navbar, footer, memory-field, home/vault, pricing-free, methode, visueel) wijzen nu naar `/vault` i.p.v. `/auth` — anoniem bladeren/bewaren was al frictieloos maar onbereikbaar; navbar houdt een aparte "Inloggen"-link. Pricing-pro CTA gefixt naar `/auth?next=/pro` (was een dode `/settings/billing`-link). Nieuwe `components/vault/signup-nudge.tsx`: contextuele, dismissable kaart boven de grid, alleen anoniem + ≥1 save, escaleert copy eenmalig bij ≥3 saves (bestaande Level-2-drempel), dismiss is per-niveau sticky in localStorage — geen regressie, geen nag. `auth-client.tsx` leest nu `?next=` (gevalideerd: alleen interne paden) en gebruikt het voor de handoff-navigatie, de safety-net timeout én de OAuth `callbackUrl`; `app/auth/page.tsx` kreeg een Suspense-boundary (`useSearchParams` vereist dit voor static build). Seam #1 (anonieme→DB favorites-migratie) gesloten: `use-saved-assets.ts` merget localStorage-ids naar de DB zodra de sessie-probe 200 teruggeeft (module-guard tegen dubbele migratie-runs vanuit meerdere gemonteerde consumers), nieuwe `mergeFavorites()` in `lib/db/repository.ts` (idempotent, FK-gefilterd) + uitgebreide `POST /api/favorites` (accepteert nu ook een `assetIds`-batch naast de bestaande single-toggle).
 
 ## Beslissingen (kort)
 
@@ -33,9 +34,12 @@
 
 ## Laatste verificatie
 
+- **T4 (conversion-funnel-fundament):** typecheck/lint/verify:design/build groen; 21/21 e2e groen (17 bestaand + 4 nieuw in `tests/e2e/conversion-funnel.spec.ts`: CTA-smoke, anonieme save+nudge+dismiss-persistentie, `next`-param round-trip, favorites-migratie end-to-end). Geen regressie; de eerder genoteerde `homepage.spec.ts`-instabiliteit trad niet op.
 - **T1 + live-edge (M5-auth slice 2 + prod-seed):** typecheck + lint groen. Lokaal: `verify-admin.ts` groen (`admin@struq.nl` / `Release11!` → tier=pro, isAdmin=true, password verifieert tegen argon2-hash). Railway-DB (via `${{Postgres.DATABASE_PUBLIC_URL}}`): `db:seed` groen (943 assets: 29+2+9+5+898, 898 media, demo+admin accounts aangemaakt); `verify-admin.ts` groen; `seed-assert.ts` 10/10 groen (assets per type + asset_media + demo+admin assertions). Live edge: `GET https://struqvisual-production.up.railway.app/` → 200; `GET /api/assets/search?q=graphite` → 200 met 4 echte palettes (1 free / 3 pro-locked — M3-gating werkt door de echte DB-seed). Admin-account live op `/auth`.
 - T1 (Railway build-fix): `lib/db/client.ts` bouwt de Drizzle-client nu LAZY via een Proxy — module-import raakt env/socket niet meer, zodat `next build` page-data-collection DB-routes kan evalueren zonder `DATABASE_URL` (fixte "DATABASE_URL is not set" + "Unsupported database type" crashes op de Railway builder). Adapter blijft `hasDatabase`-gated. `.env.local.example` opgeschoond naar de echte var-set (OAuth + OpenCode Go; Stripe als deferred-comment). Prod-env samengesteld (nieuwe `AUTH_SECRET`, hergebruikte Google/GitHub OAuth + OpenCode, DATABASE_URL via Railway Postgres-referentie). Build met leeg .env groen; typecheck + lint groen.
 - T3 (brand-icons/favicon update): SVG en PNG brand assets bijgewerkt naar het actuele aperture logo. Next.js metadata aligned, build en alle checks groen.
+- **T0 (Context File):** typecheck ran successfully. Created `CONVERSION_ONBOARDING_CONTEXT.md` containing full psychological onboarding and progressive disclosure maps, and registered it in `INDEX.md`.
+
 - T2 (galerij-redesign + SEO/gids-slice): typecheck + lint + verify:design groen (116 files). Dev spot-checks: sitemap 13 url's, robots/llms.txt 200, `/gids` + 3 gidsen + `/galerij` 200, JSON-LD (Article+FAQPage) en direct-antwoord SSR-extraheerbaar.
 - Eerder (M3-gating): T4 groen, e2e 16/16 (gating/auth/vault); details in git-historie.
 - Uitgesteld (M5, latere slices): Stripe-webhooks (de echte tier-bron; `/pro` markeert "binnenkort"), MCP-server, wachtwoord-reset/e-mailverificatie, media-object-storage upload. Seams staan.

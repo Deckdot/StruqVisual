@@ -330,8 +330,8 @@ export default function VisueelClient() {
               </p>
             </Reveal>
             <Reveal delay={0.2} className="mt-12 flex flex-wrap items-center gap-6">
-              <Link href="/auth" className="sq-btn sq-btn-accent !px-9 !py-[1.15rem] !text-base">
-                <SlotText>Start gratis</SlotText>
+              <Link href="/vault" className="sq-btn sq-btn-accent !px-9 !py-[1.15rem] !text-base">
+                <SlotText>Bekijk de bibliotheek</SlotText>
               </Link>
               <Link href="/methode" className="sq-link text-base">
                 Eerst begrijpen hoe het werkt

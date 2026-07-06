@@ -220,11 +220,11 @@ export function MemoryField() {
         </div>
 
             <div data-mf-cta data-sq-reveal className="mt-4 flex flex-col items-center gap-5">
-              <Link href="/auth" className="sq-btn sq-btn-accent !px-10 !py-[1.25rem] !text-base">
-                <SlotText>Start gratis met onthouden</SlotText>
+              <Link href="/vault" className="sq-btn sq-btn-accent !px-10 !py-[1.25rem] !text-base">
+                <SlotText>Bekijk de bibliotheek</SlotText>
               </Link>
               <p className="sq-faint" style={{ color: 'var(--sq-inverse-soft)' }}>
-                Gratis plan · Geen creditcard · Direct in Claude Code en Cursor
+                Geen account nodig · Direct in Claude Code en Cursor
               </p>
             </div>
           </div>

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { AssetCard } from '@/components/vault/asset-card';
+import { SignupNudge } from '@/components/vault/signup-nudge';
 import { TypeFilter, type TypeFilterValue } from '@/components/vault/type-filter';
 import { useMaturity } from '@/components/maturity-provider';
 import { useSavedAssets } from '@/hooks/use-saved-assets';
@@ -28,7 +29,7 @@ export function VaultBrowser({
     (searchParams.get('filter') as TypeFilterValue | null) ?? 'all'
   );
   const query = searchParams.get('q')?.trim().toLowerCase() ?? '';
-  const { savedIds } = useSavedAssets();
+  const { savedIds, dbMode } = useSavedAssets();
   const { canSee } = useMaturity();
 
   // A new header search resets the type slice so results never look empty.
@@ -56,6 +57,7 @@ export function VaultBrowser({
 
   return (
     <div>
+      {!dbMode && <SignupNudge saveCount={savedIds.length} />}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <TypeFilter value={filter} onChange={setFilter} showSaved={showSaved} savedCount={savedIds.length} />
         {query && (

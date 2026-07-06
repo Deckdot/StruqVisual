@@ -291,8 +291,8 @@ export default function MethodeClient() {
           </div>
 
           <Reveal delay={0.15} className="mt-14 flex flex-wrap items-center gap-6">
-            <Link href="/auth" className="sq-btn sq-btn-accent !px-9 !py-[1.15rem] !text-base">
-              <SlotText>Start gratis met Struq</SlotText>
+            <Link href="/vault" className="sq-btn sq-btn-accent !px-9 !py-[1.15rem] !text-base">
+              <SlotText>Bekijk de bibliotheek</SlotText>
             </Link>
             <Link href="/visueel" className="sq-link text-base">
               Eerst zien wat je kunt maken

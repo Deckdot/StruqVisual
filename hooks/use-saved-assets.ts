@@ -21,6 +21,11 @@ const CHANGE_EVENT = 'struq:saved-assets-changed';
 
 let cache: { raw: string | null; ids: readonly string[] } = { raw: null, ids: [] };
 
+// Module-level guard: only the first mounted consumer runs the anonymous→DB
+// favorites migration per page load, even though every card/nav badge/saved
+// view mounts this hook.
+let migrationStarted = false;
+
 function getSnapshot(): readonly string[] {
   let raw: string | null = null;
   try {
@@ -63,14 +68,44 @@ export function useSavedAssets() {
 
   useEffect(() => {
     let active = true;
+
     fetch('/api/favorites')
-      .then((res) => (res.ok ? res.json() : { savedIds: null }))
-      .then((data: { savedIds: string[] | null }) => {
-        if (active && Array.isArray(data.savedIds)) setDbIds(data.savedIds);
+      .then(async (res) => {
+        if (!res.ok) return; // signed out (401) or offline → stay on localStorage
+        const data = (await res.json()) as { savedIds: string[] };
+
+        // Authenticated: merge any pending local saves into the DB exactly
+        // once per page load (module-level guard — every card/nav badge/saved
+        // view mounts this hook, only the first should fire the migration).
+        const localIdsAtProbe = getSnapshot();
+        if (localIdsAtProbe.length > 0 && !migrationStarted) {
+          migrationStarted = true;
+          const merged: { savedIds?: string[] } | null = await fetch('/api/favorites', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ assetIds: localIdsAtProbe }),
+          })
+            .then((mergeRes) => (mergeRes.ok ? mergeRes.json() : null))
+            .catch(() => null);
+
+          if (merged?.savedIds) {
+            if (active) setDbIds(merged.savedIds);
+            try {
+              window.localStorage.removeItem(STORAGE_KEY);
+              window.dispatchEvent(new Event(CHANGE_EVENT));
+            } catch {
+              // non-fatal
+            }
+            return;
+          }
+        }
+
+        if (active) setDbIds(data.savedIds);
       })
       .catch(() => {
         /* offline → stay on localStorage */
       });
+
     return () => {
       active = false;
     };
@@ -110,5 +145,5 @@ export function useSavedAssets() {
 
   const isSaved = useCallback((id: string) => savedIds.includes(id), [savedIds]);
 
-  return { savedIds, isSaved, toggleSaved } as const;
+  return { savedIds, isSaved, toggleSaved, dbMode } as const;
 }

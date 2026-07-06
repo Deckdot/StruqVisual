@@ -91,8 +91,14 @@ export function SiteNavbar({ theme, onToggleTheme }: SiteNavbarProps) {
               >
                 {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
               </button>
-              <TransitionLink href="/auth" className="sq-btn sq-btn-primary hidden !px-6 !py-3 sm:inline-flex">
-                <SlotText>Start gratis</SlotText>
+              <TransitionLink
+                href="/auth"
+                className="sq-link hidden text-[0.9375rem] font-medium sm:inline-flex"
+              >
+                Inloggen
+              </TransitionLink>
+              <TransitionLink href="/vault" className="sq-btn sq-btn-primary hidden !px-6 !py-3 sm:inline-flex">
+                <SlotText>Bekijk de bibliotheek</SlotText>
               </TransitionLink>
               <button
                 type="button"
@@ -156,16 +162,23 @@ export function SiteNavbar({ theme, onToggleTheme }: SiteNavbarProps) {
                 initial={{ opacity: 0, y: 28 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.08 + NAV_LINKS.length * 0.06, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="pt-8"
+                className="flex flex-col items-start gap-4 pt-8"
               >
-                <TransitionLink href="/auth" className="sq-btn sq-btn-accent" onClick={() => setMenuOpen(false)}>
-                  <SlotText>Start gratis</SlotText>
+                <TransitionLink href="/vault" className="sq-btn sq-btn-accent" onClick={() => setMenuOpen(false)}>
+                  <SlotText>Bekijk de bibliotheek</SlotText>
+                </TransitionLink>
+                <TransitionLink
+                  href="/auth"
+                  className="sq-link text-[0.9375rem] font-medium"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Inloggen
                 </TransitionLink>
               </motion.div>
             </nav>
 
             <div className="sq-container pb-10">
-              <p className="sq-faint">Gratis starten. Geen creditcard nodig.</p>
+              <p className="sq-faint">Geen account nodig om te beginnen.</p>
             </div>
           </motion.div>
         )}

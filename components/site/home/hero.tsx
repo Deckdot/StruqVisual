@@ -116,8 +116,8 @@ export function Hero() {
           </p>
 
           <div data-hero-fade data-sq-reveal className="mt-11 flex flex-wrap items-center gap-5">
-            <TransitionLink href="/auth" className="sq-btn sq-btn-accent !px-9 !py-[1.2rem] !text-base">
-              <SlotText>Start gratis</SlotText>
+            <TransitionLink href="/vault" className="sq-btn sq-btn-accent !px-9 !py-[1.2rem] !text-base">
+              <SlotText>Bekijk de bibliotheek</SlotText>
             </TransitionLink>
             <TransitionLink href="/visueel" className="sq-link text-base">
               Bekijk wat je kunt maken
@@ -125,7 +125,7 @@ export function Hero() {
           </div>
 
           <p data-hero-fade data-sq-reveal className="sq-faint mt-10">
-            Gratis starten · Werkt met Claude Code, Cursor en Copilot · In het Nederlands
+            Geen account nodig · Werkt met Claude Code, Cursor en Copilot · In het Nederlands
           </p>
         </div>
 

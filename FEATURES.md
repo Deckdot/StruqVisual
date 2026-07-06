@@ -16,6 +16,7 @@
 | Premium assets met rijke previews | pro | planned (M3) |
 | Free/Pro gating (server-enforced): Pro-prompt gestript in de repository-laag, kopieer via entitlement-route (403 vrij, 200 pro), preview blijft teasen | free/pro | live (M3) |
 | Contextuele upgrade: locked kaart → `/pro`-uitleg (geen nag-banner, eerlijke tease) | — | live (M3) |
+| Conversion-funnel: marketing-CTA's → `/vault` (anoniem bladeren/bewaren blijft frictieloos), contextuele signup-nudge na eerste bewaar-actie (escaleert eenmalig bij 3), `next`-param in `/auth` handhaaft de bestemming, localStorage-favorieten migreren automatisch naar de DB bij signup/login | free | live |
 
 ## Content
 
