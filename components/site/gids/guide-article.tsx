@@ -101,6 +101,7 @@ function Block({ block }: { block: GuideBlock }) {
       <Link href={block.href} className="sq-btn sq-btn-primary !h-11 shrink-0 !px-5 !text-sm">
         <SlotText>{block.linkLabel}</SlotText>
         <ArrowUpRight className="ml-1 h-4 w-4" />
+        <span className="sq-btn-fill" aria-hidden="true" />
       </Link>
     </aside>
   );
@@ -267,6 +268,7 @@ export function GuideArticle({ guide }: { guide: GuideDef }) {
               <Link href="/galerij" className="sq-btn sq-btn-accent mt-8">
                 <SlotText>Open de galerij</SlotText>
                 <ArrowUpRight className="ml-1.5 h-4 w-4" />
+                <span className="sq-btn-fill" aria-hidden="true" />
               </Link>
             </div>
           </Reveal>

@@ -86,8 +86,7 @@ export function SiteNavbar({ theme, onToggleTheme }: SiteNavbarProps) {
                 type="button"
                 onClick={onToggleTheme}
                 aria-label={theme === 'light' ? 'Donker thema' : 'Licht thema'}
-                className="flex h-10 w-10 items-center justify-center rounded-full border transition-colors"
-                style={{ borderColor: 'var(--sq-line-strong)' }}
+                className="sq-icon-btn flex h-10 w-10 items-center justify-center rounded-full border"
               >
                 {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
               </button>
@@ -99,6 +98,7 @@ export function SiteNavbar({ theme, onToggleTheme }: SiteNavbarProps) {
               </TransitionLink>
               <TransitionLink href="/vault" className="sq-btn sq-btn-primary hidden !px-6 !py-3 sm:inline-flex">
                 <SlotText>Bekijk de bibliotheek</SlotText>
+                <span className="sq-btn-fill" aria-hidden="true" />
               </TransitionLink>
               <button
                 type="button"
@@ -166,6 +166,7 @@ export function SiteNavbar({ theme, onToggleTheme }: SiteNavbarProps) {
               >
                 <TransitionLink href="/vault" className="sq-btn sq-btn-accent" onClick={() => setMenuOpen(false)}>
                   <SlotText>Bekijk de bibliotheek</SlotText>
+                  <span className="sq-btn-fill" aria-hidden="true" />
                 </TransitionLink>
                 <TransitionLink
                   href="/auth"

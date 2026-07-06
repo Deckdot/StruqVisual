@@ -68,6 +68,7 @@ export function Vault() {
           <Reveal delay={0.1} className="mt-12">
             <Link href="/vault" className="sq-btn sq-btn-ghost">
               <SlotText>Bekijk de bibliotheek</SlotText>
+              <span className="sq-btn-fill" aria-hidden="true" />
             </Link>
           </Reveal>
         </div>

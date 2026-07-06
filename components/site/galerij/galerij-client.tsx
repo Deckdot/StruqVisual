@@ -121,6 +121,7 @@ function GalleryCard({
           >
             {copied ? <Check className="mr-1.5 h-4 w-4" /> : <Copy className="mr-1.5 h-4 w-4" />}
             <SlotText>{copied ? 'Gekopieerd' : 'Kopieer voor je AI'}</SlotText>
+            <span className="sq-btn-fill" aria-hidden="true" />
           </button>
           <Link
             href={SIGNUP_ROUTE}
@@ -226,10 +227,12 @@ function GalleryDetail({ item, onClose }: { item: GalleryItem; onClose: () => vo
             <button type="button" onClick={copyBody} className="sq-btn sq-btn-primary flex-1">
               {copied ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}
               <SlotText>{copied ? 'Gekopieerd. Plak in je AI.' : 'Kopieer voor je AI'}</SlotText>
+              <span className="sq-btn-fill" aria-hidden="true" />
             </button>
             <Link href={SIGNUP_ROUTE} className="sq-btn sq-btn-ghost flex-1">
               <SlotText>Bewaar in je vault</SlotText>
               <ArrowUpRight className="ml-1.5 h-4 w-4" />
+              <span className="sq-btn-fill" aria-hidden="true" />
             </Link>
           </div>
         </div>
@@ -470,6 +473,7 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
               <Link href={SIGNUP_ROUTE} className="sq-btn sq-btn-accent mt-8">
                 <SlotText>Start je gratis vault</SlotText>
                 <ArrowUpRight className="ml-1.5 h-4 w-4" />
+                <span className="sq-btn-fill" aria-hidden="true" />
               </Link>
             </div>
           </Reveal>

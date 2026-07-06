@@ -110,6 +110,7 @@ export function PlaygroundMotion({
             className="sq-btn sq-btn-accent self-start !px-6 !py-3 !text-sm"
           >
             <SlotText>Speel opnieuw af</SlotText>
+            <span className="sq-btn-fill" aria-hidden="true" />
           </button>
 
           <AnimatePresence>

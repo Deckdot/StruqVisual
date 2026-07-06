@@ -121,6 +121,7 @@ export function ClaimCard({ manifest }: { manifest: LessonManifest }) {
                   ? 'Bewaren…'
                   : 'Bewaar in je vault'}
             </SlotText>
+            <span className="sq-btn-fill" aria-hidden="true" />
           </button>
         ) : (
           <Link
@@ -129,6 +130,7 @@ export function ClaimCard({ manifest }: { manifest: LessonManifest }) {
             className="sq-btn sq-btn-accent !px-7 !py-3.5 !text-sm"
           >
             <SlotText>Bewaar in je vault · gratis account</SlotText>
+            <span className="sq-btn-fill" aria-hidden="true" />
           </Link>
         )}
 

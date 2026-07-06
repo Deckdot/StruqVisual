@@ -188,6 +188,7 @@ function AtelierInner() {
                             ? `Ga verder · ${percent}%`
                             : 'Start deze laan'}
                       </SlotText>
+                      <span className="sq-btn-fill" aria-hidden="true" />
                     </Link>
                     <span className="sq-faint">
                       Je neemt mee: {manifest.artifact.title}
@@ -297,6 +298,7 @@ function AtelierInner() {
               className="sq-btn sq-btn-accent !px-9 !py-[1.2rem] !text-base"
             >
               <SlotText>Begin met kijken</SlotText>
+              <span className="sq-btn-fill" aria-hidden="true" />
             </Link>
           </Reveal>
         </div>

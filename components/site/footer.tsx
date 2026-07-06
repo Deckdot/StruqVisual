@@ -50,6 +50,7 @@ export function SiteFooter() {
           <div className="mt-12 flex flex-wrap items-center gap-6">
             <TransitionLink href="/vault" className="sq-btn sq-btn-accent !px-10 !py-5 !text-base">
               <SlotText>Bekijk de bibliotheek</SlotText>
+              <span className="sq-btn-fill" aria-hidden="true" />
             </TransitionLink>
             <p className="sq-faint" style={{ color: 'var(--sq-inverse-soft)' }}>
               Geen account nodig. Geen designdiploma.

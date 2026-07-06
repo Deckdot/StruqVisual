@@ -1273,20 +1273,47 @@ html {
   padding: 1.0625rem 2rem;
   cursor: pointer;
   border: 1px solid transparent;
-  /* Color/background/border ride the SAME 0.52s expo curve as the slot-roll
-     label so the fill and the reel move as one gesture. Transform stays snappy
-     for the :active press feedback. */
+  overflow: hidden;
+  isolation: isolate;
+  /* Background no longer transitions directly — a .sq-btn-fill layer slides
+     up from below on hover (see below) so the fill and the slot-roll label
+     move as one gesture. Transform stays snappy for the :active press. */
   transition:
     transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 0.52s cubic-bezier(0.16, 1, 0.3, 1),
-    color 0.52s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.52s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.52s cubic-bezier(0.16, 1, 0.3, 1);
+    color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
 .sq-btn:active {
   transform: scale(0.97);
+}
+
+/* Sliding fill layer — sits behind the label/icon, hidden below the button,
+   and slides up to cover it on hover. Add as the LAST child of a .sq-btn:
+   <span className="sq-btn-fill" aria-hidden="true" /> */
+.sq-btn-fill {
+  position: absolute;
+  /* Extend 1px past the padding box so it fully covers .sq-btn's own
+     border/background at the pill's curved edge — inset:0 alone sits inside
+     the border and leaves a hairline ring showing through on hover. */
+  inset: -1px;
+  z-index: 0;
+  border-radius: inherit;
+  transform: translateY(101%);
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.sq-btn:hover .sq-btn-fill,
+.sq-btn:focus-visible .sq-btn-fill {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sq-btn-fill {
+    transition: none;
+  }
 }
 
 /* --- Slot-roll label (casino-reel hover) -------------------------------
@@ -1353,8 +1380,11 @@ html {
   color: var(--sq-paper);
 }
 
-.sq-btn-primary:hover {
+.sq-btn-primary .sq-btn-fill {
   background: var(--sq-accent);
+}
+
+.sq-btn-primary:hover {
   color: #fff8f2;
 }
 
@@ -1371,8 +1401,11 @@ html {
   color: #1c0e06;
 }
 
-.sq-btn-accent:hover {
+.sq-btn-accent .sq-btn-fill {
   background: var(--sq-ink);
+}
+
+.sq-btn-accent:hover {
   color: var(--sq-paper);
 }
 
@@ -1382,8 +1415,63 @@ html {
   border-color: var(--sq-line-strong);
 }
 
+.sq-btn-ghost .sq-btn-fill {
+  background: var(--sq-accent);
+}
+
 .sq-btn-ghost:hover {
+  color: #fff8f2;
   border-color: var(--sq-ink);
+}
+
+.sq[data-theme='dark'] .sq-btn-ghost:hover {
+  color: #1c0e06;
+}
+
+/* --- Icon-only circular button (e.g. theme toggle) --------------------- */
+
+.sq-icon-btn {
+  border-color: var(--sq-line-strong);
+  background: transparent;
+  transition:
+    border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sq-icon-btn:hover,
+.sq-icon-btn:focus-visible {
+  border-color: var(--sq-ink);
+  background: var(--sq-accent-wash);
+  transform: scale(1.06);
+}
+
+.sq-icon-btn:active {
+  transform: scale(0.94);
+}
+
+.sq-icon-btn svg {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sq-icon-btn:hover svg,
+.sq-icon-btn:focus-visible svg {
+  transform: rotate(25deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sq-icon-btn,
+  .sq-icon-btn svg {
+    transition: none;
+  }
+  .sq-icon-btn:hover,
+  .sq-icon-btn:focus-visible {
+    transform: none;
+  }
+  .sq-icon-btn:hover svg,
+  .sq-icon-btn:focus-visible svg {
+    transform: none;
+  }
 }
 
 /* --- Text link with drawn underline ------------------------------------ */

@@ -71,6 +71,7 @@ export function Pricing() {
               <div className="mt-auto pt-10">
                 <TransitionLink href="/vault" className="sq-btn sq-btn-primary w-full">
                   <SlotText>Begin gratis, geen account nodig</SlotText>
+                  <span className="sq-btn-fill" aria-hidden="true" />
                 </TransitionLink>
                 <p className="sq-faint mt-4 text-center">Geen creditcard nodig</p>
               </div>
@@ -118,6 +119,7 @@ export function Pricing() {
               <div className="mt-auto pt-10">
                 <TransitionLink href="/auth?next=/pro" className="sq-btn sq-btn-accent w-full">
                   <SlotText>Word Pro</SlotText>
+                  <span className="sq-btn-fill" aria-hidden="true" />
                 </TransitionLink>
                 <p className="mt-4 text-center text-sm" style={{ color: 'var(--sq-inverse-soft)' }}>
                   Early adopter-prijs

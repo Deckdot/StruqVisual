@@ -742,6 +742,7 @@ export function AuthClient() {
                     ? 'Inloggen'
                     : 'Account aanmaken'}
               </SlotText>
+              <span className="sq-btn-fill" aria-hidden="true" />
             </button>
 
             {/* Divider */}

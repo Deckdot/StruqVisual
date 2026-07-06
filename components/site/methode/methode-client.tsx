@@ -293,6 +293,7 @@ export default function MethodeClient() {
           <Reveal delay={0.15} className="mt-14 flex flex-wrap items-center gap-6">
             <Link href="/vault" className="sq-btn sq-btn-accent !px-9 !py-[1.15rem] !text-base">
               <SlotText>Bekijk de bibliotheek</SlotText>
+              <span className="sq-btn-fill" aria-hidden="true" />
             </Link>
             <Link href="/visueel" className="sq-link text-base">
               Eerst zien wat je kunt maken

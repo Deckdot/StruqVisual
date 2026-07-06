@@ -118,6 +118,7 @@ export function Hero() {
           <div data-hero-fade data-sq-reveal className="mt-11 flex flex-wrap items-center gap-5">
             <TransitionLink href="/vault" className="sq-btn sq-btn-accent !px-9 !py-[1.2rem] !text-base">
               <SlotText>Bekijk de bibliotheek</SlotText>
+              <span className="sq-btn-fill" aria-hidden="true" />
             </TransitionLink>
             <TransitionLink href="/visueel" className="sq-link text-base">
               Bekijk wat je kunt maken

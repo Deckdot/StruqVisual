@@ -16,6 +16,7 @@
 - `SEO.md` — AEO/SEO-strategie: schrijfregels, vragenkaart, pillar-cluster, gids-backlog
 - `WORKFLOW.md` — verification tiers, git/PR-strategie, doc-drift regels
 - `CONVERSION_ONBOARDING_CONTEXT.md` — gedetailleerd overzicht van onboarding, conversie, maturity en gating voor psychologie-agents
+- `COMPETITOR_IMPECCABLE.md` — teardown van impeccable.style: wat we overnemen/vermijden (design-vocabulaire, homepage-funnel, MCP-trust-signalen)
 
 
 ## Skills

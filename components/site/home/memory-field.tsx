@@ -222,6 +222,7 @@ export function MemoryField() {
             <div data-mf-cta data-sq-reveal className="mt-4 flex flex-col items-center gap-5">
               <Link href="/vault" className="sq-btn sq-btn-accent !px-10 !py-[1.25rem] !text-base">
                 <SlotText>Bekijk de bibliotheek</SlotText>
+                <span className="sq-btn-fill" aria-hidden="true" />
               </Link>
               <p className="sq-faint" style={{ color: 'var(--sq-inverse-soft)' }}>
                 Geen account nodig · Direct in Claude Code en Cursor

@@ -128,6 +128,7 @@ function CardMicro() {
       <span data-sc-btn className="inline-block">
         <span className="sq-btn sq-btn-accent pointer-events-auto !px-9 !py-4">
           <SlotText>Voelt goed, toch?</SlotText>
+          <span className="sq-btn-fill" aria-hidden="true" />
         </span>
       </span>
       <div className="flex gap-3">

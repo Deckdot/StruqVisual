@@ -333,6 +333,7 @@ function PlayerInner({ manifest }: { manifest: LessonManifest }) {
             style={{ visibility: index === 0 ? 'hidden' : undefined }}
           >
             <SlotText>Vorige</SlotText>
+            <span className="sq-btn-fill" aria-hidden="true" />
           </button>
 
           {/* Scene dots */}
@@ -381,10 +382,12 @@ function PlayerInner({ manifest }: { manifest: LessonManifest }) {
                 }}
               >
                 <SlotText>{nextLabel}</SlotText>
+                <span className="sq-btn-fill" aria-hidden="true" />
               </button>
             ) : (
               <Link href="/learn" className="sq-btn sq-btn-primary !px-7 !py-3.5 !text-sm">
                 <SlotText>Terug naar het Atelier</SlotText>
+                <span className="sq-btn-fill" aria-hidden="true" />
               </Link>
             )}
           </div>
