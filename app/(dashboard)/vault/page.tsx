@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { VaultBrowser } from '@/components/vault/vault-browser';
+import { getSessionUser } from '@/lib/auth/session';
 import { listAssets } from '@/lib/db/repository';
 import type { PaletteData } from '@/lib/vault/types';
 
@@ -11,7 +12,8 @@ export const dynamic = 'force-dynamic';
 // client browser (no DEMO_ASSETS import). Media is included so the ?filter=media
 // slice and search work; the browser handles the type/saved/text filtering.
 export default async function VaultPage() {
-  const assets = await listAssets({ includeMedia: true });
+  const viewer = await getSessionUser();
+  const assets = await listAssets({ includeMedia: true, viewerTier: viewer?.tier ?? 'free' });
   const palettes = Object.fromEntries(
     assets.filter((a) => a.type === 'palette').map((a) => [a.slug, a.data as PaletteData])
   );

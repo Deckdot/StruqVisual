@@ -45,7 +45,7 @@ struq.nl is de Nederlandse visual-first bibliotheek + vault voor AI-native build
 - [ ] Type-specifieke renderers: palet→swatches, typografie→specimen, media→player, sectie→thumbnail, design system→composiet
 - [ ] Maturity/disclosure provider (level stijgt door milestones, nooit terug)
 - [ ] Bewaren/verzamelen + kopieer-prompt flow (≤30s eerste save)
-- [ ] Free vs Pro gating in UI (previews geteased, eerlijk)
+- [x] Free vs Pro gating (server-enforced: prompt gestript in de repository, kopieer via entitlement-route; previews geteased, eerlijk; contextuele `/pro`-upgrade)
 
 ### M4 — Publieke galerij + Learn
 - [ ] `app/galerij/` SSR + SEO, data uit de assets-DB

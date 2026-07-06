@@ -40,7 +40,8 @@
 - `scripts/db-migrate.ts` — custom per-file-transactie migrator (enum ADD VALUE-veilig)
 - `scripts/import-canon.ts` — idempotente canon-import uit `../DesignOS` (upsert op provenance)
 - `scripts/seed-assert.ts` — asserteert exacte counts per type
-- `app/api/assets/search/` · `app/api/favorites/` · `app/api/icon-candidates/` — route handlers op de repository
+- `app/api/assets/search/` · `app/api/assets/[id]/prompt/` (entitlement-gated kopieer-payload) · `app/api/favorites/` · `app/api/icon-candidates/` — route handlers op de repository
+- `app/(dashboard)/pro/` — contextuele Pro-upgrade-uitleg (bereikt vanaf een locked asset, niet uit de nav)
 
 ## Auth (M5, slice 1)
 

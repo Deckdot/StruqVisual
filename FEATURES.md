@@ -14,6 +14,8 @@
 | Zoeken + filteren (visueel-eerst, geavanceerd achter disclosure) | free | planned (M3) |
 | Progressive disclosure: oppervlaktes ontgrendelen met gebruik | — | planned (M3) |
 | Premium assets met rijke previews | pro | planned (M3) |
+| Free/Pro gating (server-enforced): Pro-prompt gestript in de repository-laag, kopieer via entitlement-route (403 vrij, 200 pro), preview blijft teasen | free/pro | live (M3) |
+| Contextuele upgrade: locked kaart → `/pro`-uitleg (geen nag-banner, eerlijke tease) | — | live (M3) |
 
 ## Content
 
