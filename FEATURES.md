@@ -41,9 +41,11 @@
 | Feature | Status |
 |---|---|
 | Datamodel + Drizzle/Postgres: schema (5 asset-types bevroren), custom per-file-migrator, seed + assert | live (M2) |
+| Railway-DB gevuld (canon 943 assets + admin/demo accounts); `verify-admin.ts` + `seed-assert.ts` zijn de prod-state contract-tests | live |
 | Repository-laag: getypeerde queries → `VaultAsset`; dashboard/vault/canon renderen uit DB | live (M2) |
 | Favorites + icon-candidates: DB-pad (route handlers) met localStorage-fallback | live (M2 seam, M5 geactiveerd) |
 | Auth.js v5: Google/GitHub OAuth + e-mail/wachtwoord (JWT-sessie met `tier`, argon2, sign-out) | live (M5) |
+| Admin-account (pro + `is_admin`) geseed; kolom + JWT + sessie bedraad, klaar voor toekomstige admin-gating | live (M5 slice 2) |
 | Stripe freemium (free/pro) | planned (M5) |
 | MCP server (OAuth PKCE): assets zoeken/lezen, kits, saves vanuit je AI-tool — pro | planned (M5) |
 | Railway deploy, migraties automatisch bij start | planned (M6) |

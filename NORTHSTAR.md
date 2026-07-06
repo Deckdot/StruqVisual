@@ -62,4 +62,4 @@ struq.nl is de Nederlandse visual-first bibliotheek + vault voor AI-native build
 
 ## Nu actief
 
-**M0** — zie `PROJECT_STATE.md` voor de actuele stand.
+**M2 + M5-auth (1+2) + M3-gating** afgerond, Railway-DB live gevuld. Volgende: M5-Stripe of M4 (publieke galerij). Zie `PROJECT_STATE.md`.

@@ -36,12 +36,13 @@
 - `lib/db/client.ts` — postgres.js pool + Drizzle-client (HMR-singleton)
 - `lib/db/env.ts` — env-bootstrap voor standalone db-scripts (.env.local)
 - `lib/db/repository.ts` — getypeerde query-laag, rijen → `VaultAsset` (enige plek met asset-SQL)
-- `lib/db/seed.ts` — demo/E2E-account (`demo@struq.nl`, pro), idempotent
-- `lib/auth/session.ts` — server-side sessie-helpers (`getSessionUserId`/`getSessionUser`) op de Auth.js-sessie
+- `lib/db/seed.ts` — idempotente upsert van demo (`demo@struq.nl`, pro) + admin (`admin@struq.nl`, pro+isAdmin) credentials-accounts; env-overridable via `E2E_*` en `ADMIN_*`
+- `lib/auth/session.ts` — server-side sessie-helpers (`getSessionUserId`/`getSessionUser`) op de Auth.js-sessie; `getSessionUser` exposeert `id`+`tier`+`isAdmin`
 - `drizzle/` — gegenereerde migraties + `meta/_journal.json` (nooit met de hand bewerken)
 - `scripts/db-migrate.ts` — custom per-file-transactie migrator (enum ADD VALUE-veilig)
 - `scripts/import-canon.ts` — idempotente canon-import uit `../DesignOS` (upsert op provenance)
-- `scripts/seed-assert.ts` — asserteert exacte counts per type
+- `scripts/seed-assert.ts` — asserteert exacte counts per type + admin/demo accounts (pro + isAdmin + credentials)
+- `scripts/verify-admin.ts` — rooktest dat `ADMIN_PASSWORD` verifieert tegen de stored argon2-hash (draait op elke DB via env)
 - `app/api/assets/search/` · `app/api/assets/[id]/prompt/` (entitlement-gated kopieer-payload) · `app/api/favorites/` · `app/api/icon-candidates/` — route handlers op de repository
 - `app/(dashboard)/pro/` — contextuele Pro-upgrade-uitleg (bereikt vanaf een locked asset, niet uit de nav)
 
