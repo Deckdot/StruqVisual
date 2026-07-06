@@ -292,9 +292,9 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
   // Entrances + micro-scenes for the current wall. revertOnUpdate wipes the
   // previous wall's triggers/scenes whenever the filter swaps the cards.
   useGSAP(
-    (_, contextSafe) => {
+    () => {
       const grid = gridRef.current;
-      if (!grid || !contextSafe) return;
+      if (!grid) return;
       const cards = gsap.utils.toArray<HTMLElement>('[data-gp-card]', grid);
       if (cards.length === 0) return;
 
@@ -315,17 +315,23 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
           const scenes = new Map(cards.map((card) => [card, buildArrivalScene(card)]));
           const arrivalCalls: gsap.core.Tween[] = [];
 
+          // NB: do NOT wrap onEnter in the outer useGSAP `contextSafe`. These
+          // tweens are created inside this live matchMedia context, so it already
+          // tracks and reverts them. Re-entering the outer context from within
+          // this child context makes the two contexts reference each other, and
+          // GSAP's recursive Context.getTweens then overflows the stack on the
+          // next revert()/refresh() — the desktop-only galerij nav crash.
           const batchTriggers = ScrollTrigger.batch(cards, {
             start: 'top 94%',
             once: true,
-            onEnter: contextSafe((batch: Element[]) => {
+            onEnter: (batch: Element[]) => {
               gsap.to(batch, { autoAlpha: 1, y: 0, duration: 0.8, ease: EASE_OUT, stagger: 0.08, overwrite: true });
               batch.forEach((el, index) => {
                 arrivalCalls.push(
                   gsap.delayedCall(0.08 * index + 0.15, () => scenes.get(el as HTMLElement)?.play())
                 );
               });
-            }),
+            },
           });
 
           // The wall's height changed (filter/mount); settle triggers below it.
