@@ -126,7 +126,7 @@ function CardMicro() {
     >
       <p className="sq-faint">Ga er maar met je muis overheen</p>
       <span data-sc-btn className="inline-block">
-        <span className="sq-btn sq-btn-accent pointer-events-auto !px-9 !py-4 hover:!scale-105">
+        <span className="sq-btn sq-btn-accent pointer-events-auto !px-9 !py-4">
           <SlotText>Voelt goed, toch?</SlotText>
         </span>
       </span>

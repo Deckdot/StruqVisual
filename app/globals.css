@@ -1299,19 +1299,30 @@ html {
   z-index: 1;
   display: inline-flex;
   flex-direction: column;
-  overflow: hidden;
-  /* Vertical breathing room so descenders (g, y, p) never clip mid-roll. */
-  line-height: 1.15;
+  /* The slot box is exactly `line-height` tall (one line). The reel works
+     because the duplicate sits at top:100% (one box below) and both roll up by
+     -100% (one box), landing the duplicate exactly where the first started.
+     A roomy line-height gives the roll real travel and keeps Comfortaa's
+     descenders inside the mask so nothing shaves mid-roll. */
+  line-height: 1.4;
+  /* `clip` + `overflow-clip-margin` masks the reel vertically but lets glyph ink
+     bleed sideways, so round-letter side bearings aren't shaved the way plain
+     `overflow: hidden` shaves them. */
+  overflow: clip;
+  overflow-clip-margin: 0.12em;
+  /* Pull the roomy line-height back out of the layout so the extra headroom
+     doesn't change the button's visual text size or padding. */
+  margin-block: -0.2em;
 }
 
 .sq-slot-line {
   display: block;
   transform: translateY(0);
-  transition: transform 0.52s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
-/* The duplicate sits directly below, revealed as the first rolls up. */
+/* The duplicate sits exactly one line-box below, revealed as the first rolls up. */
 .sq-slot-line + .sq-slot-line {
   position: absolute;
   inset-inline: 0;

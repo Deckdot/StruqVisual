@@ -723,7 +723,7 @@ export function AuthClient() {
               data-auth-cta
               type="submit"
               disabled={isAnimating || submitting}
-              className="sq-btn sq-btn-accent mt-1 h-12 w-full !rounded-xl !text-[0.95rem] transition-transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60"
+              className="sq-btn sq-btn-accent mt-1 h-12 w-full !rounded-xl !text-[0.95rem] active:scale-[0.98] disabled:opacity-60"
             >
               <SlotText>
                 {submitting
