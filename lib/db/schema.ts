@@ -6,6 +6,7 @@ import {
   jsonb,
   timestamp,
   integer,
+  boolean,
   primaryKey,
   index,
   uniqueIndex,
@@ -90,6 +91,9 @@ export const users = pgTable('users', {
   image: text('image'),
   emailVerified: timestamp('email_verified', { withTimezone: true }),
   tier: assetTierEnum('tier').notNull().default('free'),
+  // Admin flag. Gates nothing yet (the admin studio isn't ported); the column
+  // exists so admin gating can key on real data once those features land.
+  isAdmin: boolean('is_admin').notNull().default(false),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });
 

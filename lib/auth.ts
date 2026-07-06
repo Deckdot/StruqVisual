@@ -137,11 +137,13 @@ const authConfig: NextAuthConfig = {
       if (hasDatabase && token.id) {
         const row = await db.query.users.findFirst({
           where: eq(users.id, token.id as string),
-          columns: { tier: true },
+          columns: { tier: true, isAdmin: true },
         });
         token.tier = (row?.tier ?? 'free') as AssetTier;
+        token.isAdmin = row?.isAdmin ?? false;
       } else {
         token.tier = 'free';
+        token.isAdmin = false;
       }
       return token;
     },
@@ -149,6 +151,7 @@ const authConfig: NextAuthConfig = {
       if (session.user && token) {
         session.user.id = token.id as string;
         session.user.tier = (token.tier as AssetTier | undefined) ?? 'free';
+        session.user.isAdmin = (token.isAdmin as boolean | undefined) ?? false;
       }
       return session;
     },

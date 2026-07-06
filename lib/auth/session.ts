@@ -13,9 +13,17 @@ export async function getSessionUserId(): Promise<string | null> {
   return session?.user?.id ?? null;
 }
 
-/** id + tier for server-side tier gating (free vs pro). */
-export async function getSessionUser(): Promise<{ id: string; tier: AssetTier } | null> {
+/** id + tier + admin flag for server-side gating (free vs pro; admin). */
+export async function getSessionUser(): Promise<{
+  id: string;
+  tier: AssetTier;
+  isAdmin: boolean;
+} | null> {
   const session = await auth();
   if (!session?.user?.id) return null;
-  return { id: session.user.id, tier: session.user.tier ?? 'free' };
+  return {
+    id: session.user.id,
+    tier: session.user.tier ?? 'free',
+    isAdmin: session.user.isAdmin ?? false,
+  };
 }

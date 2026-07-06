@@ -15,6 +15,13 @@
       "when": 1783298445598,
       "tag": "0001_complete_tyrannus",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1783314293321,
+      "tag": "0002_old_warbird",
+      "breakpoints": true
     }
   ]
 }

@@ -20,7 +20,8 @@ const EXPECTED = {
   media: 898,
 } as const;
 const EXPECTED_ASSET_MEDIA = 898;
-const DEMO_EMAIL = process.env.E2E_EMAIL ?? 'demo@struq.nl';
+const DEMO_EMAIL = (process.env.E2E_EMAIL ?? 'demo@struq.nl').toLowerCase();
+const ADMIN_EMAIL = (process.env.ADMIN_EMAIL ?? 'admin@struq.nl').toLowerCase();
 
 async function main() {
   const failures: string[] = [];
@@ -57,6 +58,24 @@ async function main() {
       .where(and(eq(accounts.userId, demo[0].id), eq(accounts.provider, 'credentials')));
     if (cred.length === 0 || !cred[0].hash) failures.push('demo credentials account missing a password hash');
     else console.log(`  ✓ demo login     credentials account present`);
+  }
+
+  const admin = await db
+    .select({ id: users.id, tier: users.tier, isAdmin: users.isAdmin })
+    .from(users)
+    .where(eq(users.email, ADMIN_EMAIL));
+  if (admin.length === 0) failures.push(`admin user ${ADMIN_EMAIL} missing`);
+  else if (admin[0].tier !== 'pro') failures.push(`admin user tier: expected pro, got ${admin[0].tier}`);
+  else if (!admin[0].isAdmin) failures.push(`admin user isAdmin: expected true, got false`);
+  else console.log(`  ✓ admin user     ${ADMIN_EMAIL} (pro, isAdmin)`);
+
+  if (admin.length > 0) {
+    const cred = await db
+      .select({ hash: accounts.passwordHash })
+      .from(accounts)
+      .where(and(eq(accounts.userId, admin[0].id), eq(accounts.provider, 'credentials')));
+    if (cred.length === 0 || !cred[0].hash) failures.push('admin credentials account missing a password hash');
+    else console.log(`  ✓ admin login    credentials account present`);
   }
 
   if (failures.length > 0) {
