@@ -169,11 +169,9 @@ if (hasDatabase) {
   // even though the runtime column mapping is correct.
   authConfig.adapter = DrizzleAdapter(db, {
     usersTable: users,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     accountsTable: accounts as any,
     sessionsTable: sessions,
     verificationTokensTable: verificationTokens,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }) as any;
 }
 
