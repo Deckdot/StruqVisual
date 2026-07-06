@@ -1281,7 +1281,8 @@ html {
   transition:
     transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
     color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.55s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
@@ -1294,12 +1295,15 @@ html {
    <span className="sq-btn-fill" aria-hidden="true" /> */
 .sq-btn-fill {
   position: absolute;
-  /* Extend 1px past the padding box so it fully covers .sq-btn's own
-     border/background at the pill's curved edge — inset:0 alone sits inside
-     the border and leaves a hairline ring showing through on hover. */
-  inset: -1px;
-  z-index: 0;
+  /* Overshoot past the button's own box on all sides so the fill's rounded
+     corner is always outside the visible curve, even at sub-pixel slide
+     positions — .sq-btn's own overflow:hidden clips it back to the correct
+     shape, so this can safely overshoot without square-cornering anything.
+     inset:0 with radius:inherit still leaves a hairline anti-aliasing seam
+     at the corner in Chromium; the overshoot removes that seam entirely. */
+  inset: -4px;
   border-radius: inherit;
+  z-index: 0;
   transform: translateY(101%);
   transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
@@ -1376,25 +1380,30 @@ html {
 }
 
 .sq-btn-primary {
-  background: var(--sq-ink);
+  background-color: var(--sq-ink);
   color: var(--sq-paper);
+  border-width: 0;
 }
 
 .sq-btn-primary .sq-btn-fill {
-  background: var(--sq-accent);
+  background-color: var(--sq-accent);
 }
 
-.sq-btn-primary:hover {
+.sq-btn-primary:hover,
+.sq-btn-primary:focus-visible {
+  background-color: var(--sq-accent);
   color: #fff8f2;
 }
 
-.sq[data-theme='dark'] .sq-btn-primary:hover {
+.sq[data-theme='dark'] .sq-btn-primary:hover,
+.sq[data-theme='dark'] .sq-btn-primary:focus-visible {
   color: #1c0e06;
 }
 
 .sq-btn-accent {
-  background: var(--sq-accent);
+  background-color: var(--sq-accent);
   color: #fff8f2;
+  border-width: 0;
 }
 
 .sq[data-theme='dark'] .sq-btn-accent {
@@ -1402,29 +1411,37 @@ html {
 }
 
 .sq-btn-accent .sq-btn-fill {
-  background: var(--sq-ink);
+  background-color: var(--sq-ink);
 }
 
-.sq-btn-accent:hover {
+.sq-btn-accent:hover,
+.sq-btn-accent:focus-visible {
+  background-color: var(--sq-ink);
   color: var(--sq-paper);
 }
 
+/* Ghost keeps a real, visible border (it's a deliberate outline style) —
+   its .sq-btn-fill sits fully inside that border, so the ring never leaks. */
 .sq-btn-ghost {
-  background: transparent;
+  background-color: transparent;
   color: var(--sq-ink);
   border-color: var(--sq-line-strong);
 }
 
 .sq-btn-ghost .sq-btn-fill {
-  background: var(--sq-accent);
+  background-color: var(--sq-accent);
+  inset: 0;
 }
 
-.sq-btn-ghost:hover {
+.sq-btn-ghost:hover,
+.sq-btn-ghost:focus-visible {
+  background-color: var(--sq-accent);
   color: #fff8f2;
-  border-color: var(--sq-ink);
+  border-color: var(--sq-accent);
 }
 
-.sq[data-theme='dark'] .sq-btn-ghost:hover {
+.sq[data-theme='dark'] .sq-btn-ghost:hover,
+.sq[data-theme='dark'] .sq-btn-ghost:focus-visible {
   color: #1c0e06;
 }
 
