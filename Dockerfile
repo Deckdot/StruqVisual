@@ -11,7 +11,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 # Bundle the migration script into a self-contained CJS file
-RUN npx esbuild lib/db/migrate.ts --bundle --platform=node --target=node22 --format=cjs --outfile=migrate.cjs
+RUN npx esbuild scripts/db-migrate.ts --bundle --platform=node --target=node22 --format=cjs --outfile=migrate.cjs
 
 FROM node:22-alpine AS runner
 WORKDIR /app

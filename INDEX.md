@@ -66,6 +66,7 @@
 
 - `.github/PULL_REQUEST_TEMPLATE.md` — PR-structuur incl. doc-drift checklist
 - `.gitignore`
+- `Dockerfile` · `railway.json` · `start.sh` — deployment- en containerconfiguratie voor Railway/Docker
 
 ## Komt eraan (zie NORTHSTAR)
 
