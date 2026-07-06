@@ -6,7 +6,7 @@ import { gsap, useGSAP } from '@/components/site/motion';
 import { SiteShell } from '@/components/site/site-shell';
 import { SplitHeading } from '@/components/site/split-heading';
 import { Reveal } from '@/components/site/reveal';
-import { Magnetic } from '@/components/site/magnetic';
+import { SlotText } from '@/components/site/slot-text';
 
 /**
  * /visueel — De power fantasy pagina.
@@ -86,8 +86,8 @@ function TileButtons() {
   return (
     <div className="flex h-full flex-col items-start justify-center gap-4 rounded-3xl p-8" style={{ background: 'var(--sq-sunken)' }}>
       <p className="sq-faint font-semibold">Micro-interacties</p>
-      <span className="sq-btn sq-btn-primary pointer-events-auto">Reserveer een tafel</span>
-      <span className="sq-btn sq-btn-ghost pointer-events-auto">Bekijk de kaart</span>
+      <span className="sq-btn sq-btn-primary pointer-events-auto"><SlotText>Reserveer een tafel</SlotText></span>
+      <span className="sq-btn sq-btn-ghost pointer-events-auto"><SlotText>Bekijk de kaart</SlotText></span>
     </div>
   );
 }
@@ -330,11 +330,9 @@ export default function VisueelClient() {
               </p>
             </Reveal>
             <Reveal delay={0.2} className="mt-12 flex flex-wrap items-center gap-6">
-              <Magnetic>
-                <Link href="/auth" className="sq-btn sq-btn-accent !px-9 !py-[1.15rem] !text-base">
-                  Start gratis
-                </Link>
-              </Magnetic>
+              <Link href="/auth" className="sq-btn sq-btn-accent !px-9 !py-[1.15rem] !text-base">
+                <SlotText>Start gratis</SlotText>
+              </Link>
               <Link href="/methode" className="sq-link text-base">
                 Eerst begrijpen hoe het werkt
               </Link>

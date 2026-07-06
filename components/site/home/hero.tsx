@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { TransitionLink } from '@/components/providers/PageTransition';
 import { gsap, useGSAP, EASE_OUT } from '@/components/site/motion';
 import { SplitHeading } from '@/components/site/split-heading';
-import { Magnetic } from '@/components/site/magnetic';
+import { SlotText } from '@/components/site/slot-text';
 
 /**
  * Section 1 — Hero.
@@ -116,11 +116,9 @@ export function Hero() {
           </p>
 
           <div data-hero-fade data-sq-reveal className="mt-11 flex flex-wrap items-center gap-5">
-            <Magnetic>
-              <TransitionLink href="/auth" className="sq-btn sq-btn-accent !px-9 !py-[1.2rem] !text-base">
-                Start gratis
-              </TransitionLink>
-            </Magnetic>
+            <TransitionLink href="/auth" className="sq-btn sq-btn-accent !px-9 !py-[1.2rem] !text-base">
+              <SlotText>Start gratis</SlotText>
+            </TransitionLink>
             <TransitionLink href="/visueel" className="sq-link text-base">
               Bekijk wat je kunt maken
             </TransitionLink>

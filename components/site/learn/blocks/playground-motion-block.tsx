@@ -12,6 +12,7 @@ import type { PlaygroundMotionBlock, MotionControl } from '@/lib/learn/schema';
 import type { ArtifactMotionParams } from '@/lib/learn/artifacts/types';
 import { resolveArtifact } from '@/lib/learn/artifacts/registry';
 import { ArtifactFrame } from '@/components/site/learn/blocks/artifact-frame';
+import { SlotText } from '@/components/site/slot-text';
 
 export function PlaygroundMotion({
   block,
@@ -108,7 +109,7 @@ export function PlaygroundMotion({
             onClick={() => { onEngage(); setReplayKey((k) => k + 1); }}
             className="sq-btn sq-btn-accent self-start !px-6 !py-3 !text-sm"
           >
-            Speel opnieuw af
+            <SlotText>Speel opnieuw af</SlotText>
           </button>
 
           <AnimatePresence>

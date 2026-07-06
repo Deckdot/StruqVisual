@@ -6,6 +6,7 @@ import { ArrowUpRight, Check, Copy } from 'lucide-react';
 import { SiteShell } from '@/components/site/site-shell';
 import { SplitHeading } from '@/components/site/split-heading';
 import { Reveal } from '@/components/site/reveal';
+import { SlotText } from '@/components/site/slot-text';
 import { getGuide, type GuideBlock, type GuideDef } from '@/lib/gids/guides';
 
 /**
@@ -98,7 +99,7 @@ function Block({ block }: { block: GuideBlock }) {
         </p>
       </div>
       <Link href={block.href} className="sq-btn sq-btn-primary !h-11 shrink-0 !px-5 !text-sm">
-        {block.linkLabel}
+        <SlotText>{block.linkLabel}</SlotText>
         <ArrowUpRight className="ml-1 h-4 w-4" />
       </Link>
     </aside>
@@ -264,7 +265,7 @@ export function GuideArticle({ guide }: { guide: GuideDef }) {
                 Paletten, font-pairings en prompts, gecureerd en gratis. Plak ze in je AI en zie meteen verschil.
               </p>
               <Link href="/galerij" className="sq-btn sq-btn-accent mt-8">
-                Open de galerij
+                <SlotText>Open de galerij</SlotText>
                 <ArrowUpRight className="ml-1.5 h-4 w-4" />
               </Link>
             </div>

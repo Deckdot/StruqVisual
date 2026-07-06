@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import { gsap, useGSAP, ScrollTrigger, SplitText, prefersReducedMotion } from '@/components/site/motion';
+import { SlotText } from '@/components/site/slot-text';
 
 const MemoryCanvas = dynamic(() => import('./memory-canvas'), { ssr: false });
 
@@ -210,7 +211,7 @@ export function MemoryField() {
 
             <div data-mf-cta data-sq-reveal className="mt-4 flex flex-col items-center gap-5">
               <Link href="/auth" className="sq-btn sq-btn-accent !px-10 !py-[1.25rem] !text-base">
-                Start gratis met onthouden
+                <SlotText>Start gratis met onthouden</SlotText>
               </Link>
               <p className="sq-faint" style={{ color: 'var(--sq-inverse-soft)' }}>
                 Gratis plan · Geen creditcard · Direct in Claude Code en Cursor

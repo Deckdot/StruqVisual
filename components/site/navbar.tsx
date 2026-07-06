@@ -8,6 +8,7 @@ import { Moon, Sun, X, Menu } from 'lucide-react';
 import type { SiteTheme } from '@/components/site/site-shell';
 import { TransitionLink } from '@/components/providers/PageTransition';
 import { AnimatedMark } from '@/components/site/brand/animated-mark';
+import { SlotText } from '@/components/site/slot-text';
 
 const NAV_LINKS = [
   { href: '/galerij', label: 'Galerij' },
@@ -91,7 +92,7 @@ export function SiteNavbar({ theme, onToggleTheme }: SiteNavbarProps) {
                 {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
               </button>
               <TransitionLink href="/auth" className="sq-btn sq-btn-primary hidden !px-6 !py-3 sm:inline-flex">
-                Start gratis
+                <SlotText>Start gratis</SlotText>
               </TransitionLink>
               <button
                 type="button"
@@ -158,7 +159,7 @@ export function SiteNavbar({ theme, onToggleTheme }: SiteNavbarProps) {
                 className="pt-8"
               >
                 <TransitionLink href="/auth" className="sq-btn sq-btn-accent" onClick={() => setMenuOpen(false)}>
-                  Start gratis
+                  <SlotText>Start gratis</SlotText>
                 </TransitionLink>
               </motion.div>
             </nav>

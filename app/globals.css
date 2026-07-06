@@ -1260,6 +1260,7 @@ html {
 /* --- Buttons ------------------------------------------------------------ */
 
 .sq-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1272,17 +1273,68 @@ html {
   padding: 1.0625rem 2rem;
   cursor: pointer;
   border: 1px solid transparent;
+  /* Color/background/border ride the SAME 0.52s expo curve as the slot-roll
+     label so the fill and the reel move as one gesture. Transform stays snappy
+     for the :active press feedback. */
   transition:
     transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 0.25s ease,
-    color 0.25s ease,
-    border-color 0.25s ease,
-    box-shadow 0.25s ease;
+    background-color 0.52s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.52s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.52s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.52s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
 .sq-btn:active {
   transform: scale(0.97);
+}
+
+/* --- Slot-roll label (casino-reel hover) -------------------------------
+   Wrap a button's text in <SlotText>. It renders the label twice, stacked;
+   on hover both lines translate up in sync so the visible label rolls out
+   the top and its duplicate rolls in from below. Icons live outside the
+   slot, so they animate independently (see .sq-btn-arrow-style below). */
+.sq-slot {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Vertical breathing room so descenders (g, y, p) never clip mid-roll. */
+  line-height: 1.15;
+}
+
+.sq-slot-line {
+  display: block;
+  transform: translateY(0);
+  transition: transform 0.52s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* The duplicate sits directly below, revealed as the first rolls up. */
+.sq-slot-line + .sq-slot-line {
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+}
+
+.sq-btn:hover .sq-slot-line,
+.sq-btn:focus-visible .sq-slot-line {
+  transform: translateY(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sq-slot-line {
+    transition: none;
+  }
+  /* No roll under reduced motion — the label just stays put. */
+  .sq-btn:hover .sq-slot-line,
+  .sq-btn:focus-visible .sq-slot-line {
+    transform: translateY(0);
+  }
+  .sq-slot-line + .sq-slot-line {
+    display: none;
+  }
 }
 
 .sq-btn-primary {

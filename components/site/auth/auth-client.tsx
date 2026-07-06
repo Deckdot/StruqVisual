@@ -14,6 +14,7 @@ import {
   EASE_OUT,
 } from '@/components/site/motion';
 import { markHandoff, HANDOFF_WASH } from '@/lib/handoff';
+import { SlotText } from '@/components/site/slot-text';
 
 const AuthParticles = dynamic(() => import('./auth-particles'), { ssr: false });
 
@@ -724,13 +725,15 @@ export function AuthClient() {
               disabled={isAnimating || submitting}
               className="sq-btn sq-btn-accent mt-1 h-12 w-full !rounded-xl !text-[0.95rem] transition-transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60"
             >
-              {submitting
-                ? mode === 'login'
-                  ? 'Bezig met inloggen…'
-                  : 'Account aanmaken…'
-                : mode === 'login'
-                  ? 'Inloggen'
-                  : 'Account aanmaken'}
+              <SlotText>
+                {submitting
+                  ? mode === 'login'
+                    ? 'Bezig met inloggen…'
+                    : 'Account aanmaken…'
+                  : mode === 'login'
+                    ? 'Inloggen'
+                    : 'Account aanmaken'}
+              </SlotText>
             </button>
 
             {/* Divider */}

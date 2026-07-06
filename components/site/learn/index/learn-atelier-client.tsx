@@ -17,7 +17,7 @@ import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import { SiteShell } from '@/components/site/site-shell';
 import { SplitHeading } from '@/components/site/split-heading';
 import { Reveal } from '@/components/site/reveal';
-import { Magnetic } from '@/components/site/magnetic';
+import { SlotText } from '@/components/site/slot-text';
 import { ARCHETYPE_META, IDENTITY_LEVELS, LANE_META } from '@/lib/learn/schema';
 import { LESSONS } from '@/lib/learn/lessons';
 import {
@@ -180,15 +180,15 @@ function AtelierInner() {
                     </p>
                   </Reveal>
                   <Reveal delay={0.22} className="mt-9 flex flex-wrap items-center gap-5">
-                    <Magnetic>
-                      <Link href={`/learn/${manifest.slug}`} className="sq-btn sq-btn-accent">
+                    <Link href={`/learn/${manifest.slug}`} className="sq-btn sq-btn-accent">
+                      <SlotText>
                         {progress?.completedAt
                           ? 'Bekijk opnieuw'
                           : percent > 0
                             ? `Ga verder · ${percent}%`
                             : 'Start deze laan'}
-                      </Link>
-                    </Magnetic>
+                      </SlotText>
+                    </Link>
                     <span className="sq-faint">
                       Je neemt mee: {manifest.artifact.title}
                     </span>
@@ -292,14 +292,12 @@ function AtelierInner() {
             </p>
           </Reveal>
           <Reveal delay={0.22} className="mt-10">
-            <Magnetic>
-              <Link
-                href={`/learn/${LESSONS[0].slug}`}
-                className="sq-btn sq-btn-accent !px-9 !py-[1.2rem] !text-base"
-              >
-                Begin met kijken
-              </Link>
-            </Magnetic>
+            <Link
+              href={`/learn/${LESSONS[0].slug}`}
+              className="sq-btn sq-btn-accent !px-9 !py-[1.2rem] !text-base"
+            >
+              <SlotText>Begin met kijken</SlotText>
+            </Link>
           </Reveal>
         </div>
       </section>

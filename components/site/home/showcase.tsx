@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import { gsap, useGSAP, ScrollTrigger, EASE_OUT } from '@/components/site/motion';
 import { Reveal } from '@/components/site/reveal';
+import { SlotText } from '@/components/site/slot-text';
 
 /**
  * Section 5 — The showcase: "de galerij" (showpiece section).
@@ -126,7 +127,7 @@ function CardMicro() {
       <p className="sq-faint">Ga er maar met je muis overheen</p>
       <span data-sc-btn className="inline-block">
         <span className="sq-btn sq-btn-accent pointer-events-auto !px-9 !py-4 hover:!scale-105">
-          Voelt goed, toch?
+          <SlotText>Voelt goed, toch?</SlotText>
         </span>
       </span>
       <div className="flex gap-3">

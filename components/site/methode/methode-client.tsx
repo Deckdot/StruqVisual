@@ -6,7 +6,7 @@ import { gsap, useGSAP } from '@/components/site/motion';
 import { SiteShell } from '@/components/site/site-shell';
 import { SplitHeading } from '@/components/site/split-heading';
 import { Reveal } from '@/components/site/reveal';
-import { Magnetic } from '@/components/site/magnetic';
+import { SlotText } from '@/components/site/slot-text';
 
 /**
  * /methode — Waarom je AI beter bouwt met context.
@@ -291,11 +291,9 @@ export default function MethodeClient() {
           </div>
 
           <Reveal delay={0.15} className="mt-14 flex flex-wrap items-center gap-6">
-            <Magnetic>
-              <Link href="/auth" className="sq-btn sq-btn-accent !px-9 !py-[1.15rem] !text-base">
-                Start gratis met Struq
-              </Link>
-            </Magnetic>
+            <Link href="/auth" className="sq-btn sq-btn-accent !px-9 !py-[1.15rem] !text-base">
+              <SlotText>Start gratis met Struq</SlotText>
+            </Link>
             <Link href="/visueel" className="sq-link text-base">
               Eerst zien wat je kunt maken
             </Link>

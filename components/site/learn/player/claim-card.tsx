@@ -12,6 +12,7 @@ import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { LessonManifest } from '@/lib/learn/schema';
 import { stashPendingClaim, takePendingClaim, useLearnProgress } from '@/lib/learn/progress';
+import { SlotText } from '@/components/site/slot-text';
 
 type VaultState = 'idle' | 'saving' | 'saved' | 'error';
 
@@ -113,11 +114,13 @@ export function ClaimCard({ manifest }: { manifest: LessonManifest }) {
             disabled={vaultState === 'saving' || vaultState === 'saved'}
             className="sq-btn sq-btn-accent !px-7 !py-3.5 !text-sm"
           >
-            {vaultState === 'saved'
-              ? 'Staat in je vault'
-              : vaultState === 'saving'
-                ? 'Bewaren…'
-                : 'Bewaar in je vault'}
+            <SlotText>
+              {vaultState === 'saved'
+                ? 'Staat in je vault'
+                : vaultState === 'saving'
+                  ? 'Bewaren…'
+                  : 'Bewaar in je vault'}
+            </SlotText>
           </button>
         ) : (
           <Link
@@ -125,7 +128,7 @@ export function ClaimCard({ manifest }: { manifest: LessonManifest }) {
             onClick={handleVault}
             className="sq-btn sq-btn-accent !px-7 !py-3.5 !text-sm"
           >
-            Bewaar in je vault · gratis account
+            <SlotText>Bewaar in je vault · gratis account</SlotText>
           </Link>
         )}
 

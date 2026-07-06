@@ -3,6 +3,7 @@
 import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import { SplitHeading } from '@/components/site/split-heading';
 import { Reveal } from '@/components/site/reveal';
+import { SlotText } from '@/components/site/slot-text';
 
 /**
  * Section 7 — The product.
@@ -66,7 +67,7 @@ export function Vault() {
 
           <Reveal delay={0.1} className="mt-12">
             <Link href="/auth" className="sq-btn sq-btn-ghost">
-              Open je eigen vault
+              <SlotText>Open je eigen vault</SlotText>
             </Link>
           </Reveal>
         </div>

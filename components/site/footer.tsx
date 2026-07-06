@@ -1,9 +1,9 @@
 'use client';
 
 import { Reveal } from '@/components/site/reveal';
-import { Magnetic } from '@/components/site/magnetic';
 import { TransitionLink } from '@/components/providers/PageTransition';
 import { FooterBrand } from '@/components/site/footer-brand';
+import { SlotText } from '@/components/site/slot-text';
 
 const FOOTER_COLUMNS = [
   {
@@ -48,11 +48,9 @@ export function SiteFooter() {
             Maak iets waar mensen even stil van worden.
           </h2>
           <div className="mt-12 flex flex-wrap items-center gap-6">
-            <Magnetic>
-              <TransitionLink href="/auth" className="sq-btn sq-btn-accent !px-10 !py-5 !text-base">
-                Start gratis
-              </TransitionLink>
-            </Magnetic>
+            <TransitionLink href="/auth" className="sq-btn sq-btn-accent !px-10 !py-5 !text-base">
+              <SlotText>Start gratis</SlotText>
+            </TransitionLink>
             <p className="sq-faint" style={{ color: 'var(--sq-inverse-soft)' }}>
               Geen creditcard. Geen designdiploma.
             </p>

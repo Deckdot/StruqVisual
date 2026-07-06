@@ -24,6 +24,7 @@ import { resolveArtifact } from '@/lib/learn/artifacts/registry';
 import { ArtifactFrame } from '@/components/site/learn/blocks/artifact-frame';
 import { BlockRenderer } from '@/components/site/learn/blocks/block-renderer';
 import { ClaimCard } from '@/components/site/learn/player/claim-card';
+import { SlotText } from '@/components/site/slot-text';
 
 const THEME_KEY = 'sq-theme';
 
@@ -331,7 +332,7 @@ function PlayerInner({ manifest }: { manifest: LessonManifest }) {
             className="sq-btn sq-btn-ghost !px-6 !py-3 !text-sm"
             style={{ visibility: index === 0 ? 'hidden' : undefined }}
           >
-            Vorige
+            <SlotText>Vorige</SlotText>
           </button>
 
           {/* Scene dots */}
@@ -379,11 +380,11 @@ function PlayerInner({ manifest }: { manifest: LessonManifest }) {
                   cursor: isLocked ? 'not-allowed' : 'pointer',
                 }}
               >
-                {nextLabel}
+                <SlotText>{nextLabel}</SlotText>
               </button>
             ) : (
               <Link href="/learn" className="sq-btn sq-btn-primary !px-7 !py-3.5 !text-sm">
-                Terug naar het Atelier
+                <SlotText>Terug naar het Atelier</SlotText>
               </Link>
             )}
           </div>

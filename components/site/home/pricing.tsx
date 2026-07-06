@@ -3,7 +3,7 @@
 import { TransitionLink } from '@/components/providers/PageTransition';
 import { SplitHeading } from '@/components/site/split-heading';
 import { Reveal } from '@/components/site/reveal';
-import { Magnetic } from '@/components/site/magnetic';
+import { SlotText } from '@/components/site/slot-text';
 
 /**
  * Section 9 — Pricing.
@@ -70,7 +70,7 @@ export function Pricing() {
               </ul>
               <div className="mt-auto pt-10">
                 <TransitionLink href="/auth" className="sq-btn sq-btn-primary w-full">
-                  Start gratis
+                  <SlotText>Start gratis</SlotText>
                 </TransitionLink>
                 <p className="sq-faint mt-4 text-center">Geen creditcard nodig</p>
               </div>
@@ -116,11 +116,9 @@ export function Pricing() {
                 ))}
               </ul>
               <div className="mt-auto pt-10">
-                <Magnetic className="block">
-                  <TransitionLink href="/auth?next=/settings/billing" className="sq-btn sq-btn-accent w-full">
-                    Word Pro
-                  </TransitionLink>
-                </Magnetic>
+                <TransitionLink href="/auth?next=/settings/billing" className="sq-btn sq-btn-accent w-full">
+                  <SlotText>Word Pro</SlotText>
+                </TransitionLink>
                 <p className="mt-4 text-center text-sm" style={{ color: 'var(--sq-inverse-soft)' }}>
                   Early adopter-prijs
                 </p>

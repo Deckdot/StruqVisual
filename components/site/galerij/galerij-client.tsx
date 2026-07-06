@@ -14,6 +14,7 @@ import {
   type GalleryItem,
 } from '@/lib/gallery/curated-gallery';
 import { GalleryPreview, buildArrivalScene, buildHoverScene } from '@/components/site/galerij/previews';
+import { SlotText } from '@/components/site/slot-text';
 
 /**
  * /galerij — de publieke galerij (lead magnet, RFC 2026-07 Phase 7).
@@ -119,7 +120,7 @@ function GalleryCard({
             className="sq-btn sq-btn-primary !h-11 !px-5 !text-[0.8125rem]"
           >
             {copied ? <Check className="mr-1.5 h-4 w-4" /> : <Copy className="mr-1.5 h-4 w-4" />}
-            {copied ? 'Gekopieerd' : 'Kopieer voor je AI'}
+            <SlotText>{copied ? 'Gekopieerd' : 'Kopieer voor je AI'}</SlotText>
           </button>
           <Link
             href={SIGNUP_ROUTE}
@@ -224,10 +225,10 @@ function GalleryDetail({ item, onClose }: { item: GalleryItem; onClose: () => vo
           <div className="flex flex-col gap-2 border-t px-6 py-4 sm:flex-row sm:items-center" style={{ borderColor: 'var(--sq-line)' }}>
             <button type="button" onClick={copyBody} className="sq-btn sq-btn-primary flex-1">
               {copied ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}
-              {copied ? 'Gekopieerd. Plak in je AI.' : 'Kopieer voor je AI'}
+              <SlotText>{copied ? 'Gekopieerd. Plak in je AI.' : 'Kopieer voor je AI'}</SlotText>
             </button>
             <Link href={SIGNUP_ROUTE} className="sq-btn sq-btn-ghost flex-1">
-              Bewaar in je vault
+              <SlotText>Bewaar in je vault</SlotText>
               <ArrowUpRight className="ml-1.5 h-4 w-4" />
             </Link>
           </div>
@@ -467,7 +468,7 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
                 altijd klaar om te plakken.
               </p>
               <Link href={SIGNUP_ROUTE} className="sq-btn sq-btn-accent mt-8">
-                Start je gratis vault
+                <SlotText>Start je gratis vault</SlotText>
                 <ArrowUpRight className="ml-1.5 h-4 w-4" />
               </Link>
             </div>
