@@ -67,8 +67,15 @@ export function MemoryField() {
 
         gsap.set('[data-mf-phase]', { autoAlpha: 1 });
         gsap.set(heads, { autoAlpha: 1 });
-        splits.forEach((split) => gsap.set(split.words, { yPercent: 120 }));
-        gsap.set('[data-mf-sub]', { autoAlpha: 0, y: 18 });
+        // Phase 0 starts already revealed so the section arrives with its first
+        // line readable — no dead scroll before any text appears. Phases 1..n
+        // start below the mask and rise in on scroll.
+        splits.forEach((split, index) =>
+          gsap.set(split.words, { yPercent: index === 0 ? 0 : 120 })
+        );
+        // Phase 0's sub is visible from the start too; later subs fade in.
+        gsap.set('[data-mf-sub="0"]', { autoAlpha: 1, y: 0 });
+        gsap.set('[data-mf-sub]:not([data-mf-sub="0"])', { autoAlpha: 0, y: 18 });
         gsap.set('[data-mf-cta]', { autoAlpha: 0, y: 26, scale: 0.94 });
         gsap.set('[data-mf-hint]', { autoAlpha: 0 });
 
@@ -96,7 +103,8 @@ export function MemoryField() {
         tl.to('[data-mf-hint]', { autoAlpha: 1, duration: 0.5 }, 0.2)
           .to('[data-mf-hint]', { autoAlpha: 0, duration: 0.5 }, 2.2);
 
-        phaseIn(0, 0.35);
+        // Phase 0 is already on-screen at rest (set above); the timeline opens by
+        // rolling it OUT, then cycles the rest in/out.
         phaseOut(0, 2.5);
         phaseIn(1, 3.1);
         phaseOut(1, 5.9);
@@ -157,29 +165,27 @@ export function MemoryField() {
   return (
     <section
       ref={root}
-      style={{
-        paddingTop: 'clamp(5.5rem, 10vh, 7.5rem)',
-        paddingBottom: 'clamp(3rem, 6vh, 5rem)',
-      }}
+      className="relative w-full overflow-hidden"
+      style={{ background: 'var(--sq-inverse)', color: 'var(--sq-inverse-ink)' }}
     >
-      <div className="sq-container-wide">
-        <div
-          className="relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem]"
-          style={{ background: 'var(--sq-inverse)', color: 'var(--sq-inverse-ink)' }}
-        >
-          {canvasReady ? <MemoryCanvas progressRef={progressRef} /> : null}
+      {canvasReady ? <MemoryCanvas progressRef={progressRef} /> : null}
 
-          <div className="relative z-10 flex min-h-[34rem] flex-col items-center justify-center px-6 text-center md:px-12 lg:h-[min(84svh,54rem)]">
+      {/* Full-bleed immersive scene: the content fills the pinned viewport and
+          centers within it, so the section reads edge-to-edge, top-to-bottom. */}
+      <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-6 text-center md:px-12">
         <p data-mf-hint data-sq-reveal className="sq-eyebrow" style={{ color: 'var(--sq-accent)' }}>
           Het geheugen
         </p>
 
-        <div className="relative mt-6 w-full max-w-4xl">
+        <div className="relative mt-6 flex w-full max-w-4xl items-center justify-center">
           {PHASES.map((phase, index) => (
             <div
               key={phase.head}
               data-mf-phase={index}
-              className="absolute inset-x-0 top-0"
+              // Each phase is centered on the same point, so the visible phrase
+              // sits vertically in the middle of the stack regardless of how many
+              // lines it wraps to (phase 0 wraps to two, phase 2 to one).
+              className="absolute inset-0 flex flex-col items-center justify-center"
             >
               <h2
                 data-mf-head
@@ -200,10 +206,14 @@ export function MemoryField() {
               ) : null}
             </div>
           ))}
-          {/* Spacer that gives the stacked phases their height */}
+          {/* Spacer that reserves the height of the tallest phase (head wraps to
+              two lines + a sub line), so the absolutely-stacked phases have a
+              stable box to center within. */}
           <div className="invisible" aria-hidden="true">
             <p className="sq-display text-[clamp(2rem,5vw,4.25rem)] leading-[1.1]">
-              Elke nieuwe chat begint bij nul.
+              Elke nieuwe chat
+              <br />
+              begint bij nul.
             </p>
             <p className="mt-6 text-[clamp(1.05rem,1.5vw,1.3rem)]">&nbsp;</p>
           </div>
@@ -218,8 +228,6 @@ export function MemoryField() {
               </p>
             </div>
           </div>
-        </div>
-      </div>
     </section>
   );
 }
