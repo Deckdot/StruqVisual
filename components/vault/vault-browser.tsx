@@ -6,19 +6,23 @@ import { AssetCard } from '@/components/vault/asset-card';
 import { TypeFilter, type TypeFilterValue } from '@/components/vault/type-filter';
 import { useMaturity } from '@/components/maturity-provider';
 import { useSavedAssets } from '@/hooks/use-saved-assets';
-import { DEMO_ASSETS } from '@/lib/vault/demo-assets';
-import type { PaletteData } from '@/lib/vault/types';
+import type { PaletteData, VaultAsset } from '@/lib/vault/types';
 
 /**
  * The library browse experience. Default view is the full visual gallery —
- * zero configuration needed. Search lives in the app header (GlobalSearch)
- * and arrives here as ?q=; "Bewaard" appears after the first save.
+ * zero configuration needed. Assets arrive from the DB via the server page;
+ * search lives in the app header (GlobalSearch) and arrives here as ?q=;
+ * "Bewaard" appears after the first save.
  */
 
-const paletteLookup = (ref: string): PaletteData | undefined =>
-  DEMO_ASSETS.find((a) => a.type === 'palette' && a.slug === ref)?.data as PaletteData | undefined;
-
-export function VaultBrowser() {
+export function VaultBrowser({
+  assets: allAssets,
+  palettes,
+}: {
+  assets: VaultAsset[];
+  palettes: Record<string, PaletteData>;
+}) {
+  const paletteLookup = (ref: string): PaletteData | undefined => palettes[ref];
   const searchParams = useSearchParams();
   const [filter, setFilter] = useState<TypeFilterValue>(
     (searchParams.get('filter') as TypeFilterValue | null) ?? 'all'
@@ -35,7 +39,7 @@ export function VaultBrowser() {
   const showSaved = canSee('saved-view') || savedIds.length > 0;
 
   const assets = useMemo(() => {
-    let list = DEMO_ASSETS;
+    let list = allAssets;
     if (filter === 'saved') list = list.filter((a) => savedIds.includes(a.id));
     else if (filter !== 'all') list = list.filter((a) => a.type === filter);
 
@@ -48,7 +52,7 @@ export function VaultBrowser() {
       );
     }
     return list;
-  }, [filter, query, savedIds]);
+  }, [allAssets, filter, query, savedIds]);
 
   return (
     <div>

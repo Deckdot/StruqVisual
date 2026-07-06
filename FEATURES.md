@@ -19,8 +19,9 @@
 
 | Feature | Status |
 |---|---|
-| Canon-import: 24 paletten (incl. OKLCH), typografiesystemen, 9 sectie-kinds, silhouette-presets, 898 media | planned (M2) |
-| Idempotente re-import bij canon-updates | planned (M2) |
+| Canon-import: 29 paletten (incl. OKLCH/frontier), 2 typografie-pairings, 9 sectie-kinds, 5 silhouette-presets → design_system, 898 media (metadata + `canon_path`) | live (M2) |
+| Idempotente re-import bij canon-updates (upsert op provenance) | live (M2) |
+| Media-binaries → object storage (nu alleen metadata) | planned (later) |
 
 ## Publiek / marketing
 
@@ -34,7 +35,10 @@
 
 | Feature | Status |
 |---|---|
-| Auth.js v5: Google/GitHub OAuth + e-mail | planned (M5) |
+| Datamodel + Drizzle/Postgres: schema (5 asset-types bevroren), custom per-file-migrator, seed + assert | live (M2) |
+| Repository-laag: getypeerde queries → `VaultAsset`; dashboard/vault/canon renderen uit DB | live (M2) |
+| Favorites + icon-candidates: DB-pad (route handlers) met localStorage-fallback (auth-cookie M5) | live (M2, dormant tot M5) |
+| Auth.js v5: Google/GitHub OAuth + e-mail (tabellen staan) | planned (M5) |
 | Stripe freemium (free/pro) | planned (M5) |
 | MCP server (OAuth PKCE): assets zoeken/lezen, kits, saves vanuit je AI-tool — pro | planned (M5) |
 | Railway deploy, migraties automatisch bij start | planned (M6) |
