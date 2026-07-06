@@ -200,6 +200,13 @@ export function Problem() {
             >
               jouwkoffiezaak.nl
             </span>
+            <span
+              data-d-pop
+              className="ml-auto rounded-full border px-3.5 py-1.5 text-xs font-bold"
+              style={{ borderColor: 'var(--sq-accent)', color: 'var(--sq-accent-ink)' }}
+            >
+              Met Struq-context
+            </span>
           </div>
 
           <div className="relative h-[24rem] md:h-[27rem]">
@@ -319,14 +326,6 @@ export function Problem() {
                   Proef het verschil
                 </span>
               </div>
-
-              <span
-                data-d-pop
-                className="absolute bottom-6 left-6 rounded-full border px-3.5 py-1.5 text-xs font-bold md:bottom-10 md:left-10"
-                style={{ borderColor: 'var(--sq-accent)', color: 'var(--sq-accent-ink)' }}
-              >
-                Met Struq-context
-              </span>
             </div>
           </div>
         </div>
