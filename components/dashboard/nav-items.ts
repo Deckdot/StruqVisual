@@ -1,4 +1,4 @@
-import { GraduationCap, LayoutGrid, Package, Shapes, Vault, type LucideIcon } from 'lucide-react';
+import { GraduationCap, LayoutGrid, Shapes, Vault, Wand2, type LucideIcon } from 'lucide-react';
 import type { Surface } from '@/components/maturity-provider';
 
 /**
@@ -20,7 +20,11 @@ export const NAV_ITEMS: NavItem[] = [
   { href: '/vault', label: 'Bibliotheek', subtitle: 'Paletten, typografie, secties, design systems en media', icon: Vault },
   { href: '/canon', label: 'Canon', subtitle: 'De curated smaakcanon: recepten, kleur, typografie, iconen en meer', icon: Shapes },
   { href: '/learn', label: 'Learn', subtitle: 'Korte lessen over smaak en bouwen met AI', icon: GraduationCap },
-  { href: '/kits', label: 'Kits', subtitle: 'Bundels die je AI in één keer richting geven', icon: Package, surface: 'kits' },
+  // Recept-bouwer: the flagship creation surface. Ships ungated (disclosure level 0) —
+  // it is itself the fastest route to first value (open → beautiful site → click →
+  // it reacts). It takes over the old /kits nav seat; the kits tables stay (a saved
+  // recept maps 1:1 onto a future kits row). See handoff D2/D6.
+  { href: '/recept', label: 'Recept', subtitle: 'Stel je richting samen en zie een site live meebewegen', icon: Wand2 },
 ];
 
 export function navItemForPath(pathname: string): NavItem {
