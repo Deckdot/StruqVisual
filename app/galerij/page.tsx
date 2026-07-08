@@ -1,35 +1,24 @@
 import type { Metadata } from 'next';
-import { Fraunces, Inter } from 'next/font/google';
 import GalerijClient from '@/components/site/galerij/galerij-client';
-import { CURATED_GALLERY } from '@/lib/gallery/curated-gallery';
+import { CANON_GALLERY } from '@/lib/gallery/canon-gallery';
+import { RECEPT_FONT_VARS } from '@/app/(dashboard)/recept/fonts';
 import { generateMetadata as generateSEOMetadata } from '@/lib/seo/metadata';
 
-// Route-scoped specimen faces: the typografie-cards render their real pairing
-// (Fraunces + Inter); Urbanist/Comfortaa come from the root layout already.
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  weight: ['400', '600'],
-  variable: '--font-fraunces',
-  display: 'swap',
-});
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-});
+// Route-scoped specimen faces: de typografie- en recept-kaarten renderen hun
+// echte pairing (Sora/Syne/Newsreader/…). RECEPT_FONT_VARS laadt de ~10 canon-
+// families één keer, route-scoped, zodat geen andere pagina die kosten betaalt.
 
 export const metadata: Metadata = generateSEOMetadata({
-  title: 'Gratis galerij: paletten, fonts en prompts voor je AI',
+  title: 'Gratis galerij: kleurenpaletten, typografie en design systems',
   description:
-    'Blader door gratis kleurenpaletten, font-pairings en prompts die werken. Kopieer ze direct naar ChatGPT of Claude en zie meteen resultaat, of bewaar ze in je eigen Struq-vault.',
+    'Blader door gratis kleurenpaletten, font-pairings, recepten en secties. Kopieer de specs direct naar ChatGPT, Claude of je eigen agent, of bewaar ze in je Struq-vault.',
   url: 'https://struq.nl/galerij',
 });
 
 export default function GalerijPage() {
   return (
-    <div className={`${fraunces.variable} ${inter.variable}`}>
-      <GalerijClient items={CURATED_GALLERY} />
+    <div className={RECEPT_FONT_VARS}>
+      <GalerijClient items={CANON_GALLERY} />
     </div>
   );
 }

@@ -12,7 +12,7 @@ import {
   GALLERY_CATEGORIES,
   type GalleryCategoryKey,
   type GalleryItem,
-} from '@/lib/gallery/curated-gallery';
+} from '@/lib/gallery/canon-gallery';
 import { GalleryPreview, buildArrivalScene, buildHoverScene } from '@/components/site/galerij/previews';
 import { SlotText } from '@/components/site/slot-text';
 
@@ -41,22 +41,20 @@ function categoryLabel(key: GalleryCategoryKey): string {
 }
 
 /* --- Wall composition ---------------------------------------------------------
- * Spans keyed on (category, index-within-category) so the same rhythm holds in
- * the "Alles" wall and in every filtered view. lg = 12 cols, md = 2 cols.
- * All-view rows: kleuren 7+5 · typografie 5+7 · richting 12 · prompts 8+4 / 4+4+4.
+ * Symmetrie boven ritme: elke kaart binnen een categorie is EXACT even breed en
+ * even hoog, zodat de wand altijd nette rijen vormt. lg = 12 cols, md = 2 cols.
+ * kleuren/typografie/recepten = 2-up (6+6) · secties = 3-up (4+4+4).
  */
 
-function cardSpan(category: GalleryCategoryKey, indexInCategory: number): string {
-  if (category === 'kleuren') return indexInCategory === 0 ? 'lg:col-span-7' : 'lg:col-span-5';
-  if (category === 'typografie') return indexInCategory === 0 ? 'lg:col-span-5' : 'lg:col-span-7';
-  if (category === 'richting') return 'md:col-span-2 lg:col-span-12';
-  return indexInCategory === 0 ? 'md:col-span-2 lg:col-span-8' : 'lg:col-span-4';
+function cardSpan(category: GalleryCategoryKey): string {
+  if (category === 'secties') return 'md:col-span-1 lg:col-span-4';
+  return 'lg:col-span-6';
 }
 
 function previewHeight(category: GalleryCategoryKey): string {
   if (category === 'kleuren' || category === 'typografie') return 'min-h-[19rem] sm:min-h-[22rem]';
-  if (category === 'richting') return 'min-h-[16rem] sm:min-h-[18rem]';
-  return 'min-h-[15rem] sm:min-h-[16.5rem]';
+  if (category === 'recepten') return 'min-h-[17rem] sm:min-h-[20rem]';
+  return 'min-h-[13rem] sm:min-h-[14.5rem]';
 }
 
 /* --- Kaart ----------------------------------------------------------------- */
@@ -111,7 +109,7 @@ function GalleryCard({
             type="button"
             onClick={(event) => {
               event.stopPropagation();
-              void copyText(item.body).then((ok) => {
+              void copyText(item.copyText).then((ok) => {
                 if (!ok) return;
                 setCopied(true);
                 window.setTimeout(() => setCopied(false), 2000);
@@ -149,7 +147,7 @@ function GalleryDetail({ item, onClose }: { item: GalleryItem; onClose: () => vo
   }, [onClose]);
 
   const copyBody = () => {
-    void copyText(item.body).then((ok) => {
+    void copyText(item.copyText).then((ok) => {
       if (!ok) return;
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
@@ -219,7 +217,7 @@ function GalleryDetail({ item, onClose }: { item: GalleryItem; onClose: () => vo
               className="whitespace-pre-wrap rounded-2xl border p-5 text-sm leading-relaxed"
               style={{ background: 'var(--sq-sunken)', borderColor: 'var(--sq-line)', color: 'var(--sq-ink)' }}
             >
-              {item.body}
+              {item.copyText}
             </div>
           </div>
 
@@ -254,15 +252,16 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
     [renderedCategory, items]
   );
 
-  // Wall composition: span per (category, index-within-category).
-  const wall = useMemo(() => {
-    const perCategory = new Map<GalleryCategoryKey, number>();
-    return visibleItems.map((item) => {
-      const indexInCategory = perCategory.get(item.category) ?? 0;
-      perCategory.set(item.category, indexInCategory + 1);
-      return { item, span: cardSpan(item.category, indexInCategory), minHeight: previewHeight(item.category) };
-    });
-  }, [visibleItems]);
+  // Wall composition: uniform span per category → symmetrische rijen.
+  const wall = useMemo(
+    () =>
+      visibleItems.map((item) => ({
+        item,
+        span: cardSpan(item.category),
+        minHeight: previewHeight(item.category),
+      })),
+    [visibleItems]
+  );
   const openItem = items.find((item) => item.slug === openSlug) ?? null;
 
   const categoriesWithItems = GALLERY_CATEGORIES.map((category) => ({
@@ -392,14 +391,14 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
           </SplitHeading>
           <Reveal delay={0.2}>
             <p className="sq-lead mt-9 max-w-xl">
-              Kleurenpaletten, font-pairings en prompts die werken. Kopieer ze naar
-              ChatGPT, Claude of je eigen agent en zie meteen verschil. Of bewaar ze
-              in je vault en bouw je eigen bibliotheek op.
+              Kleurenpaletten, font-pairings, recepten en secties die werken.
+              Kopieer de specs naar ChatGPT, Claude of je eigen agent en zie meteen
+              verschil. Of bewaar ze in je vault en bouw je eigen bibliotheek op.
             </p>
           </Reveal>
           <Reveal delay={0.3}>
             <p className="sq-faint mt-6">
-              {items.length} assets · gratis te kopiëren · geen account nodig
+              {items.length} visuele assets · gratis te kopiëren · geen account nodig
             </p>
           </Reveal>
         </div>
@@ -464,11 +463,11 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
                 Jouw vault
               </p>
               <h2 className="sq-display mt-4 max-w-xl text-[clamp(1.75rem,3.4vw,2.75rem)] leading-tight">
-                Dit is een greep. De rest bewaar je zelf.
+                Dit is een greep. De hele canon bewaar je zelf.
               </h2>
               <p className="mt-4 max-w-md" style={{ color: 'var(--sq-inverse-soft)' }}>
-                Met een gratis account staat alles op één plek, georganiseerd en
-                altijd klaar om te plakken.
+                Met een gratis account staat elk palet, elke pairing en elk recept
+                op één plek, georganiseerd en altijd klaar om te plakken.
               </p>
               <Link href={SIGNUP_ROUTE} className="sq-btn sq-btn-accent mt-8">
                 <SlotText>Start je gratis vault</SlotText>
