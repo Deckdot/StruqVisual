@@ -3,13 +3,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { TransitionLink as Link } from '@/components/providers/PageTransition';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowUpRight, Check, Copy, X } from 'lucide-react';
+import { ArrowUpRight, Check, ChevronLeft, ChevronRight, Copy, X } from 'lucide-react';
 import { SiteShell } from '@/components/site/site-shell';
 import { SplitHeading } from '@/components/site/split-heading';
 import { Reveal } from '@/components/site/reveal';
 import { gsap, useGSAP, ScrollTrigger, EASE_OUT, prefersReducedMotion } from '@/components/site/motion';
 import {
   GALLERY_CATEGORIES,
+  galleryShowcase,
   type GalleryCategoryKey,
   type GalleryItem,
 } from '@/lib/gallery/canon-gallery';
@@ -239,6 +240,113 @@ function GalleryDetail({ item, onClose }: { item: GalleryItem; onClose: () => vo
   );
 }
 
+/* --- Showcase-rail (Overzicht) ------------------------------------------------
+ * Eén categorie-band als horizontaal scrollbare, klikbare rail: pijlknoppen
+ * scrollen een "pagina" op, snap-punten laten de kaarten netjes uitlijnen, en de
+ * knoppen dimmen aan het begin/eind. Touch/trackpad-scrollen werkt gewoon mee.
+ */
+
+function ShowcaseRail({
+  band,
+  onOpen,
+  onViewAll,
+}: {
+  band: { key: GalleryCategoryKey; label: string; count: number; items: GalleryItem[] };
+  onOpen: (slug: string) => void;
+  onViewAll: () => void;
+}) {
+  const railRef = useRef<HTMLDivElement>(null);
+  const [edges, setEdges] = useState<{ start: boolean; end: boolean }>({ start: true, end: false });
+
+  const updateEdges = () => {
+    const el = railRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    setEdges({ start: el.scrollLeft <= 2, end: el.scrollLeft >= maxScroll - 2 });
+  };
+
+  useEffect(() => {
+    updateEdges();
+    const el = railRef.current;
+    if (!el) return;
+    el.addEventListener('scroll', updateEdges, { passive: true });
+    window.addEventListener('resize', updateEdges);
+    return () => {
+      el.removeEventListener('scroll', updateEdges);
+      window.removeEventListener('resize', updateEdges);
+    };
+  }, []);
+
+  const scrollByPage = (direction: 1 | -1) => {
+    const el = railRef.current;
+    if (!el) return;
+    // Scroll one full viewport-width of the rail, minus a card peek.
+    el.scrollBy({ left: direction * Math.round(el.clientWidth * 0.82), behavior: 'smooth' });
+  };
+
+  const arrowStyle = (disabled: boolean) => ({
+    borderColor: 'var(--sq-line)',
+    color: 'var(--sq-ink-soft)',
+    background: 'var(--sq-raised)',
+    opacity: disabled ? 0.35 : 1,
+  });
+
+  return (
+    <div>
+      <div className="mb-6 flex items-end justify-between gap-4 border-b pb-4" style={{ borderColor: 'var(--sq-line)' }}>
+        <div>
+          <p className="sq-eyebrow" style={{ color: 'var(--sq-accent)' }}>
+            {band.count} in de galerij
+          </p>
+          <h2 className="sq-display mt-2 text-2xl leading-tight sm:text-[1.75rem]">{band.label}</h2>
+        </div>
+        <div className="flex items-center gap-2.5">
+          <div className="hidden items-center gap-2 sm:flex">
+            <button
+              type="button"
+              onClick={() => scrollByPage(-1)}
+              disabled={edges.start}
+              aria-label={`Vorige ${band.label.toLowerCase()}`}
+              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border transition-opacity duration-200 hover:brightness-110 disabled:cursor-default"
+              style={arrowStyle(edges.start)}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollByPage(1)}
+              disabled={edges.end}
+              aria-label={`Volgende ${band.label.toLowerCase()}`}
+              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border transition-opacity duration-200 hover:brightness-110 disabled:cursor-default"
+              style={arrowStyle(edges.end)}
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+          <button type="button" onClick={onViewAll} className="sq-link !text-sm !font-medium whitespace-nowrap">
+            Bekijk alle {band.count}
+            <ArrowUpRight className="ml-1 inline h-4 w-4" />
+          </button>
+        </div>
+      </div>
+
+      <div
+        ref={railRef}
+        className="no-scrollbar -mx-2 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth px-2 pb-2"
+      >
+        {band.items.map((item) => (
+          <div
+            key={item.slug}
+            className="w-[85%] shrink-0 snap-start sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)]"
+          >
+            <GalleryCard item={item} span="" minHeight={previewHeight(item.category)} onOpen={() => onOpen(item.slug)} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* --- Pagina ------------------------------------------------------------------ */
 
 export default function GalerijClient({ items }: { items: GalleryItem[] }) {
@@ -252,6 +360,8 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
     [renderedCategory, items]
   );
 
+  const isOverview = renderedCategory === 'all';
+
   // Wall composition: uniform span per category → symmetrische rijen.
   const wall = useMemo(
     () =>
@@ -262,6 +372,10 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
       })),
     [visibleItems]
   );
+
+  // Curated storefront ("Overzicht"): een greep per categorie, geen data-dump.
+  const showcase = useMemo(() => galleryShowcase(items), [items]);
+
   const openItem = items.find((item) => item.slug === openSlug) ?? null;
 
   const categoriesWithItems = GALLERY_CATEGORIES.map((category) => ({
@@ -409,7 +523,7 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
         <div className="sq-container-wide">
           <Reveal>
             <div className="mb-10 flex flex-wrap items-center gap-2.5">
-              {[{ key: 'all' as const, label: 'Alles', count: items.length }, ...categoriesWithItems].map((category) => {
+              {[{ key: 'all' as const, label: 'Overzicht', count: items.length }, ...categoriesWithItems].map((category) => {
                 const isActive = activeCategory === category.key;
                 return (
                   <button
@@ -432,16 +546,34 @@ export default function GalerijClient({ items }: { items: GalleryItem[] }) {
             </div>
           </Reveal>
 
-          <div ref={gridRef} className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-12">
-            {wall.map(({ item, span, minHeight }) => (
-              <GalleryCard
-                key={item.slug}
-                item={item}
-                span={span}
-                minHeight={minHeight}
-                onOpen={() => setOpenSlug(item.slug)}
-              />
-            ))}
+          {/* Overzicht = curated storefront (banden per categorie, een greep elk).
+              Een specifieke categorie = de volledige, symmetrische wand. Beide
+              leven in dezelfde gridRef zodat het GSAP-scène-contract intact blijft. */}
+          <div ref={gridRef}>
+            {isOverview ? (
+              <div className="flex flex-col gap-16 sm:gap-20">
+                {showcase.map((band) => (
+                  <ShowcaseRail
+                    key={band.key}
+                    band={band}
+                    onOpen={setOpenSlug}
+                    onViewAll={() => changeCategory(band.key)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-12">
+                {wall.map(({ item, span, minHeight }) => (
+                  <GalleryCard
+                    key={item.slug}
+                    item={item}
+                    span={span}
+                    minHeight={minHeight}
+                    onOpen={() => setOpenSlug(item.slug)}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>

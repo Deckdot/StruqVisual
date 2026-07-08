@@ -305,3 +305,27 @@ export const CANON_GALLERY: GalleryItem[] = [
   ...recipeItems(),
   ...sectionItems(),
 ];
+
+/** Hoeveel showcase-stukken per categorie de curated storefront ("Overzicht") toont.
+ *  De storefront-band is een scrollbare rail, dus we tonen er meer dan in beeld
+ *  passen — je scrollt/klikt erdoorheen als door een gang in een winkel. */
+export const SHOWCASE_PER_CATEGORY = 6;
+
+/**
+ * De curated storefront: per categorie de eerste paar (sterkste) stukken, in
+ * canon-volgorde. Dit is de "galerij-wandeling" — je ziet een greep, niet de
+ * hele voorraad. `count` is het totaal in de categorie (voor "Bekijk alle N").
+ */
+export type ShowcaseBand = {
+  key: GalleryCategoryKey;
+  label: string;
+  count: number;
+  items: GalleryItem[];
+};
+
+export function galleryShowcase(all: GalleryItem[] = CANON_GALLERY): ShowcaseBand[] {
+  return GALLERY_CATEGORIES.map(({ key, label }) => {
+    const inCategory = all.filter((item) => item.category === key);
+    return { key, label, count: inCategory.length, items: inCategory.slice(0, SHOWCASE_PER_CATEGORY) };
+  }).filter((band) => band.count > 0);
+}
